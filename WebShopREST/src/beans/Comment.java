@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Comment implements Serializable{
 
+	
 	private Customer customer;
 	private SportsFacility sportsFacility;
 	private String text;

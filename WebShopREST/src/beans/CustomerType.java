@@ -3,6 +3,10 @@ package beans;
 import java.io.Serializable;
 
 public class CustomerType implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9081775863304348653L;
 	private CustomerTypeName typeName;
 	private double discount;
 	private int requiredPoints;
