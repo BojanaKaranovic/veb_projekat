@@ -6,6 +6,10 @@ import java.util.Date;
 
 public class Coach extends User implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2979678277886764774L;
 	private ArrayList<TrainingHistory> trainingHistory;
 	
 	

@@ -5,6 +5,10 @@ import java.time.LocalDateTime;
 
 public class TrainingHistory implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6012573197757367650L;
 	private LocalDateTime dateTimeOfCheckIn;
 	private Training training;
 	private Customer customer;

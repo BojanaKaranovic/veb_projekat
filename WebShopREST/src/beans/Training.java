@@ -5,6 +5,10 @@ import java.io.Serializable;
 
 public class Training implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3688613596190782629L;
 	private String name;
 	private TrainingType type;
 	private SportsFacility sportFacility;
