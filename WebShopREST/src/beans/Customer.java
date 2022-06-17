@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Customer extends User implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6010286421963152947L;
 	private ArrayList<SportsFacility> visitedFacility;
 	private int collectedPoints;
 	private CustomerType customerType;

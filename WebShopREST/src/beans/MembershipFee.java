@@ -6,6 +6,10 @@ import java.util.Date;
 
 public class MembershipFee implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8161356488262447249L;
 	private String uniqueId;
 	private MembershipType membershipType;
 	private Date paymentDate;

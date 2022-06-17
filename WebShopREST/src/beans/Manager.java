@@ -5,6 +5,10 @@ import java.util.Date;
 
 public class Manager extends User implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3389978403845631848L;
 	private SportsFacility sportsFacility;
 
 	public Manager(String firstName, String lastName, String email, String username, String password, Gender gender,
