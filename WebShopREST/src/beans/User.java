@@ -1,6 +1,7 @@
 package beans;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class User implements Serializable {
 	
@@ -9,7 +10,10 @@ public class User implements Serializable {
 	private String email;
 	private String username;
 	private String password;
-	private String gender;
+	private Gender gender;
+	private Date dateOfBirth;
+	private UserType userType;
+	
 	
 	public User() {
 	}
@@ -25,7 +29,8 @@ public class User implements Serializable {
 	
 	
 
-	public User(String firstName, String lastName, String email, String username, String password, String gender) {
+	public User(String firstName, String lastName, String email, String username, String password, Gender gender,
+			Date dateOfBirth, UserType userType) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -33,14 +38,32 @@ public class User implements Serializable {
 		this.username = username;
 		this.password = password;
 		this.gender = gender;
+		this.dateOfBirth = dateOfBirth;
+		this.userType = userType;
 	}
 
-	public String getGender() {
+	public UserType getUserType() {
+		return userType;
+	}
+
+	public void setUserType(UserType userType) {
+		this.userType = userType;
+	}
+
+	public Gender getGender() {
 		return gender;
 	}
 
-	public void setGender(String gender) {
+	public void setGender(Gender gender) {
 		this.gender = gender;
+	}
+
+	public Date getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
 	}
 
 	public String getFirstName() {

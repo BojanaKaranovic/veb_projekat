@@ -11,19 +11,19 @@ public class SportsFacility implements Serializable {
 	private static final long serialVersionUID = -7061576308306978756L;
 	private String name;
 	private FacilityType type;
-	private ContentToOffer content;
+	private TrainingType trainingType;
 	private Boolean status;
 	private Location location;
 	private Image logo;
 	private double averageRating;
 	private String workTime;
 	
-	public SportsFacility(String name, FacilityType type, ContentToOffer content, Boolean status, Location location,
+	public SportsFacility(String name, FacilityType type, TrainingType trainingType, Boolean status, Location location,
 			Image logo, double averageRating, String workTime) {
 		super();
 		this.name = name;
 		this.type = type;
-		this.content = content;
+		this.trainingType = trainingType;
 		this.status = status;
 		this.location = location;
 		this.logo = logo;
@@ -47,12 +47,13 @@ public class SportsFacility implements Serializable {
 		this.type = type;
 	}
 
-	public ContentToOffer getContent() {
-		return content;
+
+	public TrainingType getTrainingType() {
+		return trainingType;
 	}
 
-	public void setContent(ContentToOffer content) {
-		this.content = content;
+	public void setTrainingType(TrainingType trainingType) {
+		this.trainingType = trainingType;
 	}
 
 	public Boolean getStatus() {

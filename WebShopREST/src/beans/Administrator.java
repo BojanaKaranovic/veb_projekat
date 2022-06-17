@@ -1,6 +1,9 @@
 package beans;
 
-public class Administrator extends User {
+import java.io.Serializable;
+import java.util.Date;
+
+public class Administrator extends User implements Serializable {
 
 	/**
 	 * 
@@ -12,9 +15,12 @@ public class Administrator extends User {
 	}
 
 	public Administrator(String firstName, String lastName, String email, String username, String password,
-			String gender) {
-		super(firstName, lastName, email, username, password, gender);
+			Gender gender, Date dateOfBirth, UserType userType) {
+		super(firstName, lastName, email, username, password, gender, dateOfBirth, userType);
+		// TODO Auto-generated constructor stub
 	}
+
+	
 
 	
 }

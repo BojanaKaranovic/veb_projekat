@@ -1,6 +1,8 @@
 package beans;
 
-public class Location {
+import java.io.Serializable;
+
+public class Location implements Serializable{
 
 	private double longitude; //geografska duzina
 	private double latitude; //gepgrafska sirina
