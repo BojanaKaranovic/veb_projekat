@@ -58,7 +58,7 @@ public class LoginService {
 	}
 	private @Context HttpServletRequest request;
 	@POST
-	@Path("/login/{username}/{password}")
+	@Path("/login")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response login(@PathParam("username") String username, @PathParam("password") String password ) {
 		CustomerDAO customerDao = (CustomerDAO) ctx.getAttribute("customerDAO");

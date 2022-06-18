@@ -15,12 +15,12 @@ Vue.component("user", {
 	</form>
     	`,mounted () {
         axios
-          .get('rest/login/')
+          .get('rest/login/${username}/${password}')
           .then(response => (this.user = response.data))
     },
     methods: {
 	loginUser : function(){
-		router.push('login')
+		router.push('login/')
 	}
 }
 });
