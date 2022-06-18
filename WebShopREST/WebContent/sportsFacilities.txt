@@ -1,0 +1,1 @@
+Sportski objekat 1;teretana;grupni;true;100.0;100.0;Ulica;2;Novi Sad;21000;slika.jpg;8.9;8 sati

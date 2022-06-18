@@ -19,7 +19,7 @@ import beans.TrainingType;
 
 public class SportsFacilityDAO {
 
-	private HashMap<String, SportsFacility> sportsFacilitys = new HashMap<String, SportsFacility>();
+	private HashMap<String, SportsFacility> sportsFacilities = new HashMap<String, SportsFacility>();
 
 public SportsFacilityDAO() {
 		
@@ -34,20 +34,20 @@ public SportsFacilityDAO() {
 	}
 	
 	public Collection<SportsFacility> findAll() {
-		return sportsFacilitys.values();
+		return sportsFacilities.values();
 	}
 	
 	public SportsFacility findSportsFacility(String name) {
-		return sportsFacilitys.containsKey(name) ? sportsFacilitys.get(name) : null;
+		return sportsFacilities.containsKey(name) ? sportsFacilities.get(name) : null;
 	}
 	
 	public SportsFacility save(SportsFacility sportsFacility) {
-		for (String name : sportsFacilitys.keySet()) {
+		for (String name : sportsFacilities.keySet()) {
 			if(name.equals(sportsFacility.getName())) {
 				return null;
 			}
 		}
-		sportsFacilitys.put(sportsFacility.getName(), sportsFacility);
+		sportsFacilities.put(sportsFacility.getName(), sportsFacility);
 		return sportsFacility;
 	}
 	
@@ -69,7 +69,7 @@ public SportsFacilityDAO() {
 	}
 	
 	public void delete(String name) {
-		this.sportsFacilitys.remove(name);
+		this.sportsFacilities.remove(name);
 	}
 	
 
@@ -81,7 +81,7 @@ public SportsFacilityDAO() {
 	private void loadSportsFacilitys(String contextPath) {
 		BufferedReader in = null;
 		try {
-			File file = new File(contextPath + "/sportsFacilitys.txt");
+			File file = new File(contextPath + "/sportsFacilities.txt");
 			System.out.println(file.getCanonicalPath());
 			in = new BufferedReader(new FileReader(file));
 			String line, name = "", type = "", trainingType = "", status = "", longitude = "",latitude = "", street = "", number = "", city = "", zipcode = "", logo = "", averageRating = "", workTime = "";
@@ -109,7 +109,7 @@ public SportsFacilityDAO() {
 				
 				Address address = new Address(street, Integer.parseInt(number), city, zipcode);
 				Location location = new Location(Double.parseDouble(longitude), Double.parseDouble(latitude), address);
-				sportsFacilitys.put(name, new SportsFacility(name, getFacilityType(type) , getTrainingType(trainingType), Boolean.parseBoolean(status), location, logo, Double.parseDouble(averageRating), workTime));
+				sportsFacilities.put(name, new SportsFacility(name, getFacilityType(type) , getTrainingType(trainingType), Boolean.parseBoolean(status), location, logo, Double.parseDouble(averageRating), workTime));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
