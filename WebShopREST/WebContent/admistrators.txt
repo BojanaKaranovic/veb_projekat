@@ -1,2 +1,2 @@
-Marko;Markovic;marko@gmail.com;marko;123;male;1980-06-06;adminitrator
+Marko;Markovic;marko@gmail.com;marko;123;male;1980-06-06;administrator
 Sima;Simic;sima@gmail.com;sima;111;male;1972-04-04;administrator
