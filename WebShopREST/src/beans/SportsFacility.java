@@ -1,6 +1,5 @@
 package beans;
 
-import java.awt.Image;
 import java.io.Serializable;
 
 public class SportsFacility implements Serializable {
@@ -14,12 +13,12 @@ public class SportsFacility implements Serializable {
 	private TrainingType trainingType;
 	private Boolean status;
 	private Location location;
-	private Image logo;
+	private String logo;
 	private double averageRating;
 	private String workTime;
 	
 	public SportsFacility(String name, FacilityType type, TrainingType trainingType, Boolean status, Location location,
-			Image logo, double averageRating, String workTime) {
+			String logo, double averageRating, String workTime) {
 		super();
 		this.name = name;
 		this.type = type;
@@ -72,11 +71,11 @@ public class SportsFacility implements Serializable {
 		this.location = location;
 	}
 
-	public Image getLogo() {
+	public String getLogo() {
 		return logo;
 	}
 
-	public void setLogo(Image logo) {
+	public void setLogo(String logo) {
 		this.logo = logo;
 	}
 

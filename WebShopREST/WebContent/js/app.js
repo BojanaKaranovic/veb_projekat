@@ -1,15 +1,13 @@
-const Product = { template: '<edit-product></edit-product>' }
-const Products = { template: '<products></products>' }
+const SportsFacilities = { template: '<sportsFacilities></sportsFacilities>' }
 
 const router = new VueRouter({
 	mode: 'hash',
 	  routes: [
-		{ path: '/', name: 'home', component: Products},
-	    { path: '/products/:id', component: Product}
+		{ path: '/', name: 'home', component: SportsFacilities}
 	  ]
 });
 
 var app = new Vue({
 	router,
-	el: '#products'
+	el: '#sportsFacilities'
 });
