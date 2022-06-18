@@ -1,6 +1,7 @@
 package beans;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Administrator extends User implements Serializable {
@@ -15,7 +16,7 @@ public class Administrator extends User implements Serializable {
 	}
 
 	public Administrator(String firstName, String lastName, String email, String username, String password,
-			Gender gender, Date dateOfBirth, UserType userType) {
+			Gender gender, LocalDate dateOfBirth, UserType userType) {
 		super(firstName, lastName, email, username, password, gender, dateOfBirth, userType);
 		// TODO Auto-generated constructor stub
 	}

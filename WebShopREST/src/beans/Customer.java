@@ -1,6 +1,7 @@
 package beans;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -15,7 +16,7 @@ public class Customer extends User implements Serializable {
 	
 	
 	public Customer(String firstName, String lastName, String email, String username, String password, Gender gender,
-			Date dateOfBirth, UserType userType, ArrayList<SportsFacility> visitedFacility, int collectedPoints, CustomerType customerType) {
+			LocalDate dateOfBirth, UserType userType, ArrayList<SportsFacility> visitedFacility, int collectedPoints, CustomerType customerType) {
 		super(firstName, lastName, email, username, password, gender, dateOfBirth, userType);
 		this.visitedFacility = visitedFacility;
 		this.collectedPoints = collectedPoints;
