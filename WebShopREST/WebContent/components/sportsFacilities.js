@@ -10,12 +10,29 @@ Vue.component("sportsFacilities", {
     		<table border="1">
 	    		<tr bgcolor="lightgrey">
 	    			<th>Naziv</th>
-	    			<th>Ulica</th>
+	    			<th>Tip objekta</th>
+	    			<th>Sadrzaj koji nudimo</th>
+	    			<th>Status</th>
+	    			<th colspan=4>Lokacija</th>
+	    			<th>Logo</th>
+	    			<th>Prosecna ocena</th>
+	    			<th>Radno vreme</th>
 	    		</tr>
 	    			
-	    		<tr v-for="p in sportsFacilities">
-	    			<td>{{p.name}}</td>
-	    			<td>{{p.address}}</td>
+	    		<tr v-for="sportFacility in sportsFacilities">
+	    			<td>{{sportFacility.name}}</td>
+	    			<td>{{sportFacility.type}}</td>
+	    			<td>{{sportFacility.trainingType}}</td>
+	    			<td v-if="sportFacility.status">Radi</td>
+	    			<td v-if="!sportFacility.status">Ne radi</td>
+	    			<td>{{sportFacility.location.address.street}}</td>
+	    			<td>{{sportFacility.location.address.number}}</td>
+	    			<td>{{sportFacility.location.address.city}}</td>
+	    			<td>{{sportFacility.location.address.zipCode}}</td>
+	    			<td>{{sportFacility.logo}}</td>
+	    			<td>{{sportFacility.averageRating}}</td>
+	    			<td>{{sportFacility.workTime}}</td>
+	    			
 	    			
 	    		</tr>
 	    	</table>
