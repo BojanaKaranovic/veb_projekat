@@ -19,8 +19,9 @@ Vue.component("user", {
           .then(response => (this.user = response.data))
     },
     methods: {
-	loginUser : function(){
-		router.push('login/')
+	loginUser : function(event){
+		event.preventDefault()
+		router.get('login/')
 	}
 }
 });
