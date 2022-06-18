@@ -24,12 +24,13 @@ import dao.CustomerDAO;
 import dao.ManagerDAO;
 import dao.UserDAO;
 
-@Path("")
+@Path("/userLogin")
 public class LoginService {
 	
 	@Context
 	ServletContext ctx;
-	
+	@Context 
+	HttpServletRequest request;
 	public LoginService() {
 		
 	}
@@ -43,22 +44,22 @@ public class LoginService {
 	    	String contextPath = ctx.getRealPath("");
 			ctx.setAttribute("customerDAO", new CustomerDAO(contextPath));
 		}
-		else if (ctx.getAttribute("managerDAO") == null) {
+		if (ctx.getAttribute("managerDAO") == null) {
 	    	String contextPath = ctx.getRealPath("");
 			ctx.setAttribute("managerDAO", new ManagerDAO(contextPath));
 		}
-		else if (ctx.getAttribute("administratorDAO") == null) {
+		if (ctx.getAttribute("administratorDAO") == null) {
 	    	String contextPath = ctx.getRealPath("");
 			ctx.setAttribute("administratorDAO", new AdministratorDAO(contextPath));
 		}
-		else if (ctx.getAttribute("coachDAO") == null) {
+		if (ctx.getAttribute("coachDAO") == null) {
 	    	String contextPath = ctx.getRealPath("");
 			ctx.setAttribute("coachDAO", new CoachDAO(contextPath));
 		}
 	}
-	private @Context HttpServletRequest request;
-	@POST
-	@Path("/login")
+	
+	@GET
+	@Path("/login/{username}/{password}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response login(@PathParam("username") String username, @PathParam("password") String password ) {
 		CustomerDAO customerDao = (CustomerDAO) ctx.getAttribute("customerDAO");
