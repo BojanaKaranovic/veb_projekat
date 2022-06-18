@@ -1,0 +1,2 @@
+Pera;Peric;pera@email.com;pera;pera;male;1992-01-01;trener;0
+Mika;Mikic;mika@gmail.com;mika;mika;male;1990-02-02;trener;0

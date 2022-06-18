@@ -20,7 +20,7 @@ Vue.component("user", {
     },
     methods: {
 	loginUser : function(){
-		router.push('login/${username}')
+		router.push('login')
 	}
 }
 });

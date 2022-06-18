@@ -3,7 +3,6 @@ package beans;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Coach extends User implements Serializable {
 	

@@ -1,0 +1,2 @@
+Bojana;Bojanic;bojana@gmail.com;boki;111;female;1995-06-06;kupac;0;20;obicni;0;100
+Dusko;Duskovic;dusko@gmail.com;duki;222;male;1998-08-08;kupac;0;120;bronzani;10;200

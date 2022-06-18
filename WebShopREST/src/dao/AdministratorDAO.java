@@ -65,7 +65,7 @@ public class AdministratorDAO {
 	private void loadCustomers(String contextPath) {
 		BufferedReader in = null;
 		try {
-			File file = new File(contextPath + "/customers.txt");
+			File file = new File(contextPath + "/administrators.txt");
 			System.out.println(file.getCanonicalPath());
 			in = new BufferedReader(new FileReader(file));
 			String line, firstName = "", lastName = "", email = "", username = "", password = "", gender = "", dateOfBirth = "", userType = "";
