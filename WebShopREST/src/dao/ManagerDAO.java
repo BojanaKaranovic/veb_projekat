@@ -11,11 +11,7 @@ import java.util.HashMap;
 import java.util.StringTokenizer;
 
 import beans.Manager;
-import beans.CustomerType;
-import beans.CustomerTypeName;
 import beans.Gender;
-import beans.Product;
-import beans.SportsFacility;
 import beans.UserType;
 
 public class ManagerDAO {
@@ -37,29 +33,29 @@ public class ManagerDAO {
 		return managers.containsKey(username) ? managers.get(username) : null;
 	}
 	
-	public Manager save(Manager customer) {
+	public Manager save(Manager manager) {
 		for (String usename : managers.keySet()) {
-			if (usename.equals(customer.getUsername())) {
+			if (usename.equals(manager.getUsername())) {
 				return null;
 			}
 		}
-		managers.put(customer.getUsername(), customer);
-		return customer;
+		managers.put(manager.getUsername(), manager);
+		return manager;
 	}
 	
-	public Manager update(String username, Manager customer) {
+	public Manager update(String username, Manager manager) {
 		Manager managerToUpdate = this.findManager(username);
 		if(managerToUpdate == null) {
-			return this.save(customer);
+			return this.save(manager);
 		}
-		managerToUpdate.setFirstName(customer.getFirstName());
-		managerToUpdate.setLastName(customer.getLastName());
-		managerToUpdate.setEmail(customer.getEmail());
-		managerToUpdate.setUsername(customer.getUsername());
-		managerToUpdate.setPassword(customer.getPassword());
-		managerToUpdate.setGender(customer.getGender());
-		managerToUpdate.setDateOfBirth(customer.getDateOfBirth());
-		managerToUpdate.setUserType(customer.getUserType());
+		managerToUpdate.setFirstName(manager.getFirstName());
+		managerToUpdate.setLastName(manager.getLastName());
+		managerToUpdate.setEmail(manager.getEmail());
+		managerToUpdate.setUsername(manager.getUsername());
+		managerToUpdate.setPassword(manager.getPassword());
+		managerToUpdate.setGender(manager.getGender());
+		managerToUpdate.setDateOfBirth(manager.getDateOfBirth());
+		managerToUpdate.setUserType(manager.getUserType());
 		
 		return managerToUpdate;
 	}
@@ -71,7 +67,7 @@ public class ManagerDAO {
 	private void loadManagrs(String contextPath) {
 		BufferedReader in = null;
 		try {
-			File file = new File(contextPath + "/customers.txt");
+			File file = new File(contextPath + "/managers.txt");
 			System.out.println(file.getCanonicalPath());
 			in = new BufferedReader(new FileReader(file));
 			String line, firstName = "", lastName = "", email = "", username = "", password = "", gender = "", dateOfBirth = "", userType = "", sportsFacility = "";
