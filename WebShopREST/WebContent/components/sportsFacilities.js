@@ -7,7 +7,10 @@ Vue.component("sportsFacilities", {
 	    template: ` 
     	<div>
     		<h3>Prikaz sportskih objekata</h3>
-    		<table border="1">
+    		<p><input type="text" id="nameToCheck"></p>
+
+			<button onclick="myFunction()">Pretrazi</button>
+    		<table border="1" id="tableSportsFacilities">
 	    		<tr bgcolor="lightgrey">
 	    			<th>Naziv</th>
 	    			<th>Tip objekta</th>
@@ -20,7 +23,7 @@ Vue.component("sportsFacilities", {
 	    		</tr>
 	    			
 	    		<tr v-for="sportFacility in sportsFacilities">
-	    			<td>{{sportFacility.name}}</td>
+	    			<td id = "name">{{sportFacility.name}}</td>
 	    			<td>{{sportFacility.type}}</td>
 	    			<td>{{sportFacility.trainingType}}</td>
 	    			<td v-if="sportFacility.status">Radi</td>
@@ -36,6 +39,14 @@ Vue.component("sportsFacilities", {
 	    			
 	    		</tr>
 	    	</table>
+	    	<script>
+	    		function checkName(name) {
+ 				 return name === document.getElementById("sportFacility.name").value;
+				}
+				function myFunction() {
+				  document.getElementById("tableSportsFacilities").innerHTML = sportsFacilities.filter(checkName);
+				}
+	    	</script>
     		</div>		  
     	`,
     mounted () {
