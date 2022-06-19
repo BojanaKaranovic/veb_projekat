@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -25,13 +26,13 @@ import dao.ManagerDAO;
 import dao.UserDAO;
 
 @Path("/userLogin")
-public class LoginService {
+public class UserService {
 	
 	@Context
 	ServletContext ctx;
 	@Context 
 	HttpServletRequest request;
-	public LoginService() {
+	public UserService() {
 		
 	}
 	
@@ -98,7 +99,21 @@ public class LoginService {
 		
 	}
 	
-	
+	@POST
+	@Path("/registration")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Customer registration(Customer customer) {
+		CustomerDAO customerDao = (CustomerDAO) ctx.getAttribute("customerDAO");
+		Customer registratedCustomer = customerDao.save(customer);
+		if (registratedCustomer != null) {
+			//request.getSession().setAttribute("customer", registratedCustomer);
+			//return Response.status(200).entity("index.html").build();
+			
+		}
+		//return Response.status(400).entity("Invalid username and/or password").build();
+		return registratedCustomer;
+	}
+
 	@POST
 	@Path("/logout")
 	@Consumes(MediaType.APPLICATION_JSON)

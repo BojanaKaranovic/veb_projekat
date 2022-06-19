@@ -24,15 +24,14 @@ Vue.component("customer", {
     	methods: {
 	registerUser : function(event){
 		event.preventDefault()
-		axios.get('rest/userRegistration/registration/'+this.customer)
-		.then(response => (router.push(`/`))
-		
-		)
-	},
+		axios.post('rest/userLogin/registration/', this.customer)
+		.then(response => (router.push(`/`)))
+	}
+	,
 	mounted () {
-        axios
-          .get('rest/userRegistration/registration/'+this.customer)
-          .then(response => (this.customer = response.data))
+        /*axios
+          .get('rest/userLogin/registration')
+          .then(response => (this.customer = response.data))*/
     },
     
 }
