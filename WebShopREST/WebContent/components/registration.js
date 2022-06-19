@@ -1,7 +1,7 @@
 Vue.component("customer", { 
 	data: function () {
 	    return {
-	      customer: {firstname:null, lastname:null, username:null, password:null, dateOfBirth:null, gender:null, email:null}
+	      customer: {firstname:null, lastname:null, email:null, username:null, password:null, gender:null, dateOfBirth:null, userType:null, visitedFacility:null, collectedPoints:null, customerType:null}
 	    }
 	},template: ` 
     	<form id="forma">
@@ -11,8 +11,7 @@ Vue.component("customer", {
 			<tr><td>Username</td><td><input v-model="customer.username" type="text" name="username"></td></tr>
 			<tr><td>Password</td><td><input v-model="customer.password" type="password" name="password"></td></tr>
 			<tr><td>Email</td><td><input v-model="customer.email" type="text" name="email"></td></tr>
-			<tr><td>Pol</td><td><input v-model="customer.gender" type="text" name="gender"></td></tr>
-			<tr><td>Datum rodjenja</td><td><input v-model="customer.dateOfBirth" type="datetime-local" name="dateOfBirth"></td></tr>
+			
 			
 			<tr><td><button v-on:click = "registerUser">Registruj se</button></td></tr>
 		</table>
@@ -24,8 +23,10 @@ Vue.component("customer", {
     	methods: {
 	registerUser : function(event){
 		event.preventDefault()
-		axios.post('rest/userLogin/registration/', this.customer)
-		.then(response => (router.push(`/`)))
+		axios.post('rest/userLogin/registration', this.customer)
+		.catch(err => {
+    	console.log(err.response.data)})
+		
 	}
 	,
 	mounted () {
