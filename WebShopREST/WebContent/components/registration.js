@@ -19,18 +19,21 @@ Vue.component("customer", {
 		<p id="error" hidden="true"></p>
 		<p id="success" hidden="true"></p>
 	</form>
-    	`,mounted () {
-        /*axios
-          .get('rest/login/'+this.username+'''password')
-          .then(response => (this.user = response.data))*/
-    },
-    methods: {
+	
+    	`,
+    	methods: {
 	registerUser : function(event){
 		event.preventDefault()
-		axios.put('rest/userRegistration/registration/customer')
-		.then(response => {
-		location.href=response.data
-		})
-	}
+		axios.get('rest/userRegistration/registration/'+this.customer)
+		.then(response => (router.push(`/`))
+		
+		)
+	},
+	mounted () {
+        axios
+          .get('rest/userRegistration/registration/'+this.customer)
+          .then(response => (this.customer = response.data))
+    },
+    
 }
 });
