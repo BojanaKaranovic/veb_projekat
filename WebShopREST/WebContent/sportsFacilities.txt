@@ -1,1 +1,3 @@
-Sportski objekat 1;teretana;grupni;true;100.0;100.0;Ulica;2;Novi Sad;21000;slika.jpg;8.9;8 sati
+Sportski objekat 1;teretana;grupni;true;100.0;100.0;Ulica;2;Beograd;21000;slika.jpg;8.9;8 sati
+Sportski objekat 2;bazen;grupni;true;100.0;100.0;Bulevar oslobodjenja;22;Novi Sad;21000;slika.jpg;7;8 sati
+Sportski objekat 3;teretana;grupni;true;100.0;100.0;dr Sime Milosevica;1;Novi Sad;21000;slika.jpg;7;8 sati
