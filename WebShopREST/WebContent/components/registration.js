@@ -21,11 +21,12 @@ Vue.component("customer", {
 	
     	`,
     	methods: {
-	registerUser : function(event){
+	registerUser : function(){
 		event.preventDefault()
 		axios.post('rest/userLogin/registration', this.customer)
-		.catch(err => {
-    	console.log(err.response.data)})
+		.then(response => (router.push(`/`)))
+		/*.catch(err => {
+    	console.log(err.response.data)})*/
 		
 	}
 	,
