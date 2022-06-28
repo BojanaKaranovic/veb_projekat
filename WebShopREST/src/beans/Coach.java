@@ -1,7 +1,7 @@
 package beans;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+//import java.time.String;
 import java.util.ArrayList;
 
 public class Coach extends User implements Serializable {
@@ -16,7 +16,7 @@ public class Coach extends User implements Serializable {
 	
 
 	public Coach(String firstName, String lastName, String email, String username, String password, Gender gender,
-			LocalDate dateOfBirth, UserType userType, ArrayList<TrainingHistory> trainingHistory) {
+			String dateOfBirth, UserType userType, ArrayList<TrainingHistory> trainingHistory) {
 		super(firstName, lastName, email, username, password, gender, dateOfBirth, userType);
 		this.trainingHistory = trainingHistory;
 		// TODO Auto-generated constructor stub

@@ -86,7 +86,7 @@ public class AdministratorDAO {
 					userType = st.nextToken().trim();
 					
 				}
-				administrators.put(username, new Administrator(firstName, lastName, email, username, password, getGender(gender), LocalDate.parse(dateOfBirth), UserType.ADMINISTRATOR));
+				administrators.put(username, new Administrator(firstName, lastName, email, username, password, getGender(gender), dateOfBirth, UserType.ADMINISTRATOR));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

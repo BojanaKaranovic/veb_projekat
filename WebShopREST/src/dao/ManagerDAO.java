@@ -89,7 +89,7 @@ public class ManagerDAO {
 					sportsFacility = st.nextToken().trim();
 					}
 				SportsFacilityDAO spDAO = new SportsFacilityDAO();
-				managers.put(username, new Manager(firstName, lastName, email, username, password, getGender(gender), LocalDate.parse(dateOfBirth), UserType.MANAGER,spDAO.findSportsFacility(sportsFacility)));
+				managers.put(username, new Manager(firstName, lastName, email, username, password, getGender(gender), dateOfBirth, UserType.MANAGER,spDAO.findSportsFacility(sportsFacility)));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

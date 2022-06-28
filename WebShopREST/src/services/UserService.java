@@ -102,16 +102,17 @@ public class UserService {
 	@POST
 	@Path("/registration")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Customer registration(Customer customer) {
+	public Response registration(Customer customer) {
 		CustomerDAO customerDao = (CustomerDAO) ctx.getAttribute("customerDAO");
-		Customer registratedCustomer = customerDao.save(customer);
-		if (registratedCustomer != null) {
+
+		if (customerDao.save(customer) != null) {
 			//request.getSession().setAttribute("customer", registratedCustomer);
-			//return Response.status(200).entity("index.html").build();
+			return Response.status(200).entity("index.html").build();
 			
 		}
-		//return Response.status(400).entity("Invalid username and/or password").build();
-		return registratedCustomer;
+		//return Response.status(200).entity("index.html").build();
+		return Response.status(400).entity("Invalid username and/or password").build();
+		//return registratedCustomer;
 	}
 
 	@POST

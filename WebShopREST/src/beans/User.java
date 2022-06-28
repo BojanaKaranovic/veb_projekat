@@ -1,7 +1,7 @@
 package beans;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+//import java.time.String;
 import java.util.Date;
 
 public class User implements Serializable {
@@ -12,7 +12,7 @@ public class User implements Serializable {
 	private String username;
 	private String password;
 	private Gender gender;
-	private LocalDate dateOfBirth;
+	private String dateOfBirth;
 	private UserType userType;
 	
 	
@@ -31,7 +31,7 @@ public class User implements Serializable {
 	
 
 	public User(String firstName, String lastName, String email, String username, String password, Gender gender,
-			LocalDate dateOfBirth, UserType userType) {
+			String dateOfBirth, UserType userType) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -59,11 +59,11 @@ public class User implements Serializable {
 		this.gender = gender;
 	}
 
-	public LocalDate getDateOfBirth() {
+	public String getDateOfBirth() {
 		return dateOfBirth;
 	}
 
-	public void setDateOfBirth(LocalDate dateOfBirth) {
+	public void setDateOfBirth(String dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 

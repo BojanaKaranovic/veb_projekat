@@ -95,7 +95,7 @@ public class CoachDAO {
 					}
 					
 					}
-				coaches.put(username, new Coach(firstName, lastName, email, username, password, getGender(gender), LocalDate.parse(dateOfBirth), UserType.COACH, null));
+				coaches.put(username, new Coach(firstName, lastName, email, username, password, getGender(gender), dateOfBirth, UserType.COACH, null));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

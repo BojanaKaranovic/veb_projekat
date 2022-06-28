@@ -106,7 +106,7 @@ public class CustomerDAO {
 					requiredPoints = st.nextToken().trim();
 					}
 				CustomerType customerType = new CustomerType(getCustomerTypeName(customerTypeName), Double.parseDouble(discount), Integer.parseInt(requiredPoints));
-				customers.put(username, new Customer(firstName, lastName, email, username, password, getGender(gender), LocalDate.parse(dateOfBirth), UserType.CUSTOMER, lista, Integer.parseInt(collectedPoints), customerType));
+				customers.put(username, new Customer(firstName, lastName, email, username, password, getGender(gender), dateOfBirth, UserType.CUSTOMER, lista, Integer.parseInt(collectedPoints), customerType));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

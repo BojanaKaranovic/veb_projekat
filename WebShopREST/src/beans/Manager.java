@@ -1,7 +1,7 @@
 package beans;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+//import java.time.String;
 import java.util.Date;
 
 public class Manager extends User implements Serializable {
@@ -13,7 +13,7 @@ public class Manager extends User implements Serializable {
 	private SportsFacility sportsFacility;
 
 	public Manager(String firstName, String lastName, String email, String username, String password, Gender gender,
-			LocalDate dateOfBirth, UserType userType, SportsFacility sportsFacility) {
+			String dateOfBirth, UserType userType, SportsFacility sportsFacility) {
 		super(firstName, lastName, email, username, password, gender, dateOfBirth, userType);
 		this.sportsFacility = sportsFacility;
 		// TODO Auto-generated constructor stub
