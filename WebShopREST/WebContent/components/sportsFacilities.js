@@ -28,23 +28,20 @@ Vue.component("sportsFacilities", {
 	    			<th>Tip objekta</th>
 	    			<th>Sadrzaj koji nudimo</th>
 	    			<th>Status</th>
-	    			<th colspan=4>Lokacija</th>
-	    			<th width="70px">Logo</th>
+	    			<th>Lokacija</th>
+	    			<th>Logo</th>
 	    			<th>Prosecna ocena</th>
 	    			<th>Radno vreme</th>
 	    		</tr>
 	    			
-	    		<tr v-for="sportFacility in searched" height="80px">
+	    		<tr v-for="sportFacility in searched">
 	    			<td id = "name">{{sportFacility.name}}</td>
 	    			<td>{{sportFacility.type}}</td>
 	    			<td>{{sportFacility.trainingType}}</td>
 	    			<td v-if="sportFacility.status">Radi</td>
 	    			<td v-if="!sportFacility.status">Ne radi</td>
-	    			<td>{{sportFacility.location.address.street}}</td>
-	    			<td>{{sportFacility.location.address.number}}</td>
-	    			<td>{{sportFacility.location.address.city}}</td>
-	    			<td >{{sportFacility.location.address.zipCode}}</td>
-	    			<td><img v-bind:src="'../gym.png'" /> </td>
+	    			<td>{{sportFacility.location.address.street}} {{sportFacility.location.address.number}}, {{sportFacility.location.address.city}}, {{sportFacility.location.address.zipCode}}</td>
+	    			<td><img v-bind:src=" 'images/'+sportFacility.logo " /> </td>
 	    			<td>{{sportFacility.averageRating}}</td>
 	    			<td>{{sportFacility.workTime}}</td>
 	    			
