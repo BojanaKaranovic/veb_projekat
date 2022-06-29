@@ -106,13 +106,10 @@ public class UserService {
 		CustomerDAO customerDao = (CustomerDAO) ctx.getAttribute("customerDAO");
 
 		if (customerDao.save(customer) != null) {
-			//request.getSession().setAttribute("customer", registratedCustomer);
 			return Response.status(200).entity("index.html").build();
 			
 		}
-		//return Response.status(200).entity("index.html").build();
 		return Response.status(400).entity("Invalid username and/or password").build();
-		//return registratedCustomer;
 	}
 
 	@POST

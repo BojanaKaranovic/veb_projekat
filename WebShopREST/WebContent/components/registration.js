@@ -12,6 +12,7 @@ Vue.component("customer", {
 			<tr><td>Username</td><td><input v-model="customer.username" type="text" name="username"></td></tr>
 			<tr><td>Password</td><td><input v-model="customer.password" type="password" name="password"></td></tr>
 			<tr><td>Email</td><td><input v-model="customer.email" type="text" name="email"></td></tr>
+			<tr><td>Datum rodjenja</td><td><input v-model="customer.dateOfBirth" type="text" name="dateOfBirth"></td></tr>
 			
 			
 			<tr><td><button v-on:click = "registerUser">Registruj se</button></td></tr>
@@ -24,20 +25,23 @@ Vue.component("customer", {
     	methods: {
 	registerUser : function(event){
 		event.preventDefault()
+		if((this.customer.firstName === null) || (this.customer.lastName === null) || (this.customer.email === null) || (this.customer.username === null) || (this.customer.password === null) || this.customer.dateOfBirth === null){
+			alert("Postoji nepopunjeno polje!")
+			return
+		}
 		axios.post('rest/userLogin/registration', this.customer)
 		.then(response => {
 			location.href=response.data
 		})
-		//.then(response => (router.push(`/`)))
-		/*.catch(err => {
-    	console.log(err.response.data)})*/
+		.catch(function(){
+			alert("Korisnicko ime je vec zauzeto!")
+		})
+		
 		
 	}
 	,
 	mounted () {
-        /*axios
-          .get('rest/userLogin/registration')
-          .then(response => (this.customer = response.data))*/
+        
     },
     
 }
