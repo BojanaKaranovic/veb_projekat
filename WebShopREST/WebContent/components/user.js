@@ -23,10 +23,16 @@ Vue.component("user", {
     methods: {
 	loginUser : function(event){
 		event.preventDefault()
-
+		if(!this.username || !this.password){
+			alert("Postoji nepopunjeno polje!")
+			return
+		}
 		axios.get('rest/userLogin/login/'+this.username+'/'+this.password)
 		.then(response => {
 		location.href=response.data
+		})
+		.catch(function(){
+			alert("Niste uneli dobar username ili password!")
 		})
 
 	}
