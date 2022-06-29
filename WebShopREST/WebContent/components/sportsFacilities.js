@@ -6,7 +6,8 @@ Vue.component("sportsFacilities", {
 	      name:null,
 	      city:null,
 	      rating:null,
-	      type:null
+	      type:null,
+	      logo:null
 	    }
 	}
 	,
@@ -27,7 +28,7 @@ Vue.component("sportsFacilities", {
 	    			<th>Tip objekta</th>
 	    			<th>Sadrzaj koji nudimo</th>
 	    			<th>Status</th>
-	    			<th colspan=4>Lokacija</th>
+	    			<th>Lokacija</th>
 	    			<th>Logo</th>
 	    			<th>Prosecna ocena</th>
 	    			<th>Radno vreme</th>
@@ -39,11 +40,8 @@ Vue.component("sportsFacilities", {
 	    			<td>{{sportFacility.trainingType}}</td>
 	    			<td v-if="sportFacility.status">Radi</td>
 	    			<td v-if="!sportFacility.status">Ne radi</td>
-	    			<td>{{sportFacility.location.address.street}}</td>
-	    			<td>{{sportFacility.location.address.number}}</td>
-	    			<td>{{sportFacility.location.address.city}}</td>
-	    			<td>{{sportFacility.location.address.zipCode}}</td>
-	    			<td>{{sportFacility.logo}}</td>
+	    			<td>{{sportFacility.location.address.street}} {{sportFacility.location.address.number}}, {{sportFacility.location.address.city}}, {{sportFacility.location.address.zipCode}}</td>
+	    			<td><img v-bind:src=" 'images/'+sportFacility.logo " /> </td>
 	    			<td>{{sportFacility.averageRating}}</td>
 	    			<td>{{sportFacility.workTime}}</td>
 	    			
