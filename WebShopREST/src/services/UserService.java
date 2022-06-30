@@ -113,6 +113,18 @@ public class UserService {
 	}
 
 	@POST
+	@Path("/manager")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response registration(Manager manager) {
+		ManagerDAO managerDao = (ManagerDAO) ctx.getAttribute("managerDAO");
+
+		if (managerDao.save(manager) != null) {
+			return Response.status(200).entity("index.html").build();
+			
+		}
+		return Response.status(400).entity("Invalid username and/or password").build();
+	}
+	@POST
 	@Path("/logout")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
