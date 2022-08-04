@@ -27,6 +27,7 @@ Vue.component("create", {
 			<tr><td>Password</td><td><input v-model="password" type="password" name="password"></td></tr>
 			<tr><td>Email</td><td><input v-model="email" type="text" name="email"></td></tr>
 			<tr><td>Datum rodjenja</td><td><input v-model="dateOfBirth" type="text" name="dateOfBirth"></td></tr>
+			<tr><td>Pol</td><td>
 			<select v-model="gender">
   				<option disabled value="">Izaberite</option>
   				<option>Male</option>
