@@ -14,8 +14,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.Manager;
 import beans.Product;
 import beans.SportsFacility;
+import dao.ManagerDAO;
 import dao.ProductDAO;
 import dao.SportsFacilityDAO;
 
@@ -37,6 +39,10 @@ public class SportsFacilityService {
 	    	String contextPath = ctx.getRealPath("");
 			ctx.setAttribute("sportsFacilityDAO", new SportsFacilityDAO(contextPath));
 		}
+		if (ctx.getAttribute("managerDAO") == null) {
+	    	String contextPath = ctx.getRealPath("");
+			ctx.setAttribute("managerDAO", new ManagerDAO(contextPath));
+		}
 	}
 	@GET
 	@Path("/")
@@ -55,11 +61,28 @@ public class SportsFacilityService {
 	}
 	
 	@POST
-	@Path("/")
+	@Path("/createSportsFacility/{manager}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public SportsFacility getSportsFacilities(SportsFacility sportsFacility) {
+	public SportsFacility getSportsFacilities(SportsFacility sportsFacility, @PathParam("manager") String manager) {
 		SportsFacilityDAO dao = (SportsFacilityDAO) ctx.getAttribute("sportsFacilityDAO");
-		return dao.save(sportsFacility);
+		SportsFacility sp = dao.findSportsFacility(sportsFacility.getName());
+		if(sp == null) {
+			dao.save(sportsFacility);
+			
+			ManagerDAO managerDAO = (ManagerDAO) ctx.getAttribute("managerDAO");
+			String[] name = manager.split(" ");
+			for(Manager m : managerDAO.findAll()) 
+			{
+				if(m.getFirstName().equals(name[0]) && m.getLastName().equals(name[1])) {
+					Manager newManager = m;
+					newManager.setSportsFacility(sportsFacility);
+					managerDAO.update(manager, newManager);
+					break;
+				}
+			}
+			return sportsFacility;
+		}
+		return sp;
 	}
 	
 	@PUT

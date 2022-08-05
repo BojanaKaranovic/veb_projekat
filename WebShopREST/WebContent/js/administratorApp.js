@@ -1,9 +1,10 @@
 const Create = {template: '<create></create>'}
-
+const CreateSportsFacility = {template: '<createSportsFacility></createSportsFacility>'}
 const router = new VueRouter({
 	mode: 'hash',
 	  routes: [
-		{ path: '/create/:id', component: Create}
+		{ path: '/create/:id', component: Create},
+		{ path: '/createSportsFacility', component: CreateSportsFacility},
 		]
 });
 

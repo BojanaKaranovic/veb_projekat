@@ -34,6 +34,10 @@ public class SportsFacility implements Serializable {
 		return name;
 	}
 
+	public SportsFacility() {
+		
+	}
+
 	public void setName(String name) {
 		this.name = name;
 	}

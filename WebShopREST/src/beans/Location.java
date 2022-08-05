@@ -12,6 +12,10 @@ public class Location implements Serializable{
 	private double latitude; //gepgrafska sirina
 	private Address address;
 	
+	
+	
+	public Location() {
+	}
 	public Location(double longitude, double latitude, Address address) {
 		super();
 		this.longitude = longitude;

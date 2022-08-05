@@ -30,9 +30,8 @@ Vue.component("create", {
 			<tr><td>Pol</td><td>
 			<select v-model="gender">
   				<option disabled value="">Izaberite</option>
-  				<option>Male</option>
-  				<option>Female</option>
-  				<option>Other</option>
+  				<option value="MALE">Male</option>
+  				<option value="FEMALE">Female</option>
 			</select></td></tr>
 			
 			<tr><td><button v-on:click = "registerUser">Registruj</button></td></tr>

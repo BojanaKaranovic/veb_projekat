@@ -8,6 +8,9 @@ public class Address implements Serializable {
 	private String city;
 	private String zipCode;
 	
+	public Address() {
+	}
+
 	public Address(String street, int number, String city, String zipCode) {
 		super();
 		this.street = street;

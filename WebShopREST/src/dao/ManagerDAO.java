@@ -56,7 +56,7 @@ public class ManagerDAO {
 		managerToUpdate.setGender(manager.getGender());
 		managerToUpdate.setDateOfBirth(manager.getDateOfBirth());
 		managerToUpdate.setUserType(manager.getUserType());
-		
+		managerToUpdate.setSportsFacility(manager.getSportsFacility());
 		return managerToUpdate;
 	}
 	
