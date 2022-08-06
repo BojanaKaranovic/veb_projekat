@@ -7,10 +7,10 @@ Vue.component("users", {
 			firstName: "",
 			lastName: "",
 			username: "",
-			sortiranoIme: 0,
-			sortiranoPrezime: 0,
-			sortiranoUsername: 0,
-			sortiranoPoeni: 0,
+			sortedFirstName: false,
+			sortedLastName: false,
+			sortedUsername: false,
+			sortedPoints: false,
 			userTypes: [],
 			customerTypes: [],
 			type: '',
@@ -35,7 +35,7 @@ Vue.component("users", {
 						<th><b>Datum rodjenja</b></th>
 						<th><b>Uloga</b></th>
 						<th><b>Tip</b></th>
-						<th><b>Poeni</b></th>
+						<th  v-on:click = "sortPoints()"><b>Poeni</b></th>
 						<th><b>Obrisi</b></th>
 					</tr>
 				</thead>
@@ -110,6 +110,70 @@ Vue.component("users", {
 			this.lastName = '';
 			this.firstName = '';
 			this.username = '';
+		},
+		sortFirstName: function(){
+			if(this.sortedFirtsName === false)
+			{
+				this.registeredFiltered = this.registeredFiltered.sort((a,b) => (a.user.firstName > b.user.firstName) ? 1 : ((a.user.firstName < b.user.firstName) ? -1 : 0));
+				this.sortedFirstName = true
+				this.sortedLastName = false
+				this.sortedUsername = false
+				this.sortedPoints = false
+			}
+			else
+			{
+				this.registeredFiltered.reverse()
+				this.sortedFirstName = false
+			}
+				
+		},
+		sortLastName: function(){
+			if(this.sortedLastName === false)
+			{
+				this.registeredFiltered = this.registeredFiltered.sort((a,b) => (a.user.lastName > b.user.lastName) ? 1 : ((a.user.lastName < b.user.lastName) ? -1 : 0));
+				this.sortedFirstName = false
+				this.sortedLastName = true
+				this.sortedUsername = false
+				this.sortedPoints = false
+			}
+			else
+			{
+				this.registeredFiltered.reverse()
+				this.sortedLastName = false
+			}
+				
+		},
+		sortUsername: function(){
+			if(this.sortedUserame === false)
+			{
+				this.registeredFiltered = this.registeredFiltered.sort((a,b) => (a.user.username > b.user.username) ? 1 : ((a.user.username < b.user.username) ? -1 : 0));
+				this.sortedFirstName = false
+				this.sortedLastName = false
+				this.sortedUsername = true
+				this.sortedPoints = false
+			}
+			else
+			{
+				this.registeredFiltered.reverse()
+				this.sortedUsername = false
+			}
+				
+		},
+		sortPoints: function(){
+			if(this.sortedPoints === false)
+			{
+				this.registeredFiltered = this.registeredFiltered.sort((a,b) => (a.points > b.points) ? 1 : ((a.points < b.points) ? -1 : 0));
+				this.sortedFirstName = false
+				this.sortedLastName = false
+				this.sortedUsername = false
+				this.sortedPoints = true
+			}
+			else
+			{
+				this.registeredFiltered.reverse()
+				this.sortedPoints = false
+			}
+				
 		},
 }
 });
