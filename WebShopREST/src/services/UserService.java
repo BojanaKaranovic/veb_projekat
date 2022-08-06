@@ -145,8 +145,16 @@ public class UserService {
 	@Path("/loggedInAdmin")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Administrator getAdministrator() {
-		Administrator a = (Administrator)request.getSession().getAttribute("loggedInUser");
-		return a;
+		Administrator administrator = (Administrator)request.getSession().getAttribute("loggedInUser");
+		return administrator;
+	}
+	
+	@GET
+	@Path("/loggedInCustomer")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Customer getCustomer() {
+		Customer customer = (Customer)request.getSession().getAttribute("loggedInUser");
+		return customer;
 	}
 	
 	@PUT
@@ -160,6 +168,21 @@ public class UserService {
 			administratorDAO.update(username, admin);
 			request.getSession().setAttribute("loggedInUser", admin);
 			return Response.status(200).entity("administratorMainPage.html").build();
+		}
+		return Response.status(400).build();
+	}
+	
+	@PUT
+	@Path("/updateCustomer/{username}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response updateCustomer(Customer customer, @PathParam("username") String username){
+		CustomerDAO customerDAO = (CustomerDAO) ctx.getAttribute("customerDAO");
+		Customer c = customerDAO.findCustomer(customer.getUsername());
+		if((c != null && c.getUsername().equals(username)) || c == null) {
+			customerDAO.update(username, customer);
+			request.getSession().setAttribute("loggedInUser", customer);
+			return Response.status(200).entity("customerMainPage.html").build();
 		}
 		return Response.status(400).build();
 	}
