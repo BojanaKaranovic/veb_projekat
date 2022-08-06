@@ -12,7 +12,7 @@ public class Coach extends User implements Serializable {
 	private static final long serialVersionUID = -2979678277886764774L;
 	
 	private ArrayList<TrainingHistory> trainingHistory;
-	
+	private boolean deleted;
 	
 
 	public Coach(String firstName, String lastName, String email, String username, String password, Gender gender,
@@ -30,4 +30,10 @@ public class Coach extends User implements Serializable {
 		this.trainingHistory = trainingHistory;
 	}
 	
+	public boolean isDeleted() {
+		return deleted;
+	}
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 }

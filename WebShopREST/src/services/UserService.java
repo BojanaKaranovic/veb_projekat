@@ -1,5 +1,8 @@
 package services;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -185,5 +188,38 @@ public class UserService {
 			return Response.status(200).entity("customerMainPage.html").build();
 		}
 		return Response.status(400).build();
+	}
+	
+	@GET
+	@Path("/registeredUsers")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<User> getRegisteredUsers() {
+		ArrayList<User> users = new ArrayList<User>();
+		CoachDAO coachDAO = (CoachDAO) ctx.getAttribute("coachDAO");
+		for(Coach c : coachDAO.findAll()) {
+			if(!c.isDeleted())
+				users.add((User)c);
+		};
+		AdministratorDAO adminDAO = (AdministratorDAO) ctx.getAttribute("administratorDAO");
+		for (Administrator a : adminDAO.findAll()) {
+			users.add((User)a);
+		};
+		ManagerDAO managerDAO = (ManagerDAO) ctx.getAttribute("managerDAO");
+		for(Manager m : managerDAO.findAll()) {
+			if(!m.isDeleted())
+				users.add((User)m);
+		};
+		return users;
+	}
+	@GET
+	@Path("/registeredCustomers")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Customer> getRegisteredCustomers() {
+		ArrayList<Customer> customers = new ArrayList<Customer>();
+		CustomerDAO customerDAO = (CustomerDAO) ctx.getAttribute("customerDAO");
+		for (Customer c : customerDAO.findAll()) {
+			customers.add(c);
+		};
+		return customers;
 	}
 }
