@@ -26,6 +26,19 @@ Vue.component("users", {
 				<tr><td>Username</td><td><input v-model="username" type="text" name="username"></td><td><button  v-on:click="searchUsername(username)">Pretrazi</button></td></tr>
 				<tr><td colspan="3"><button  v-on:click="cancelSearch()">Ponisti</button></td></tr>
 			</table>
+			
+			<br/>
+			<select name="userTypes" id="userTypes"  v-on:change = "userTypeFilter">
+	  			<option  disabled value="">Izaberi tip kupca</option>
+	    		<option v-for = "t in userTypes">{{t}}</option>
+	    		
+	  		</select>
+	  		<select name="customerTypes" id="customerTypes"  v-on:change = "customerTypeFilter">
+  			<option disabled value="">Izaberi ulogu</option>
+    		<option v-for = "u in customerTypes">{{u}}</option>
+    		
+  		</select>
+  		<br>
 			<table border="1" id="tabelaKorisnika">
 				<thead>
 					<tr >
@@ -174,6 +187,32 @@ Vue.component("users", {
 				this.sortedPoints = false
 			}
 				
+		},
+		userTypeFilter: function(evt){
+			
+			var t = evt.target.value;
+				this.userType = t;	
+			if(this.userType != ''  )
+				this.registeredFiltered = this.registered.filter(o => o.user.userType == this.userType);
+			else
+				this.registeredFiltered = this.registered;
+				
+			if(this.customerType != '')	
+				this.registeredFiltered = this.registeredFiltered.filter(o => o.customerType == this.customerType);	
+			
+		},
+		customerTypeFilter:function(evt){
+			
+			var t = evt.target.value;
+				this.customerType = t;	
+			if(this.customerType != ''  )
+				this.registeredFiltered = this.registered.filter(o => o.user.customerType == this.customerType);
+			else
+				this.registeredFiltered = this.registered;
+				
+			if(this.userType != '')	
+				this.registeredFiltered = this.registeredFiltered.filter(o => o.userType == this.userType);	
+			
 		},
 }
 });
