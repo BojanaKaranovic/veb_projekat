@@ -140,4 +140,27 @@ public class UserService {
 	public User login(@Context HttpServletRequest request) {
 		return (User) request.getSession().getAttribute("user");
 	}
+	
+	@GET
+	@Path("/loggedInAdmin")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Administrator getAdministrator() {
+		Administrator a = (Administrator)request.getSession().getAttribute("loggedInUser");
+		return a;
+	}
+	
+	@PUT
+	@Path("/updateAdmin/{username}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response updateAdmin(Administrator admin, @PathParam("username") String username){
+		AdministratorDAO administratorDAO = (AdministratorDAO) ctx.getAttribute("administratorDAO");
+		Administrator a = administratorDAO.findAdministrator(admin.getUsername());
+		if((a != null && a.getUsername().equals(username)) || a == null) {
+			administratorDAO.update(username, admin);
+			request.getSession().setAttribute("loggedInUser", admin);
+			return Response.status(200).entity("administratorMainPage.html").build();
+		}
+		return Response.status(400).build();
+	}
 }
