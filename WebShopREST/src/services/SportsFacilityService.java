@@ -57,7 +57,11 @@ public class SportsFacilityService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public SportsFacility getSportsFacility(@PathParam("name") String name) {
 		SportsFacilityDAO dao = (SportsFacilityDAO) ctx.getAttribute("sportsFacilityDAO");
-		return dao.findSportsFacility(name);
+		SportsFacility spF = dao.findSportsFacility(name);
+		if(spF != null) {
+			ctx.setAttribute("reviewedSportFacility", spF);
+		}
+		return spF;
 	}
 	
 	@POST
@@ -100,4 +104,6 @@ public class SportsFacilityService {
 		SportsFacilityDAO dao = (SportsFacilityDAO) ctx.getAttribute("sportsFacilityDAO");
 		dao.delete(name);
 	}
+	
+	
 }

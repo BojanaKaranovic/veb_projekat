@@ -4,7 +4,7 @@ const router = new VueRouter({
 	mode: 'hash',
 	  routes: [
 		{ path: '/', name: 'home', component: SportsFacilities},
-		{ path: '/sportsFacilityInfo', component: SportsFacilityInfo}
+		{ path: '/sportsFacilityInfo/:id', component: SportsFacilityInfo}
 	  ]
 });
 

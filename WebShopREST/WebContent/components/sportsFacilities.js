@@ -34,7 +34,7 @@ Vue.component("sportsFacilities", {
 	    			<th>Radno vreme</th>
 	    		</tr>
 	    			
-	    		<tr v-for="sportFacility in searched">
+	    		<tr v-for="sportFacility in searched" v-on:click="sportsFacilityInfo(sportFacility.name)">
 	    			<td id = "name">{{sportFacility.name}}</td>
 	    			<td>{{sportFacility.type}}</td>
 	    			<td>{{sportFacility.trainingType}}</td>
@@ -71,20 +71,10 @@ Vue.component("sportsFacilities", {
 		searchType: function(type){
 			this.searched = this.sportsFacilities.filter(o => o.type.toString().toLowerCase().includes(type.toString().toLowerCase()));
 			
+		},
+		sportsFacilityInfo: function(id){
+			router.push('/sportsFacilityInfo/'+id);
 		}
-    	/*addProduct : function() {
-    		router.push(`/products/-1`);
-    	},
-    	editProduct : function(id) {
-    		router.push(`/products/${id}`);
-    	},
-    	deleteProduct : function(id, index) {
-    		r = confirm("Are you sure?")
-    		if (r){
-	    		axios
-	            .delete('rest/products/' + id)
-	            .then(response => (this.products.splice(index, 1)))
-    		}
-    	}*/
+    	
     }
 });
