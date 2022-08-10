@@ -1,6 +1,7 @@
 package beans;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -12,7 +13,7 @@ public class MembershipFee implements Serializable{
 	private static final long serialVersionUID = 8161356488262447249L;
 	private String uniqueId;
 	private MembershipType membershipType;
-	private Date paymentDate;
+	private LocalDate paymentDate;
 	private LocalDateTime validityOfMembership;
 	private double cost;
 	private Customer customer;
@@ -21,7 +22,7 @@ public class MembershipFee implements Serializable{
 	
 	
 	
-	public MembershipFee(String uniqueId, MembershipType membershipType, Date paymentDate,
+	public MembershipFee(String uniqueId, MembershipType membershipType, LocalDate paymentDate,
 			LocalDateTime validityOfMembership, double cost, Customer customer, boolean status,
 			double entranceCountPerDay) {
 		super();
@@ -46,10 +47,10 @@ public class MembershipFee implements Serializable{
 	public void setMembershipType(MembershipType membershipType) {
 		this.membershipType = membershipType;
 	}
-	public Date getPaymentDate() {
+	public LocalDate getPaymentDate() {
 		return paymentDate;
 	}
-	public void setPaymentDate(Date paymentDate) {
+	public void setPaymentDate(LocalDate paymentDate) {
 		this.paymentDate = paymentDate;
 	}
 	public LocalDateTime getValidityOfMembership() {

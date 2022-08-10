@@ -26,7 +26,7 @@ Vue.component("createSportsFacility", {
 			<tr><td>Grad</td><td><input v-model="sportsFacility.location.address.city" type="text" name="city"></td></tr>
 			<tr><td>Postanski broj</td><td><input v-model="sportsFacility.location.address.zipCode" type="text" name="zipCode"></td></tr>
 		  	<tr>
-				<td>Logo</td><td><input v-model="sportsFacility.logo" type="text" name="logo"></td>
+				<td>Logo</td><td><input v-model="sportsFacility.logo" type="file" name="logo"></td>
 			</tr>
 			
 			
@@ -93,9 +93,9 @@ Vue.component("createSportsFacility", {
 				},
 		createSportsFacility : function(event){
 			event.preventDefault()
-			//let array = this.sportsFacility.logo.split("\\")
-	        //let logoDestination = array[array.length - 1]
-	        //this.sportsFacility.logo = logoDestination;
+			let array = this.sportsFacility.logo.split("\\")
+	        let logoDestination = array[array.length - 1]
+	        this.sportsFacility.logo = logoDestination;
 			if((this.sportsFacility.name === null) || (this.sportsFacility.type === null) || (this.sportsFacility.location.address.street === null) || this.sportsFacility.location.address.city === null || this.sportsFacility.location.address.zipCode===null || this.sportsFacility.logo ===null){
 				alert("Postoji nepopunjeno polje!")
 				return

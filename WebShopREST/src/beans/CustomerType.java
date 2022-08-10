@@ -13,6 +13,9 @@ public class CustomerType implements Serializable {
 	
 	
 	
+	
+	public CustomerType() {
+	}
 	public CustomerType(CustomerTypeName typeName, double discount, int requiredPoints) {
 		this.typeName = typeName;
 		this.discount = discount;

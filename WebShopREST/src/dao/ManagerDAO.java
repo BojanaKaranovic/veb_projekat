@@ -2,7 +2,10 @@ package dao;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,19 +13,29 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
+import com.fasterxml.jackson.databind.type.MapType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
+
 import beans.Manager;
+import beans.SportsFacility;
+import beans.Customer;
 import beans.Gender;
 import beans.UserType;
 
 public class ManagerDAO {
 
 	private HashMap<String, Manager> managers = new HashMap<String, Manager>();
-
+	private String path;
 	public ManagerDAO() {
 	}
 	
 	public ManagerDAO(String contextPath) {
-		loadManagrs(contextPath);
+		loadManagers();
 	}
 	
 	public Collection<Manager> findAll() {
@@ -40,6 +53,7 @@ public class ManagerDAO {
 			}
 		}
 		managers.put(manager.getUsername(), manager);
+		writeInFile();
 		return manager;
 	}
 	
@@ -48,57 +62,87 @@ public class ManagerDAO {
 		if(managerToUpdate == null) {
 			return this.save(manager);
 		}
-		managerToUpdate.setFirstName(manager.getFirstName());
-		managerToUpdate.setLastName(manager.getLastName());
-		managerToUpdate.setEmail(manager.getEmail());
-		managerToUpdate.setUsername(manager.getUsername());
-		managerToUpdate.setPassword(manager.getPassword());
-		managerToUpdate.setGender(manager.getGender());
-		managerToUpdate.setDateOfBirth(manager.getDateOfBirth());
-		managerToUpdate.setUserType(manager.getUserType());
-		managerToUpdate.setSportsFacility(manager.getSportsFacility());
-		return managerToUpdate;
+		else {
+			managers.remove(username);
+			managers.put(username, manager);
+			writeInFile();
+			return manager;
+		}
 	}
 	
 	public void delete(String username) {
 		this.managers.remove(username);
 	}
 	
-	private void loadManagrs(String contextPath) {
+	@SuppressWarnings("unchecked")
+	private void loadManagers() {
+		FileWriter fileWriter = null;
 		BufferedReader in = null;
+		File file = null;
 		try {
-			File file = new File(contextPath + "/managers.txt");
-			System.out.println(file.getCanonicalPath());
+			file = new File(path + "/managers.txt");
 			in = new BufferedReader(new FileReader(file));
-			String line, firstName = "", lastName = "", email = "", username = "", password = "", gender = "", dateOfBirth = "", userType = "", sportsFacility = "";
-			StringTokenizer st;
-			while ((line = in.readLine()) != null) {
-				line = line.trim();
-				if (line.equals("") || line.indexOf('#') == 0)
-					continue;
-				st = new StringTokenizer(line, ";");
-				while (st.hasMoreTokens()) {
-					firstName = st.nextToken().trim();
-					lastName = st.nextToken().trim();
-					email = st.nextToken().trim();
-					username = st.nextToken().trim();
-					password = st.nextToken().trim();
-					gender = st.nextToken().trim();
-					dateOfBirth = st.nextToken().trim();
-					userType = st.nextToken().trim();
-					sportsFacility = st.nextToken().trim();
+
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.setVisibilityChecker(
+					VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
+			TypeFactory factory = TypeFactory.defaultInstance();
+			MapType type = factory.constructMapType(HashMap.class, String.class, Customer.class);
+			objectMapper.getFactory().configure(JsonGenerator.Feature.ESCAPE_NON_ASCII, true);
+			this.managers = ((HashMap<String, Manager>) objectMapper.readValue(file, type));
+		} catch (FileNotFoundException fnfe) {
+			try {
+				file.createNewFile();
+				fileWriter = new FileWriter(file);
+				ObjectMapper objectMapper = new ObjectMapper();
+				objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+				objectMapper.getFactory().configure(JsonGenerator.Feature.ESCAPE_NON_ASCII, true);
+				String string = objectMapper.writeValueAsString(managers);
+				fileWriter.write(string);
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (fileWriter != null) {
+					try {
+						fileWriter.close();
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
-				SportsFacilityDAO spDAO = new SportsFacilityDAO();
-				managers.put(username, new Manager(firstName, lastName, email, username, password, getGender(gender), dateOfBirth, UserType.MANAGER,spDAO.findSportsFacility(sportsFacility)));
+				}
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		} finally {
-			if ( in != null ) {
+			if (in != null) {
 				try {
 					in.close();
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-				catch (Exception e) { }
+			}
+		}
+	}
+	public void writeInFile() {
+		File f = new File(path + "/managers.txt");
+		FileWriter fileWriter = null;
+		try {
+			fileWriter = new FileWriter(f);
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+			objectMapper.getFactory().configure(JsonGenerator.Feature.ESCAPE_NON_ASCII, true);
+			String string = objectMapper.writeValueAsString(this.managers);
+			fileWriter.write(string);
+			fileWriter.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (fileWriter != null) {
+				try {
+					fileWriter.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

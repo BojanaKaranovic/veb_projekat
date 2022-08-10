@@ -1,26 +1,34 @@
 package dao;
 
-import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
-import javax.swing.ImageIcon;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
+import com.fasterxml.jackson.databind.type.MapType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
+
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.core.JsonGenerator;
 
 import beans.Address;
 import beans.FacilityType;
 import beans.Location;
-import beans.Product;
 import beans.SportsFacility;
 import beans.TrainingType;
 
 public class SportsFacilityDAO {
 
 	private HashMap<String, SportsFacility> sportsFacilities = new HashMap<String, SportsFacility>();
-
+	private String path;
 public SportsFacilityDAO() {
 		
 	}
@@ -30,7 +38,8 @@ public SportsFacilityDAO() {
 	 */
 	public SportsFacilityDAO(String contextPath) {
 		//loadProducts(contextPath);
-		loadSportsFacilitys(contextPath);
+		this.path = contextPath;
+		loadSportsFacilities();
 	}
 	
 	public Collection<SportsFacility> findAll() {
@@ -56,16 +65,13 @@ public SportsFacilityDAO() {
 		if(sportsFacilityToUpdate == null) {
 			return this.save(sportsFacility);
 		}
-		sportsFacilityToUpdate.setName(sportsFacility.getName());
-		sportsFacilityToUpdate.setStatus(sportsFacility.getStatus());
-		sportsFacilityToUpdate.setAverageRating(sportsFacility.getAverageRating());
-		sportsFacilityToUpdate.setLocation(sportsFacility.getLocation());
-		sportsFacilityToUpdate.setLogo(sportsFacility.getLogo());
-		sportsFacilityToUpdate.setTrainingType(sportsFacility.getTrainingType());
-		sportsFacilityToUpdate.setType(sportsFacility.getType());
-		sportsFacilityToUpdate.setWorkTime(sportsFacility.getWorkTime());
+		else {
+			sportsFacilities.remove(name);
+			sportsFacilities.put(name, sportsFacility);
+			writeInFile();
+			return sportsFacility;
+		}
 		
-		return sportsFacilityToUpdate;
 	}
 	
 	public void delete(String name) {
@@ -73,55 +79,78 @@ public SportsFacilityDAO() {
 	}
 	
 
-	/**
-	 * U�itava korisnike iz WebContent/users.txt fajla i dodaje ih u mapu {@link #products}.
-	 * Klju� je id proizovda.
-	 * @param contextPath Putanja do aplikacije u Tomcatu
-	 */
-	private void loadSportsFacilitys(String contextPath) {
+	@SuppressWarnings("unchecked")
+	private void loadSportsFacilities() {
+		FileWriter fileWriter = null;
 		BufferedReader in = null;
+		File file = null;
 		try {
-			File file = new File(contextPath + "/sportsFacilities.txt");
-			System.out.println(file.getCanonicalPath());
+			file = new File(path + "/sportsFacilities.txt");
 			in = new BufferedReader(new FileReader(file));
-			String line, name = "", type = "", trainingType = "", status = "", longitude = "",latitude = "", street = "", number = "", city = "", zipcode = "", logo = "", averageRating = "", workTime = "";
-			StringTokenizer st;
-			while ((line = in.readLine()) != null) {
-				line = line.trim();
-				if (line.equals("") || line.indexOf('#') == 0)
-					continue;
-				st = new StringTokenizer(line, ";");
-				while (st.hasMoreTokens()) {
-					name = st.nextToken().trim();
-					type = st.nextToken().trim();
-					trainingType = st.nextToken().trim();
-					status = st.nextToken().trim();
-					longitude = st.nextToken().trim();
-					latitude = st.nextToken().trim();
-					street = st.nextToken().trim();
-					number = st.nextToken().trim();
-					city = st.nextToken().trim();
-					zipcode = st.nextToken().trim();
-					logo = st.nextToken().trim();
-					averageRating = st.nextToken().trim();
-					workTime = st.nextToken().trim();
+
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.setVisibilityChecker(
+					VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
+			TypeFactory factory = TypeFactory.defaultInstance();
+			MapType type = factory.constructMapType(HashMap.class, String.class, SportsFacility.class);
+			objectMapper.getFactory().configure(JsonGenerator.Feature.ESCAPE_NON_ASCII, true);
+			this.sportsFacilities = ((HashMap<String, SportsFacility>) objectMapper.readValue(file, type));
+		} catch (FileNotFoundException fnfe) {
+			try {
+				file.createNewFile();
+				fileWriter = new FileWriter(file);
+				ObjectMapper objectMapper = new ObjectMapper();
+				objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+				objectMapper.getFactory().configure(JsonGenerator.Feature.ESCAPE_NON_ASCII, true);
+				String string = objectMapper.writeValueAsString(sportsFacilities);
+				fileWriter.write(string);
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (fileWriter != null) {
+					try {
+						fileWriter.close();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
-				
-				Address address = new Address(street, Integer.parseInt(number), city, zipcode);
-				Location location = new Location(Double.parseDouble(longitude), Double.parseDouble(latitude), address);
-				sportsFacilities.put(name, new SportsFacility(name, getFacilityType(type) , getTrainingType(trainingType), Boolean.parseBoolean(status), location, logo, Double.parseDouble(averageRating), workTime));
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		} finally {
-			if ( in != null ) {
+			if (in != null) {
 				try {
 					in.close();
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-				catch (Exception e) { }
 			}
 		}
-		
+	}
+	
+	public void writeInFile() {
+		File f = new File(path + "/sportsFacilities.txt");
+		FileWriter fileWriter = null;
+		try {
+			fileWriter = new FileWriter(f);
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+			objectMapper.getFactory().configure(JsonGenerator.Feature.ESCAPE_NON_ASCII, true);
+			String string = objectMapper.writeValueAsString(this.sportsFacilities);
+			fileWriter.write(string);
+			fileWriter.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (fileWriter != null) {
+				try {
+					fileWriter.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 	public FacilityType getFacilityType(String type) {
 		FacilityType facilityType;

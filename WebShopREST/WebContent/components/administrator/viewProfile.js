@@ -30,7 +30,7 @@ Vue.component("viewProfile", {
 	
     	`,
     		mounted () {
-	        	axios.get('rest/userLogin/loggedInAdmin').then(response=>{this.admin = response.data;this.previous = {...this.admin};this.username=response.data.username})
+	        	axios.get('rest/userLogin/loggedInAdmin').then(response=>{this.admin = response.data;this.previous = this.admin;this.username=response.data.username})
 	        	
     },
     	methods: {
@@ -54,7 +54,7 @@ Vue.component("viewProfile", {
 		
 	},
 	restore: function(){
-			this.admin = {...this.previous}
+			this.admin = his.previous
 	}
 }
 });

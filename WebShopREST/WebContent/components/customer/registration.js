@@ -1,7 +1,7 @@
 Vue.component("customer", { 
 	data: function () {
 	    return {
-	      customer: {"firstName":null, "lastName":null, "email":null, "username":null, "password":null, "gender":null, "dateOfBirth":null, "userType":null, "visitedFacility":null, "collectedPoints":null, "customerType":null}
+	      customer: {"firstName":null, "lastName":null, "email":null, "username":null, "password":null, "gender":null, "dateOfBirth":null, "userType":"CUSTOMER", "visitedFacility":null, "collectedPoints":0, "customerType":{"typeName":"OBICNI", "discount": 0.0, "requiredPoints":200}}
 	    	
 	    }
 	},template: ` 
@@ -13,6 +13,12 @@ Vue.component("customer", {
 			<tr><td>Password</td><td><input v-model="customer.password" type="password" name="password"></td></tr>
 			<tr><td>Email</td><td><input v-model="customer.email" type="text" name="email"></td></tr>
 			<tr><td>Datum rodjenja</td><td><input v-model="customer.dateOfBirth" type="text" name="dateOfBirth"></td></tr>
+			<tr><td>Pol</td><td>
+			<select v-model="customer.gender">
+  				<option disabled value="">Izaberite</option>
+  				<option value="MALE">Male</option>
+  				<option value="FEMALE">Female</option>
+			</select></td></tr>
 			
 			
 			<tr><td><button v-on:click = "registerUser">Registruj se</button></td></tr>

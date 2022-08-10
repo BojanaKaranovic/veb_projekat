@@ -30,7 +30,7 @@ Vue.component("viewProfile", {
 	
     	`,
     		mounted () {
-	        	axios.get('rest/userLogin/loggedInCustomer').then(response=>{this.customer = response.data;this.previous = {...this.customer};this.username=response.data.username})
+	        	axios.get('rest/userLogin/loggedInCustomer').then(response=>{this.customer = response.data;this.previous = this.customer;this.username=response.data.username})
 	        	
     },
     	methods: {
@@ -54,7 +54,7 @@ Vue.component("viewProfile", {
 		
 	},
 	restore: function(){
-			this.customer = {...this.previous}
+			this.customer = this.previous
 	}
 }
 });

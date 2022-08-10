@@ -1,2 +1,0 @@
-Bojana;Bojanic;bojana@gmail.com;boki;111;FEMALE;1995-06-06;CUSTOMER;0;20;OBICNI;0.0;100
-Dusko;Duskovic;dusko@gmail.com;duki;222;MALE;1998-08-08;CUSTOMER;0;120;OBICNI;0.1;200
