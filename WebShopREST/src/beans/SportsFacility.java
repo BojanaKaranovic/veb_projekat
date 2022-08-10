@@ -1,6 +1,7 @@
 package beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class SportsFacility implements Serializable {
 
@@ -10,19 +11,19 @@ public class SportsFacility implements Serializable {
 	private static final long serialVersionUID = -7061576308306978756L;
 	private String name;
 	private FacilityType type;
-	private TrainingType trainingType;
+	private ArrayList<String> trainings;
 	private Boolean status;
 	private Location location;
 	private String logo;
 	private double averageRating;
 	private String workTime;
 	
-	public SportsFacility(String name, FacilityType type, TrainingType trainingType, Boolean status, Location location,
+	public SportsFacility(String name, FacilityType type, ArrayList<String> trainings, Boolean status, Location location,
 			String logo, double averageRating, String workTime) {
 		super();
 		this.name = name;
 		this.type = type;
-		this.trainingType = trainingType;
+		this.trainings = trainings;
 		this.status = status;
 		this.location = location;
 		this.logo = logo;
@@ -51,12 +52,12 @@ public class SportsFacility implements Serializable {
 	}
 
 
-	public TrainingType getTrainingType() {
-		return trainingType;
+	public ArrayList<String> getTrainings() {
+		return trainings;
 	}
 
-	public void setTrainingType(TrainingType trainingType) {
-		this.trainingType = trainingType;
+	public void setTrainings(ArrayList<String> trainings) {
+		this.trainings = trainings;
 	}
 
 	public Boolean getStatus() {

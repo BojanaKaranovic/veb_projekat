@@ -26,7 +26,6 @@ Vue.component("sportsFacilities", {
 	    		<tr bgcolor="lightgrey">
 	    			<th>Naziv</th>
 	    			<th>Tip objekta</th>
-	    			<th>Sadrzaj koji nudimo</th>
 	    			<th>Status</th>
 	    			<th>Lokacija</th>
 	    			<th>Logo</th>
@@ -37,12 +36,12 @@ Vue.component("sportsFacilities", {
 	    		<tr v-for="sportFacility in searched" v-on:click="sportsFacilityInfo(sportFacility.name)">
 	    			<td id = "name">{{sportFacility.name}}</td>
 	    			<td>{{sportFacility.type}}</td>
-	    			<td>{{sportFacility.trainingType}}</td>
 	    			<td v-if="sportFacility.status">Radi</td>
 	    			<td v-if="!sportFacility.status">Ne radi</td>
 	    			<td>{{sportFacility.location.address.street}} {{sportFacility.location.address.number}}, {{sportFacility.location.address.city}}, {{sportFacility.location.address.zipCode}}</td>
 	    			<td><img v-bind:src=" 'images/'+sportFacility.logo " /> </td>
-	    			<td>{{sportFacility.averageRating}}</td>
+	    			<td v-if="sportFacility.averageRating !== 0">{{sportFacility.averageRating}}</td>
+	    			<td v-if="sportFacility.averageRating === 0">Nema ocenu</td>
 	    			<td>{{sportFacility.workTime}}</td>
 	    			
 	    			

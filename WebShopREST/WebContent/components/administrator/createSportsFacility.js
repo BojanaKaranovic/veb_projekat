@@ -1,7 +1,7 @@
 Vue.component("createSportsFacility", { 
 	data: function () {
 	    return {
-			sportsFacility:{"name":null, "type":null, "trainingType": null, "status": "false", "location":{"longitude": null,  "latitude": null, "address": {"street": null, "number": null, "city": null, "zipCode": null}}, "logo": null, "averageRating": 0, "workTime": "08.00-21.00"},
+			sportsFacility:{"name":null, "type":null, "trainings": null, "status": "false", "location":{"longitude": null,  "latitude": null, "address": {"street": null, "number": null, "city": null, "zipCode": null}}, "logo": null, "averageRating": 0, "workTime": "08.00-21.00"},
 	      manager: {"firstName":null, "lastName":null, "email":null, "username":null, "password":null, "gender":null, "dateOfBirth":null, "userType":null, "sportsFacility":null},
 	      managers: {},
 	      selectedManager: null,

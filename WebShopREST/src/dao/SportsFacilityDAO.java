@@ -57,6 +57,7 @@ public SportsFacilityDAO() {
 			}
 		}
 		sportsFacilities.put(sportsFacility.getName(), sportsFacility);
+		writeInFile();
 		return sportsFacility;
 	}
 	
