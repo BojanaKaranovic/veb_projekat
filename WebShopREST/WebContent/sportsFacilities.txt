@@ -1,0 +1,40 @@
+{
+  "Veliki bazen" : {
+    "name" : "Veliki bazen",
+    "type" : "BAZEN",
+    "trainings" : null,
+    "status" : false,
+    "location" : {
+      "longitude" : 0.0,
+      "latitude" : 0.0,
+      "address" : {
+        "street" : "dr Sime Milosevica",
+        "number" : 25,
+        "city" : "Novi Sad",
+        "zipCode" : "21000"
+      }
+    },
+    "logo" : "pool2.png",
+    "averageRating" : 0.0,
+    "workTime" : "08.00-21.00"
+  },
+  "Super teretana" : {
+    "name" : "Super teretana",
+    "type" : "TERETANA",
+    "trainings" : null,
+    "status" : false,
+    "location" : {
+      "longitude" : 0.0,
+      "latitude" : 0.0,
+      "address" : {
+        "street" : "dr Sime Milosevica",
+        "number" : 20,
+        "city" : "Novi Sad",
+        "zipCode" : "21000"
+      }
+    },
+    "logo" : "gym1.png",
+    "averageRating" : 0.0,
+    "workTime" : "08.00-21.00"
+  }
+}

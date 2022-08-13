@@ -15,8 +15,7 @@ Vue.component("create", {
 	      	createType: null,
 	      	pomocna: null,
 	      	dateOfBirth : null,
-	      coach: {"firstName":null, "lastName":null, "email":null, "username":null, "password":null, "gender":null, "dateOfBirth":null, "userType":null, "trainingHistory":null}
-	    	
+	      	
 	    }
 	},template: ` 
     	<form id="formaTrener">
@@ -55,13 +54,13 @@ Vue.component("create", {
 		if(this.createType == "manager")
 			{
 				axios
-			.post('rest/managers/', {"firstName":''+this.firstName,"lastName":''+this.lastName,"email":''+this.email,"username":''+this.username,"password":''+this.password, "gender":this.gender,"dateOfBirth":''+this.dateOfBirth,"userType":'MANAGER',sportsFacility:null})
+			.post('rest/managers/', {"firstName":''+this.firstName,"lastName":''+this.lastName,"email":''+this.email,"username":''+this.username,"password":''+this.password, "gender":this.gender,"dateOfBirth":''+this.dateOfBirth,"userType":'MANAGER',"sportsFacility":''})
 				.then(response => {alert("Created successfully")})
 				.catch((e) => { alert("Exception")})
 			}
 		else{
 			axios
-			.post('rest/coaches/', {"firstName":''+this.firstName,"lastName":''+this.lastName,"email":''+this.email,"username":''+this.username,"password":''+this.password, "gender":this.gender,"dateOfBirth":''+this.dateOfBirth,"userType":'COACH',trainingHistory:null})
+			.post('rest/coaches/', {"firstName":''+this.firstName,"lastName":''+this.lastName,"email":''+this.email,"username":''+this.username,"password":''+this.password, "gender":this.gender,"dateOfBirth":''+this.dateOfBirth,"userType":'COACH',"trainingHistory":null})
 				.then(response => {alert("Created successfully")})
 				.catch((e) => { alert("Exception")})
 		}

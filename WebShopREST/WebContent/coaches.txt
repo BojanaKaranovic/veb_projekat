@@ -1,2 +1,14 @@
-Pera;Peric;pera@email.com;pera;pera;male;1992-01-01;trener;0
-Mika;Mikic;mika@gmail.com;mika;mika;male;1990-02-02;trener;0
+{
+  "sima" : {
+    "firstName" : "Sima",
+    "lastName" : "Simic",
+    "email" : "sima@mail.com",
+    "username" : "sima",
+    "password" : "123",
+    "gender" : "MALE",
+    "dateOfBirth" : "1998-01-01",
+    "userType" : "COACH",
+    "trainingHistory" : null,
+    "deleted" : false
+  }
+}

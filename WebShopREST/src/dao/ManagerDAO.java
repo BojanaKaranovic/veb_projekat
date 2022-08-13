@@ -35,7 +35,9 @@ public class ManagerDAO {
 	}
 	
 	public ManagerDAO(String contextPath) {
+		this.path=contextPath;
 		loadManagers();
+		
 	}
 	
 	public Collection<Manager> findAll() {
@@ -87,7 +89,7 @@ public class ManagerDAO {
 			objectMapper.setVisibilityChecker(
 					VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
 			TypeFactory factory = TypeFactory.defaultInstance();
-			MapType type = factory.constructMapType(HashMap.class, String.class, Customer.class);
+			MapType type = factory.constructMapType(HashMap.class, String.class, Manager.class);
 			objectMapper.getFactory().configure(JsonGenerator.Feature.ESCAPE_NON_ASCII, true);
 			this.managers = ((HashMap<String, Manager>) objectMapper.readValue(file, type));
 		} catch (FileNotFoundException fnfe) {

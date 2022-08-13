@@ -1,11 +1,7 @@
 package beans;
 
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 
-public class MembershipFee implements Serializable{
+public class MembershipFee{
 
 	/**
 	 * 
@@ -13,18 +9,20 @@ public class MembershipFee implements Serializable{
 	private static final long serialVersionUID = 8161356488262447249L;
 	private String uniqueId;
 	private MembershipType membershipType;
-	private LocalDate paymentDate;
-	private LocalDateTime validityOfMembership;
+	private String paymentDate;
+	private String validityOfMembership;
 	private double cost;
 	private Customer customer;
 	private boolean status; //active or inactive
-	private double entranceCountPerDay;
+	private String entranceCountPerDay;
 	
 	
 	
-	public MembershipFee(String uniqueId, MembershipType membershipType, LocalDate paymentDate,
-			LocalDateTime validityOfMembership, double cost, Customer customer, boolean status,
-			double entranceCountPerDay) {
+	public MembershipFee() {
+	}
+	public MembershipFee(String uniqueId, MembershipType membershipType, String paymentDate,
+			String validityOfMembership, double cost, Customer customer, boolean status,
+			String entranceCountPerDay) {
 		super();
 		this.uniqueId = uniqueId;
 		this.membershipType = membershipType;
@@ -47,16 +45,16 @@ public class MembershipFee implements Serializable{
 	public void setMembershipType(MembershipType membershipType) {
 		this.membershipType = membershipType;
 	}
-	public LocalDate getPaymentDate() {
+	public String getPaymentDate() {
 		return paymentDate;
 	}
-	public void setPaymentDate(LocalDate paymentDate) {
+	public void setPaymentDate(String paymentDate) {
 		this.paymentDate = paymentDate;
 	}
-	public LocalDateTime getValidityOfMembership() {
+	public String getValidityOfMembership() {
 		return validityOfMembership;
 	}
-	public void setValidityOfMembership(LocalDateTime validityOfMembership) {
+	public void setValidityOfMembership(String validityOfMembership) {
 		this.validityOfMembership = validityOfMembership;
 	}
 	public double getCost() {
@@ -77,10 +75,10 @@ public class MembershipFee implements Serializable{
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-	public double getEntranceCountPerDay() {
+	public String getEntranceCountPerDay() {
 		return entranceCountPerDay;
 	}
-	public void setEntranceCountPerDay(double entranceCountPerDay) {
+	public void setEntranceCountPerDay(String entranceCountPerDay) {
 		this.entranceCountPerDay = entranceCountPerDay;
 	}
 	

@@ -35,6 +35,7 @@ public class CoachDAO {
 	}
 	
 	public CoachDAO(String contextPath) {
+		this.path=contextPath;
 		loadCoaches();
 	}
 	
@@ -88,7 +89,7 @@ public class CoachDAO {
 			objectMapper.setVisibilityChecker(
 					VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
 			TypeFactory factory = TypeFactory.defaultInstance();
-			MapType type = factory.constructMapType(HashMap.class, String.class, Customer.class);
+			MapType type = factory.constructMapType(HashMap.class, String.class, Coach.class);
 			objectMapper.getFactory().configure(JsonGenerator.Feature.ESCAPE_NON_ASCII, true);
 			this.coaches = ((HashMap<String, Coach>) objectMapper.readValue(file, type));
 		} catch (FileNotFoundException fnfe) {

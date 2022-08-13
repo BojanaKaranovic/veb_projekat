@@ -1,7 +1,9 @@
 package services;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Random;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
@@ -21,12 +23,15 @@ import beans.Administrator;
 import beans.Coach;
 import beans.Customer;
 import beans.Manager;
+import beans.MembershipFee;
 import beans.User;
 import dao.AdministratorDAO;
 import dao.CoachDAO;
 import dao.CustomerDAO;
 import dao.ManagerDAO;
+import dao.MembershipFeeDAO;
 import dao.UserDAO;
+
 
 @Path("/userLogin")
 public class UserService {
@@ -59,6 +64,10 @@ public class UserService {
 		if (ctx.getAttribute("coachDAO") == null) {
 	    	String contextPath = ctx.getRealPath("");
 			ctx.setAttribute("coachDAO", new CoachDAO(contextPath));
+		}
+		if (ctx.getAttribute("membershipFeeDAO") == null) {
+	    	String contextPath = ctx.getRealPath("");
+			ctx.setAttribute("membershipFeeDAO", new MembershipFeeDAO(contextPath));
 		}
 	}
 	
@@ -221,5 +230,39 @@ public class UserService {
 			customers.add(c);
 		};
 		return customers;
+	}
+	
+	@POST
+	@Path("/createMembershipFee")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public MembershipFee createMembershipFee(MembershipFee membershipFee) {
+		Customer c = (Customer)request.getSession().getAttribute("loggedInUser");
+		MembershipFeeDAO dao = (MembershipFeeDAO) ctx.getAttribute("membershipFeeDAO");
+		int numOfFees = dao.findAll().size();
+		String generatedString ;
+		ArrayList<String> allIds = getAllIds();
+		/*
+		 * https://www.baeldung.com/java-random-string
+		 */
+		do {
+			byte[] array = new byte[10]; // length is bounded by 10
+			new Random().nextBytes(array);
+			generatedString = new String(array, Charset.forName("UTF-8"));
+		}while(allIds.contains(generatedString));
+		membershipFee.setCustomer(c);
+		membershipFee.setUniqueId(generatedString);
+		dao.save(membershipFee);
+		request.getSession().setAttribute("membershipFee", membershipFee);
+		return membershipFee;
+	}
+	
+	private ArrayList<String> getAllIds(){
+		ArrayList<String> allIds = new ArrayList<String>();
+		MembershipFeeDAO dao = (MembershipFeeDAO) ctx.getAttribute("membershipFeeDAO");
+		for (MembershipFee membership : dao.findAll()) {
+			allIds.add(membership.getUniqueId());
+		}
+		return allIds;
 	}
 }

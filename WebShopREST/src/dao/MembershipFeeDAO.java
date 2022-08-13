@@ -45,7 +45,7 @@ public class MembershipFeeDAO {
 	 * @param contextPath Putanja do aplikacije u Tomcatu. Mo�e se pristupiti samo iz servleta.
 	 */
 	public MembershipFeeDAO(String contextPath) {
-		path = contextPath;
+		this.path = contextPath;
 		loadMembershipFees();
 	}
 	
@@ -136,7 +136,7 @@ public class MembershipFeeDAO {
 		}
 	}
 	public void writeInFile() {
-		File f = new File(path + "/managers.txt");
+		File f = new File(path + "/memberships.txt");
 		FileWriter fileWriter = null;
 		try {
 			fileWriter = new FileWriter(f);

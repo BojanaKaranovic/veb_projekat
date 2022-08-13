@@ -1,0 +1,36 @@
+{
+  "duki" : {
+    "firstName" : "Dusko",
+    "lastName" : "Duskovic",
+    "email" : "dusko@mail.com",
+    "username" : "duki",
+    "password" : "123",
+    "gender" : "MALE",
+    "dateOfBirth" : "1998-01-01",
+    "userType" : "CUSTOMER",
+    "visitedFacility" : null,
+    "collectedPoints" : 0,
+    "customerType" : {
+      "typeName" : "OBICNI",
+      "discount" : 0.0,
+      "requiredPoints" : 200
+    }
+  },
+  "boki" : {
+    "firstName" : "Bojana",
+    "lastName" : "Bojanic",
+    "email" : "bojana@mail.com",
+    "username" : "boki",
+    "password" : "123",
+    "gender" : "FEMALE",
+    "dateOfBirth" : "1980-02-02",
+    "userType" : "CUSTOMER",
+    "visitedFacility" : null,
+    "collectedPoints" : 0,
+    "customerType" : {
+      "typeName" : "OBICNI",
+      "discount" : 0.0,
+      "requiredPoints" : 200
+    }
+  }
+}

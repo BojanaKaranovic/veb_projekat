@@ -78,7 +78,7 @@ public class ManagerService {
     	SportsFacilityDAO sportsFacilityDAO = (SportsFacilityDAO)  ctx.getAttribute("sportsFacilityDAO");
     	ManagerDAO managerDAO = (ManagerDAO) ctx.getAttribute("managerDAO");
     	Manager manager = managerDAO.findManager(m);
-    	manager.setSportsFacility(sportsFacilityDAO.findSportsFacility(s));
+    	manager.setSportsFacility(s);
     	
     	
     	managerDAO.update(m,manager);

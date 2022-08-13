@@ -79,7 +79,7 @@ public class SportsFacilityService {
 			{
 				if(m.getFirstName().equals(name[0]) && m.getLastName().equals(name[1])) {
 					Manager newManager = m;
-					newManager.setSportsFacility(sportsFacility);
+					newManager.setSportsFacility(sportsFacility.getName());
 					managerDAO.update(manager, newManager);
 					break;
 				}

@@ -10,25 +10,25 @@ public class Manager extends User implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 3389978403845631848L;
-	private SportsFacility sportsFacility;
+	private String sportsFacility;
 	private boolean deleted;
 	public Manager() {
 		super();
 	}
 
 	public Manager(String firstName, String lastName, String email, String username, String password, Gender gender,
-			String dateOfBirth, UserType userType, SportsFacility sportsFacility) {
+			String dateOfBirth, UserType userType, String sportsFacility) {
 		super(firstName, lastName, email, username, password, gender, dateOfBirth, userType);
 		this.sportsFacility = sportsFacility;
 		this.deleted = false;
 		// TODO Auto-generated constructor stub
 	}
 
-	public SportsFacility getSportsFacility() {
+	public String getSportsFacility() {
 		return sportsFacility;
 	}
 
-	public void setSportsFacility(SportsFacility sportsFacility) {
+	public void setSportsFacility(String sportsFacility) {
 		this.sportsFacility = sportsFacility;
 	}
 	
