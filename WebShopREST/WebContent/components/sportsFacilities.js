@@ -14,6 +14,7 @@ Vue.component("sportsFacilities", {
 	    template: ` 
     	<div>
     		<h3>Prikaz sportskih objekata</h3>
+    		<div>
     		<input type="text" v-model="this.name">
 			<button v-on:click="searchName(this.name)">Pretrazi po imenu</button>
 			<input type="text" v-model="this.city">
@@ -22,31 +23,32 @@ Vue.component("sportsFacilities", {
 			<button v-on:click="searchRating(this.rating)">Pretrazi po oceni</button>
 			<input type="text" v-model="this.type">
 			<button v-on:click="searchType(this.type)">Pretrazi po tipu</button>
-			<table border="1" id="tableSportsFacilities" v-bind:sportsFacilities = "this.searched">
-	    		<tr bgcolor="lightgrey">
-	    			<th>Naziv</th>
-	    			<th>Tip objekta</th>
-	    			<th>Status</th>
-	    			<th>Lokacija</th>
-	    			<th>Logo</th>
-	    			<th>Prosecna ocena</th>
-	    			<th>Radno vreme</th>
-	    		</tr>
-	    			
-	    		<tr v-for="sportFacility in searched" v-on:click="sportsFacilityInfo(sportFacility.name)">
-	    			<td id = "name">{{sportFacility.name}}</td>
-	    			<td>{{sportFacility.type}}</td>
-	    			<td v-if="sportFacility.status">Radi</td>
-	    			<td v-if="!sportFacility.status">Ne radi</td>
-	    			<td>{{sportFacility.location.address.street}} {{sportFacility.location.address.number}}, {{sportFacility.location.address.city}}, {{sportFacility.location.address.zipCode}}</td>
-	    			<td><img v-bind:src=" 'images/'+sportFacility.logo " /> </td>
-	    			<td v-if="sportFacility.averageRating !== 0">{{sportFacility.averageRating}}</td>
-	    			<td v-if="sportFacility.averageRating === 0">Nema ocenu</td>
-	    			<td>{{sportFacility.workTime}}</td>
-	    			
-	    			
-	    		</tr>
-	    	</table>
+			</div>
+			</br>
+			<div class="d-grid gap-2 d-md-flex  justify-content-md-end">
+				<button type="button" class="btn btn-primary"><a class="link-light" href ="loginPage.html">Uloguj se</a></button>
+				<button type="button" class="btn btn-primary"><a class="link-light" href ="registrationPage.html">Registruj se</a></button>
+			</div>
+			</br>
+			<div class="row row-cols-2 row-cols-md-4" v-bind:sportsFacilities = "this.searched" >
+				<div class="card border-light" style="margin-left:10px" v-for="sportFacility in searched" v-on:click="sportsFacilityInfo(sportFacility.name)">
+					<img style="width:50%"  v-bind:src=" 'images/'+sportFacility.logo " class="card-img-top" />
+					<div class="card-body">
+						<h5 class="card-title">{{sportFacility.name}}</h5>
+					</div>
+					<ul class="list-group list-group-flush">
+					    <li class="list-group-item">{{sportFacility.type}}</li>
+					    <li class="list-group-item" v-if="sportFacility.status">Radi</li>
+					    <li class="list-group-item" v-if="!sportFacility.status">Ne radi</li>
+					    <li class="list-group-item">{{sportFacility.location.address.street}} {{sportFacility.location.address.number}}, {{sportFacility.location.address.city}}, {{sportFacility.location.address.zipCode}}</li>
+					  	<li class="list-group-item" v-if="sportFacility.averageRating !== 0"></li>
+					  	<li class="list-group-item" v-if="sportFacility.averageRating === 0">Nema ocenu</li>
+					  	<li class="list-group-item">{{sportFacility.workTime}}</li>
+					  </ul>
+				</div>
+			
+			</div>
+			
     		</div>		  
     	`,
     mounted () {
