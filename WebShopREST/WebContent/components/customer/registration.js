@@ -5,27 +5,53 @@ Vue.component("customer", {
 	    	
 	    }
 	},template: ` 
-    	<form id="forma">
-		<table>
-			<tr><td>Ime</td><td><input v-model="customer.firstName" type="text" name="firstname"></td></tr>
-			<tr><td>Prezime</td><td><input v-model="customer.lastName" type="text" name="lastname"></td></tr>
-			<tr><td>Username</td><td><input v-model="customer.username" type="text" name="username"></td></tr>
-			<tr><td>Password</td><td><input v-model="customer.password" type="password" name="password"></td></tr>
-			<tr><td>Email</td><td><input v-model="customer.email" type="text" name="email"></td></tr>
-			<tr><td>Datum rodjenja</td><td><input v-model="customer.dateOfBirth" type="text" name="dateOfBirth"></td></tr>
-			<tr><td>Pol</td><td>
-			<select v-model="customer.gender">
-  				<option disabled value="">Izaberite</option>
-  				<option value="MALE">Male</option>
-  				<option value="FEMALE">Female</option>
-			</select></td></tr>
-			
-			
-			<tr><td><button v-on:click = "registerUser">Registruj se</button></td></tr>
-		</table>
-		<p id="error" hidden="true"></p>
-		<p id="success" hidden="true"></p>
-	</form>
+	<section class="h-100 h-custom" style="background-color: #426166;">
+		<div class="container py-5">
+			<div class="row d-flex justify-content-center align-items-center ">
+				<div class="col-lg-8 col-xl-6">
+					<div class="card rounded-3 ">
+						<img src="images/logo.png" 
+			             style=" width:25%; align:right"
+			            alt="Logo">
+			            <div class="card-body p-4 p-md-5">
+			            	<form class="px-md-2">
+			            	 	<div class="form-outline mb-4">
+			            	 		<input v-model="customer.firstName" type="text" class="form-control" id="inputName" placeholder="Ime">
+			            	 	</div>
+			            	 	<div class="form-outline mb-4">
+			            	 		<input v-model="customer.lastName" type="text" class="form-control" id="inputLastName" placeholder="Prezime">
+			            	 	</div>
+			            	 	<div class="form-outline mb-4">
+			            	 		<input v-model="customer.username" type="text" class="form-control" id="inputUsername" placeholder="Username">
+			            	 	</div>
+			            	 	<div class="form-outline mb-4">
+			            	 		<input v-model="customer.password" type="text" class="form-control" id="inputPassword" placeholder="Password">
+			            	 	</div>
+			            	 	<div class="form-outline mb-4">
+			            	 		<input v-model="customer.email" type="text" class="form-control" id="inputEmail" placeholder="Email">
+			            	 	</div>
+			            	 	<div class="row">
+			            	 		<div class="col-md-6 mb-4">
+			            	 			 <div class="form-outline datepicker">
+					            	 		<input v-model="customer.dateOfBirth" type="text" class="form-control" id="inputDate" placeholder="Datum rodjenja">
+			            	 			 </div>
+			            	 		</div>
+			            	 		<div class="col-md-6 mb-4">
+			            	 			<select class="form-select" v-model="customer.gender">
+							  				<option value="MALE">Male</option>
+							  				<option value="FEMALE">Female</option>
+										</select>
+			            	 		</div>
+			            	 	</div>
+			            	 	<button class="btn btn-success mb-1" v-on:click = "registerUser">Registruj se</button>
+			            	 </form>
+			            </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+    	
 	
     	`,
     	methods: {
