@@ -136,13 +136,13 @@ public class UserService {
 		}
 		return Response.status(400).entity("Invalid username and/or password").build();
 	}
-	@POST
+	@GET
 	@Path("/logout")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public void logout(@Context HttpServletRequest request) {
-		request.getSession().invalidate();
-		Response.status(200).entity("sportsFacilities.html").build();
+	public Response logout() {
+		request.getSession().removeAttribute("loggedInUser");
+		return Response.status(200).entity("index.html").build();
+		
 	}
 	
 	@GET

@@ -24,8 +24,6 @@ Vue.component("sportsFacilityInfo", {
 	    		<tr>
 	    			<td v-if="sportsFacility">{{sportsFacility.name}}</td>
 	    			<td v-if="sportsFacility">{{sportsFacility.type}}</td>
-	    			<td v-if="sportsFacility">{{sportsFacility.trainingType}}</td>
-	    			
 	    			<td v-if="sportsFacility.status">Radi</td>
 	    			<td v-if="!sportsFacility.status">Ne radi</td>
 	    			<td v-if="sportsFacility">{{sportsFacility.location.address.street}} {{sportsFacility.location.address.number}}, {{sportsFacility.location.address.city}}, {{sportsFacility.location.address.zipCode}}</td>

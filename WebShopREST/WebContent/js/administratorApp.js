@@ -3,13 +3,16 @@ const CreateSportsFacility = {template: '<createSportsFacility></createSportsFac
 const Profile = { template: '<viewProfile></viewProfile>' }
 const RegisteredUsers = {template: '<users></users>'}
 const SportsFacilities = {template: '<sportsFacilities></sportsFacilities>'}
+const SportsFacilityInfo = { template: '<sportsFacilityInfo></sportsFacilityInfo>' }
 const router = new VueRouter({
 	mode: 'hash',
 	  routes: [
+		{ path: '/', name: 'home', component: SportsFacilities},
 		{ path: '/create/:id', component: Create},
 		{ path: '/createSportsFacility', component: CreateSportsFacility},
 		{ path: '/profile', component: Profile},
-		{ path: '/users', component: RegisteredUsers}
+		{ path: '/users', component: RegisteredUsers},
+		{ path: '/sportsFacilityInfo/:id', component: SportsFacilityInfo}
 		]
 });
 

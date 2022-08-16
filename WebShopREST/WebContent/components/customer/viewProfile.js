@@ -7,26 +7,68 @@ Vue.component("viewProfile", {
 	      previous:null
 	    }
 	},template: ` 
-    	<form id="customerProfile">
-		<table>
-			<tr><td>Ime</td><td><input  v-if="customer" v-model="customer.firstName" type="text" name="firstname"></td></tr>
-			<tr><td>Prezime</td><td><input  v-if="customer" v-model="customer.lastName" type="text" name="lastname"></td></tr>
-			<tr><td>Username</td><td><input  v-if="customer" v-model="customer.username" type="text" name="username"></td></tr>
-			<tr><td>Password</td><td><input  v-if="customer" v-model="customer.password" type="password" name="password"></td></tr>
-			<tr><td>Email</td><td><input  v-if="customer" v-model="customer.email" type="text" name="email"></td></tr>
-			<tr><td>Datum rodjenja</td><td><input  v-if="customer" v-model="customer.dateOfBirth" type="text" name="dateOfBirth"></td></tr>
-			<tr><td>Pol</td><td>
-			<select  v-if="customer" v-model="customer.gender">
-  				<option disabled value="">Izaberite</option>
-  				<option value="MALE">Male</option>
-  				<option value="FEMALE">Female</option>
-			</select></td></tr>
-			
-			<tr><td colspan="2"><button v-on:click = "update">Sacuvaj izmene</button><button v-on:click="restore" >Ponisti izmene</button></td></tr>
-		</table>
-		<p id="error" hidden="true"></p>
-		<p id="success" hidden="true"></p>
-	</form>
+	<div>
+		<div class="container py-5" style="margin-top:5%; align:center;" >
+			<div class="row d-flex justify-content-center align-items-center ">
+				<div class="col-lg-8 col-xl-6" style="align:center">
+					<div class="card rounded-3 " style="align:center">
+						<div class="card-body p-3 p-md-5" style="align:center">
+							<form >
+								<div class="form-group row">
+								    <label for="staticFirstName" class="col-sm-4 col-form-label">Ime</label>
+								    <div class="col-sm-6">
+								      <input type="text" class="form-control" id="staticFirstName" v-if="customer" v-model="customer.firstName">
+								    </div>
+								 </div>
+								 <div class="form-group row">
+								    <label for="staticLastName" class="col-sm-4 col-form-label">Prezime</label>
+								    <div class="col-sm-6">
+								      <input type="text" class="form-control" id="staticLastName" v-if="customer" v-model="customer.lastName">
+								    </div>
+								 </div>
+								 <div class="form-group row">
+								    <label for="staticUsername" class="col-sm-4 col-form-label">Korisnicko ime</label>
+								    <div class="col-sm-6">
+								      <input type="text" class="form-control" id="staticUsername" v-if="customer" v-model="customer.username">
+								    </div>
+								 </div>
+								 <div class="form-group row">
+								    <label for="staticPassword" class="col-sm-4 col-form-label">Lozinka</label>
+								    <div class="col-sm-6">
+								      <input type="text" class="form-control" id="staticPassword" v-if="customer" v-model="customer.password">
+								    </div>
+								 </div>
+								 <div class="form-group row">
+								    <label for="staticDateOfBirth" class="col-sm-4 col-form-label">Datum rodjenja</label>
+								    <div class="col-sm-6">
+								      <input type="text" class="form-control" id="staticDateOfBirth" v-if="customer" v-model="customer.dateOfBirth">
+								    </div>
+								 </div>
+								 <div class="form-group row">
+								    <label  class="col-sm-4 col-form-label">Pol</label>
+								    <div class="col-sm-6">
+								      <select class="form-select" v-if="customer" v-model="customer.gender">
+							  				<option value="MALE">Male</option>
+							  				<option value="FEMALE">Female</option>
+									  </select> 
+									 </div>
+								 </div>
+								 
+							</br>
+								 <div class="text-center">
+								<button v-on:click="restore" class="btn btn-danger" >Ponisti izmene</button>
+								<button v-on:click = "update" class="btn btn-success">Sacuvaj izmene</button>
+							</div>
+							</form>
+							
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+    	
+	</div>
 	
     	`,
     		mounted () {

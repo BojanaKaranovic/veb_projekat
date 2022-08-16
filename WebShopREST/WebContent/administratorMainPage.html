@@ -5,10 +5,49 @@
 	<title>Administrator</title>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/toast.js"></script>
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<style>
+		a{
+			text-decoration: none;
+			color:#FFFFFF;
+		}
+		
+	</style>
 </head>
 <body>
 <div id="Administrator" style="width: 100%;">
 	<router-view></router-view>
+</div>
+	<div class="fixed-top">
+	<nav class="navbar navbar-expand-lg navbar-light bl-light" style="background-color:#426166;">
+		<a class="navbar-brand" href="administratorMainPage.html">
+    		<img src="images/logo.png" width="100" alt="MainPage">
+  		</a>
+  		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+  			<ul class="navbar-nav mr-auto">
+  				<li class="nav-item active">
+			        <a class="nav-link" style="color:#FFFFFF" href="#/create/manager">Registruj menadzera</a>
+			      </li>
+			      <li class="nav-item active">
+			        <a class="nav-link" style="color:#FFFFFF" href="#/create/coach">Registruj trenera</a>
+			      </li>
+			      <li class="nav-item active">
+			        <a class="nav-link" style="color:#FFFFFF" href="#/createSportsFacility">Kreiraj sportski objekat</a>
+			      </li>
+			      <li class="nav-item active">
+			        <a class="nav-link" style="color:#FFFFFF" href="#/profile">Pregledaj profil</a>
+			      </li>
+			      <li class="nav-item active">
+			        <a class="nav-link" style="color:#FFFFFF" href="#/users">Prikaz registrovanih korisnika</a>
+			      </li>
+			      <li class="nav-item active">
+			        <a class="nav-link" style="color:#FFFFFF" onclick="logout()" href="#">Izloguj se</a>
+			      </li>
+  			</ul>
+  		</div>
+  		
+	</nav>
 </div>
 
 	<script src="js/vue.js"></script>
@@ -18,12 +57,22 @@
 	<script type="text/javascript" src="components/administrator/createSportsFacility.js"></script>
 	<script type="text/javascript" src="components/administrator/viewProfile.js"></script>
 	<script type="text/javascript" src="components/administrator/registeredUsers.js"></script>
+	<script type="text/javascript" src="components/administrator/sportsFacilities.js"></script>
+	<script type="text/javascript" src="components/administrator/sportsFacilityInfo.js"></script>
 	<script type="text/javascript" src="js/administratorApp.js"></script>
 	
-	<a href="#/create/manager" >Registruj menadzera</a>
-	<a href="#/create/coach" >Registruj trenera</a>
-	<a href="#/createSportsFacility" > Kreiraj sportski objekat</a>
-	<a href="#/profile" >Pregledaj profil</a>
-	<a href="#/users" >Prikaz registrovanih korisnika</a>
+	<script>
+        function logout(){
+            axios
+                .get('rest/userLogin/logout')
+            .then(response => {
+		location.href=response.data
+		})
+        }
+    </script>
+	
+	<!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+	
 </body>
 </html>

@@ -7,6 +7,7 @@ Vue.component("viewProfile", {
 	      previous:null
 	    }
 	},template: ` 
+		<div style="margin-top:5%">
     	<form id="adminProfil">
 		<table>
 			<tr><td>Ime</td><td><input  v-if="admin" v-model="admin.firstName" type="text" name="firstname"></td></tr>
@@ -27,7 +28,7 @@ Vue.component("viewProfile", {
 		<p id="error" hidden="true"></p>
 		<p id="success" hidden="true"></p>
 	</form>
-	
+	</div>
     	`,
     		mounted () {
 	        	axios.get('rest/userLogin/loggedInAdmin').then(response=>{this.admin = response.data;this.previous = this.admin;this.username=response.data.username})
@@ -54,7 +55,7 @@ Vue.component("viewProfile", {
 		
 	},
 	restore: function(){
-			this.admin = his.previous
+			this.admin = this.previous
 	}
 }
 });
