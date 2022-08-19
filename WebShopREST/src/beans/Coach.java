@@ -38,4 +38,12 @@ public class Coach extends User implements Serializable {
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
 	}
+	
+	public void addTrainingHistory(String trainingHistory){
+		this.trainingHistory.add(trainingHistory);
+	}
+	
+	public void removeTrainingHistory(String trainingHistory){
+		this.trainingHistory.remove(trainingHistory);
+	}
 }

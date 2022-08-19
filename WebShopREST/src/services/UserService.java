@@ -1,8 +1,10 @@
 package services;
 
 import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Random;
 
 import javax.annotation.PostConstruct;
@@ -24,12 +26,17 @@ import beans.Coach;
 import beans.Customer;
 import beans.Manager;
 import beans.MembershipFee;
+import beans.SportsFacility;
+import beans.Training;
+import beans.TrainingHistory;
 import beans.User;
 import dao.AdministratorDAO;
 import dao.CoachDAO;
 import dao.CustomerDAO;
 import dao.ManagerDAO;
 import dao.MembershipFeeDAO;
+import dao.TrainingDAO;
+import dao.TrainingHistoryDAO;
 import dao.UserDAO;
 
 
@@ -68,6 +75,14 @@ public class UserService {
 		if (ctx.getAttribute("membershipFeeDAO") == null) {
 	    	String contextPath = ctx.getRealPath("");
 			ctx.setAttribute("membershipFeeDAO", new MembershipFeeDAO(contextPath));
+		}
+		if (ctx.getAttribute("trainingHistoryDAO") == null) {
+	    	String contextPath = ctx.getRealPath("");
+			ctx.setAttribute("trainingHistoryDAO", new TrainingHistoryDAO(contextPath));
+		}
+		if (ctx.getAttribute("trainingDAO") == null) {
+	    	String contextPath = ctx.getRealPath("");
+			ctx.setAttribute("trainingDAO", new TrainingDAO(contextPath));
 		}
 	}
 	
@@ -264,5 +279,80 @@ public class UserService {
 			allIds.add(membership.getUniqueId());
 		}
 		return allIds;
+	}
+	
+	@POST
+	@Path("/addTraining/{time}/{date}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public int addTraining(Training t, @PathParam("time") String time, @PathParam("date") String date) {
+		TrainingHistoryDAO thDAO = (TrainingHistoryDAO) ctx.getAttribute("trainingHistoryDAO");
+		CustomerDAO customerDAO = (CustomerDAO) ctx.getAttribute("customerDAO");
+		Customer c = (Customer)request.getSession().getAttribute("loggedInUser");
+		boolean isVisited = false;
+		if(c.getVisitedFacility()!=null) {
+		for(String facility: c.getVisitedFacility())
+		{
+			if(facility.equals(t.getSportFacility()))
+			{
+				isVisited = true;
+				break;
+			}
+		}}
+		else {
+			c.setVisitedFacility(new ArrayList<String>());
+		}
+		if(!isVisited)
+		{
+			c.getVisitedFacility().add(t.getSportFacility());
+			c.setVisitedFacility(c.getVisitedFacility());
+			customerDAO.update(c.getUsername(), c);
+			request.getSession().setAttribute("loggedInUser", c);
+		}
+		
+		MembershipFeeDAO membershipFeeDAO = (MembershipFeeDAO) ctx.getAttribute("membershipFeeDAO");
+		MembershipFee mf = membershipFeeDAO.find(findMembershipFee(c.getUsername()));
+		if(mf == null)
+			return 0;
+		
+		if(!mf.getEntranceCountPerDay().equals("Neograniceno")){
+			int number = Integer.parseInt(mf.getEntranceCountPerDay());
+			if(number <= 0)
+				return 3;
+			number --;
+			mf.setEntranceCountPerDay(Integer.toString(number));
+			membershipFeeDAO.update(mf.getUniqueId(),mf);
+		}
+	    int numOfTH = thDAO.findAll().size() + 1;
+	    String id = "th" + Integer.toString(numOfTH);
+	    String dateTimeOfCheckIn = date + ' ' + time;
+		TrainingHistory th = new TrainingHistory(id, dateTimeOfCheckIn, t.getName(), c.getUsername(), t.getCoach());
+		thDAO.save(th);
+		
+		CoachDAO coachDAO = (CoachDAO) ctx.getAttribute("coachDAO");
+		Coach coach = coachDAO.findCoach(t.getCoach());
+		coach.addTrainingHistory(th.getId());
+		coachDAO.update(coach.getUsername(), coach);
+		
+		if(!isVisited) 
+		{
+			ctx.setAttribute("visitedSportFacility", t.getSportFacility());
+			return 2;
+		}
+			
+		return 1;
+	}
+	
+	private String findMembershipFee(String username) {
+		String membershipFee = "";
+		MembershipFeeDAO membershipFeeDAO = (MembershipFeeDAO) ctx.getAttribute("membershipFeeDAO");
+		for(MembershipFee mf : membershipFeeDAO.findAll()) {
+				
+					if(mf.getCustomer().getUsername().equals(username)) {
+						membershipFee = mf.getUniqueId();
+						break;
+					}
+				
+		}
+		return membershipFee;
 	}
 }

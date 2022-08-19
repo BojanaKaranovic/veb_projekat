@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.StringTokenizer;
@@ -44,6 +45,21 @@ public SportsFacilityDAO() {
 	
 	public Collection<SportsFacility> findAll() {
 		return sportsFacilities.values();
+	}
+	
+	public Collection<SportsFacility> findAllSportFacilitiesSorted() {
+		ArrayList<SportsFacility> sorted = new ArrayList <SportsFacility>();
+		for(SportsFacility sf : sportsFacilities.values())
+		{
+			if(sf.getStatus())
+				sorted.add(sf);
+		}
+		for(SportsFacility sf : sportsFacilities.values())
+		{
+			if(!sf.getStatus())
+				sorted.add(sf);
+		}
+		return sorted;
 	}
 	
 	public SportsFacility findSportsFacility(String name) {

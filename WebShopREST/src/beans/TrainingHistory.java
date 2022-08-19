@@ -1,29 +1,25 @@
 package beans;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
 
-public class TrainingHistory implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6012573197757367650L;
-	private LocalDateTime dateTimeOfCheckIn;
-	private Training training;
-	private Customer customer;
-	private Coach coach;
+public class TrainingHistory {
+	private String id;
+	private String dateTimeOfCheckIn;
+	private String training;
+	private String customer;
+	private String coach;
 	
 	
 	
-	public TrainingHistory(LocalDateTime dateTimeOfCheckIn, Training training, Customer customer) {
+	public TrainingHistory(String id, String dateTimeOfCheckIn, String training, String customer, String coach) {
 		super();
+		this.id = id;
 		this.dateTimeOfCheckIn = dateTimeOfCheckIn;
 		this.training = training;
 		this.customer = customer;
+		this.coach = coach;
 	}
 
-	public TrainingHistory(LocalDateTime dateTimeOfCheckIn, Training training, Customer customer, Coach coach) {
+	public TrainingHistory(String dateTimeOfCheckIn, String training, String customer, String coach) {
 		super();
 		this.dateTimeOfCheckIn = dateTimeOfCheckIn;
 		this.training = training;
@@ -31,28 +27,36 @@ public class TrainingHistory implements Serializable {
 		this.coach = coach;
 	}
 	
-	public LocalDateTime getDateTimeOfCheckIn() {
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getDateTimeOfCheckIn() {
 		return dateTimeOfCheckIn;
 	}
-	public void setDateTimeOfCheckIn(LocalDateTime dateTimeOfCheckIn) {
+	public void setDateTimeOfCheckIn(String dateTimeOfCheckIn) {
 		this.dateTimeOfCheckIn = dateTimeOfCheckIn;
 	}
-	public Training getTraining() {
+	public String getTraining() {
 		return training;
 	}
-	public void setTraining(Training training) {
+	public void setTraining(String training) {
 		this.training = training;
 	}
-	public Customer getCustomer() {
+	public String getCustomer() {
 		return customer;
 	}
-	public void setCustomer(Customer customer) {
+	public void setCustomer(String customer) {
 		this.customer = customer;
 	}
-	public Coach getCoach() {
+	public String getCoach() {
 		return coach;
 	}
-	public void setCoach(Coach coach) {
+	public void setCoach(String coach) {
 		this.coach = coach;
 	}
 	
