@@ -1,107 +1,82 @@
 package dao;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.StringTokenizer;
 
-import javax.print.attribute.standard.DateTimeAtCompleted;
-
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
 import com.fasterxml.jackson.databind.type.MapType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 
-import beans.Customer;
-import beans.FacilityType;
-import beans.Manager;
-import beans.MembershipFee;
-import beans.MembershipType;
+import beans.TrainingHistory;
 
+public class TrainingHistoryDAO {
 
-
-public class MembershipFeeDAO {
-
-	private HashMap<String, MembershipFee> membershipFees = new HashMap<String, MembershipFee>();
+	private HashMap<String, TrainingHistory> trainingHistories = new HashMap<String, TrainingHistory>();
 	private String path;
-	public MembershipFeeDAO() {
-		
+	
+	public TrainingHistoryDAO() {
 	}
 	
-	/***
-	 * @param contextPath Putanja do aplikacije u Tomcatu. Mo�e se pristupiti samo iz servleta.
-	 */
-	public MembershipFeeDAO(String contextPath) {
+	public TrainingHistoryDAO(String contextPath) {
 		this.path = contextPath;
-		loadMembershipFees();
+		loadTrainings();
+	}
+
+	public Collection<TrainingHistory> findAll() {
+		return trainingHistories.values();
+	}
+
+	public TrainingHistory findTraining(String id) {
+		return trainingHistories.containsKey(id) ? trainingHistories.get(id) : null;
 	}
 	
-	public Collection<MembershipFee> findAll() {
-		return membershipFees.values();
-	}
-	
-	public MembershipFee find(String uniqueId) {
-		return membershipFees.containsKey(uniqueId) ? membershipFees.get(uniqueId) : null;
-	}
-	
-	public MembershipFee save(MembershipFee membershipFee) {
-		for (String uniqueId : membershipFees.keySet()) {
-			if(uniqueId.equals(membershipFee.getUniqueId())) {
-				return null;
-			}
-		}
-		membershipFees.put(membershipFee.getUniqueId(), membershipFee);
+	public TrainingHistory save(TrainingHistory trainingHistory) {
+		trainingHistories.put(trainingHistory.getId(), trainingHistory);
 		writeInFile();
-		return membershipFee;
+		return trainingHistory;
 	}
 	
-	public MembershipFee update(String uniqueId, MembershipFee membershipFee) {
-		MembershipFee membershipFeeToUpdate = this.find(uniqueId);
-		if(membershipFeeToUpdate == null) {
-			return this.save(membershipFee);
+	public TrainingHistory delete(String id) {
+		TrainingHistory t = trainingHistories.remove(id);
+		writeInFile();
+		return t;
+	}
+	
+	public void update(TrainingHistory trainingHistory, String id) {
+		if(!trainingHistory.getId().equals(id))
+		{
+			trainingHistories.remove(id);
 		}
-		else {
-			membershipFees.remove(uniqueId);
-			membershipFees.put(membershipFee.getUniqueId(), membershipFee);
-			writeInFile();
-			return membershipFee;
-		}
+		trainingHistories.put(trainingHistory.getId(), trainingHistory);
+		writeInFile();
 	}
-	
-	public void delete(String name) {
-		this.membershipFees.remove(name);
-	}
-	
 
 	@SuppressWarnings("unchecked")
-	private void loadMembershipFees() {
+	private void loadTrainings() {
 		FileWriter fileWriter = null;
 		BufferedReader in = null;
 		File file = null;
 		try {
-			file = new File(path + "/memberships.txt");
+			file = new File(path + "/trainingHistories.txt");
 			in = new BufferedReader(new FileReader(file));
 
 			ObjectMapper objectMapper = new ObjectMapper();
 			objectMapper.setVisibilityChecker(
 					VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
 			TypeFactory factory = TypeFactory.defaultInstance();
-			MapType type = factory.constructMapType(HashMap.class, String.class, Customer.class);
+			MapType type = factory.constructMapType(HashMap.class, String.class, TrainingHistory.class);
 			objectMapper.getFactory().configure(JsonGenerator.Feature.ESCAPE_NON_ASCII, true);
-			this.membershipFees = ((HashMap<String, MembershipFee>) objectMapper.readValue(file, type));
+			this.trainingHistories = ((HashMap<String, TrainingHistory>) objectMapper.readValue(file, type));
 		} catch (FileNotFoundException fnfe) {
 			try {
 				file.createNewFile();
@@ -109,7 +84,7 @@ public class MembershipFeeDAO {
 				ObjectMapper objectMapper = new ObjectMapper();
 				objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
 				objectMapper.getFactory().configure(JsonGenerator.Feature.ESCAPE_NON_ASCII, true);
-				String string = objectMapper.writeValueAsString(membershipFees);
+				String string = objectMapper.writeValueAsString(trainingHistories);
 				fileWriter.write(string);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -135,15 +110,16 @@ public class MembershipFeeDAO {
 			}
 		}
 	}
+	
 	public void writeInFile() {
-		File f = new File(path + "/memberships.txt");
+		File f = new File(path + "/trainingHistories.txt");
 		FileWriter fileWriter = null;
 		try {
 			fileWriter = new FileWriter(f);
 			ObjectMapper objectMapper = new ObjectMapper();
 			objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
 			objectMapper.getFactory().configure(JsonGenerator.Feature.ESCAPE_NON_ASCII, true);
-			String string = objectMapper.writeValueAsString(this.membershipFees);
+			String string = objectMapper.writeValueAsString(this.trainingHistories);
 			fileWriter.write(string);
 			fileWriter.flush();
 		} catch (IOException e) {

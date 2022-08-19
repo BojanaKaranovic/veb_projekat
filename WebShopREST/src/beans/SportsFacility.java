@@ -1,14 +1,9 @@
 package beans;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
-public class SportsFacility implements Serializable {
+public class SportsFacility {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7061576308306978756L;
 	private String name;
 	private FacilityType type;
 	private ArrayList<String> trainings;
@@ -17,6 +12,7 @@ public class SportsFacility implements Serializable {
 	private String logo;
 	private double averageRating;
 	private String workTime;
+	private boolean deleted;
 	
 	public SportsFacility(String name, FacilityType type, ArrayList<String> trainings, Boolean status, Location location,
 			String logo, double averageRating, String workTime) {
@@ -29,6 +25,7 @@ public class SportsFacility implements Serializable {
 		this.logo = logo;
 		this.averageRating = averageRating;
 		this.workTime = workTime;
+		this.deleted = false;
 	}
 
 	public String getName() {
@@ -98,6 +95,14 @@ public class SportsFacility implements Serializable {
 
 	public void setWorkTime(String workTime) {
 		this.workTime = workTime;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 	
 	

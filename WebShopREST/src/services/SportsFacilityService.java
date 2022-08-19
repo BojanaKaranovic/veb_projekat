@@ -1,6 +1,9 @@
 package services;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
@@ -17,9 +20,11 @@ import javax.ws.rs.core.MediaType;
 import beans.Manager;
 import beans.Product;
 import beans.SportsFacility;
+import beans.Training;
 import dao.ManagerDAO;
 import dao.ProductDAO;
 import dao.SportsFacilityDAO;
+import dao.TrainingDAO;
 
 @Path("/sportsFacilities")
 public class SportsFacilityService {
@@ -43,13 +48,36 @@ public class SportsFacilityService {
 	    	String contextPath = ctx.getRealPath("");
 			ctx.setAttribute("managerDAO", new ManagerDAO(contextPath));
 		}
+		if (ctx.getAttribute("trainingDAO") == null) {
+	    	String contextPath = ctx.getRealPath("");
+			ctx.setAttribute("trainingDAO", new TrainingDAO(contextPath));
+		}
 	}
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<SportsFacility> getSportsFacilities() {
+	public ArrayList<SportsFacility> getSportsFacilities() {
 		SportsFacilityDAO dao = (SportsFacilityDAO) ctx.getAttribute("sportsFacilityDAO");
-		return dao.findAll();
+		ArrayList<SportsFacility> visibleSportFacilities = new ArrayList<SportsFacility>();
+		for(SportsFacility sf : dao.findAllSportFacilitiesSorted())
+			if(!sf.isDeleted())
+				visibleSportFacilities.add(sf);
+		for(SportsFacility sf: visibleSportFacilities) {
+			SimpleDateFormat sdformat = new SimpleDateFormat("HH:mm");
+			Date time = new Date();
+		    String timeStr = sdformat.format(time);
+		    String[] timeParts = timeStr.split(":");
+		    String[] workTimeParts = sf.getWorkTime().split("-");
+		    String[] startParts = workTimeParts[0].split(":");
+		    String[] endParts = workTimeParts[1].split(":");
+		    if(Integer.parseInt(timeParts[0]) < Integer.parseInt(startParts[0]) || Integer.parseInt(timeParts[0]) > Integer.parseInt(endParts[0])) {
+		    	sf.setStatus(false);
+		    }
+		    else {
+		    	sf.setStatus(true);
+		    }
+		}
+		return visibleSportFacilities;
 	}
 	
 	@GET
@@ -105,5 +133,17 @@ public class SportsFacilityService {
 		dao.delete(name);
 	}
 	
-	
+	@GET
+	@Path("/getAllTrainings")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Training> getTraining() {
+		ArrayList<Training> trainings = new ArrayList<Training>();
+		TrainingDAO tDAO = (TrainingDAO) ctx.getAttribute("trainingDAO");
+		for(Training t : tDAO.findAllTrainings())
+		{
+			if(!t.isDeleted())
+				trainings.add(t);		
+		}
+		return trainings;
+	}
 }

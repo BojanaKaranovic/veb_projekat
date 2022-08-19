@@ -1,9 +1,7 @@
 package beans;
 
-import java.awt.Image;
-import java.io.Serializable;
 
-public class Training implements Serializable{
+public class Training{
 
 	/**
 	 * 
@@ -11,14 +9,21 @@ public class Training implements Serializable{
 	private static final long serialVersionUID = -3688613596190782629L;
 	private String name;
 	private TrainingType type;
-	private SportsFacility sportFacility;
+	private String sportFacility;
 	private int durationInMinutes;
-	private Coach coach;
+	private String coach;
 	private String description;
-	private Image image;
+	private String image;
+	private boolean deleted;
 	
-	public Training(String name, TrainingType type, SportsFacility sportFacility, int durationInMinutes, Coach coach,
-			String description, Image image) {
+	
+	public Training() {
+	}
+
+
+
+	public Training(String name, TrainingType type, String sportFacility, int durationInMinutes, String coach,
+			String description, String image, boolean deleted) {
 		super();
 		this.name = name;
 		this.type = type;
@@ -27,18 +32,10 @@ public class Training implements Serializable{
 		this.coach = coach;
 		this.description = description;
 		this.image = image;
+		this.deleted = deleted;
 	}
 
-	public Training(String name, TrainingType type, SportsFacility sportFacility, int durationInMinutes,
-			String description, Image image) {
-		super();
-		this.name = name;
-		this.type = type;
-		this.sportFacility = sportFacility;
-		this.durationInMinutes = durationInMinutes;
-		this.description = description;
-		this.image = image;
-	}
+
 
 	public String getName() {
 		return name;
@@ -56,11 +53,11 @@ public class Training implements Serializable{
 		this.type = type;
 	}
 
-	public SportsFacility getSportFacility() {
+	public String getSportFacility() {
 		return sportFacility;
 	}
 
-	public void setSportFacility(SportsFacility sportFacility) {
+	public void setSportFacility(String sportFacility) {
 		this.sportFacility = sportFacility;
 	}
 
@@ -72,11 +69,11 @@ public class Training implements Serializable{
 		this.durationInMinutes = durationInMinutes;
 	}
 
-	public Coach getCoach() {
+	public String getCoach() {
 		return coach;
 	}
 
-	public void setCoach(Coach coach) {
+	public void setCoach(String coach) {
 		this.coach = coach;
 	}
 
@@ -88,12 +85,24 @@ public class Training implements Serializable{
 		this.description = description;
 	}
 
-	public Image getImage() {
+	public String getImage() {
 		return image;
 	}
 
-	public void setImage(Image image) {
+	public void setImage(String image) {
 		this.image = image;
+	}
+
+
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 	
 	

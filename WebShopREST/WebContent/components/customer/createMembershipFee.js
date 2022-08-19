@@ -9,6 +9,7 @@ Vue.component("createMembershipFee", {
 			
 	    }
 	},template: ` 
+	<div style="margin-top:10%">
     	<form id="createMembership">
 		<table>
 			<tr>
@@ -37,7 +38,7 @@ Vue.component("createMembershipFee", {
 		<p id="error" hidden="true"></p>
 		<p id="success" hidden="true"></p>
 	</form>
-	
+	</div>
     	`,
     		
     	methods: {

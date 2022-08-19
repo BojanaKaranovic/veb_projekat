@@ -1,0 +1,28 @@
+{
+  "R\uFFFD\uFFFD\uFFFDt\uFFFD\uFFFD\uFFFDC" : {
+    "uniqueId" : "R\uFFFD\uFFFD\uFFFDt\uFFFD\uFFFD\uFFFDC",
+    "membershipType" : "GODISNJA",
+    "paymentDate" : "2022-08-19T21:07:02.038Z",
+    "validityOfMembership" : "2023-08-19T21:07:02.038Z",
+    "cost" : 10000.0,
+    "customer" : {
+      "firstName" : "Bojana",
+      "lastName" : "Bojanic",
+      "email" : "bojana@mail.com",
+      "username" : "boki",
+      "password" : "123",
+      "gender" : "FEMALE",
+      "dateOfBirth" : "1980-02-02",
+      "userType" : "CUSTOMER",
+      "visitedFacility" : [],
+      "collectedPoints" : 0,
+      "customerType" : {
+        "typeName" : "OBICNI",
+        "discount" : 0.0,
+        "requiredPoints" : 200
+      }
+    },
+    "status" : false,
+    "entranceCountPerDay" : "Neograniceno"
+  }
+}

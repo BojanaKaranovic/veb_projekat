@@ -10,7 +10,7 @@ public class Customer extends User implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -6010286421963152947L;
-	private ArrayList<SportsFacility> visitedFacility;
+	private ArrayList<String> visitedFacility;
 	private int collectedPoints;
 	private CustomerType customerType;
 	
@@ -20,17 +20,17 @@ public class Customer extends User implements Serializable {
 	}
 	
 	public Customer(String firstName, String lastName, String email, String username, String password, Gender gender,
-			String dateOfBirth, UserType userType, ArrayList<SportsFacility> visitedFacility, int collectedPoints, CustomerType customerType) {
+			String dateOfBirth, UserType userType, ArrayList<String> visitedFacility, int collectedPoints, CustomerType customerType) {
 		super(firstName, lastName, email, username, password, gender, dateOfBirth, userType);
 		this.visitedFacility = visitedFacility;
 		this.collectedPoints = collectedPoints;
 		this.customerType = customerType;
 		// TODO Auto-generated constructor stub
 	}
-	public ArrayList<SportsFacility> getVisitedFacility() {
+	public ArrayList<String> getVisitedFacility() {
 		return visitedFacility;
 	}
-	public void setVisitedFacility(ArrayList<SportsFacility> visitedFacility) {
+	public void setVisitedFacility(ArrayList<String> visitedFacility) {
 		this.visitedFacility = visitedFacility;
 	}
 	public int getCollectedPoints() {

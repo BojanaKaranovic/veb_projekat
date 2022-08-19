@@ -8,7 +8,7 @@
     "gender" : "MALE",
     "dateOfBirth" : "1998-01-01",
     "userType" : "CUSTOMER",
-    "visitedFacility" : null,
+    "visitedFacility" : [ "Super teretana" ],
     "collectedPoints" : 0,
     "customerType" : {
       "typeName" : "OBICNI",
@@ -25,7 +25,7 @@
     "gender" : "FEMALE",
     "dateOfBirth" : "1980-02-02",
     "userType" : "CUSTOMER",
-    "visitedFacility" : null,
+    "visitedFacility" : [ ],
     "collectedPoints" : 0,
     "customerType" : {
       "typeName" : "OBICNI",

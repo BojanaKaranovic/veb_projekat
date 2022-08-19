@@ -1,0 +1,23 @@
+{
+  "trening1" : {
+    "name" : "trening1",
+    "type" : "GRUPNI",
+    "sportFacility" : "Super teretana",
+    "durationInMinutes" : "90",
+    "coach" : "sima",
+    "description" : "Lagan trening",
+    "image" : "gym2.png",
+    "deleted" : "false"
+  },
+  "trening2" : {
+    "name" : "trening2",
+    "type" : "PERSONALNI",
+    "sportFacility" : "Super teretana",
+    "durationInMinutes" : "60",
+    "coach" : "sima",
+    "description" : "Lagan trening",
+    "image" : "gym1.png",
+    "deleted" : "false"
+  }
+  
+}
