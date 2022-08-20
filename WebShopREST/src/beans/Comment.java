@@ -7,15 +7,42 @@ public class Comment {
 	private String sportsFacility;
 	private String text;
 	private int grade;
+	private CommentStatus status;
 	
 	
-	public Comment(String customer, String sportsFacility, String text, int grade) {
+	
+	public Comment() {
 		super();
+	}
+
+	public Comment(String id, String customer, String sportsFacility, String text, int grade, CommentStatus status) {
+		super();
+		this.id = id;
 		this.customer = customer;
 		this.sportsFacility = sportsFacility;
 		this.text = text;
 		this.grade = grade;
+		this.status = status;
 	}
+	
+	
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public CommentStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(CommentStatus status) {
+		this.status = status;
+	}
+
 	public String getCustomer() {
 		return customer;
 	}
