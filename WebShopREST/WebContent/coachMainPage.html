@@ -1,10 +1,62 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Trener</title>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/toast.js"></script>
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<style>
+		a{
+			text-decoration: none;
+			color:#FFFFFF;
+		}
+		
+	</style>
 </head>
 <body>
-	<p>TRENERI</p>
+<div id="Coach" style="width: 100%;">
+	<router-view></router-view>
+</div>
+	
+	<nav class="navbar navbar-expand-sm navbar-light bl-light fixed-top" style="background-color:#426166;">
+		<a class="navbar-brand" href="coachMainPage.html">
+    		<img src="images/logo.png" width="100" alt="MainPage">
+  		</a>
+  		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+  			<ul class="navbar-nav mr-auto">
+  				
+			      <li class="nav-item active">
+			        <a class="nav-link" style="color:#FFFFFF" href="#/profile">Pregledaj profil</a>
+			      </li>
+			      
+			      <li class="nav-item active">
+			        <a class="nav-link" style="color:#FFFFFF" onclick="logout()" href="#">Izloguj se</a>
+			      </li>
+  			</ul>
+  		</div>
+  		
+	</nav>
+	
+	<script src="js/vue.js"></script>
+	<script src="js/vue-router.js"></script>
+	<script src="js/axios.js"></script>
+	<script type="text/javascript" src="components/coach/viewProfile.js"></script>
+	
+	<script type="text/javascript" src="js/coachApp.js"></script>
+	<script>
+        function logout(){
+            axios
+                .get('rest/userLogin/logout')
+            .then(response => {
+		location.href=response.data
+		})
+        }
+    </script>
+	
+	<!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+	
 </body>
 </html>
