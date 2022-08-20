@@ -1,37 +1,31 @@
 package beans;
 
-import java.io.Serializable;
+public class Comment {
 
-public class Comment implements Serializable{
-
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5652230091431328978L;
-	private Customer customer;
-	private SportsFacility sportsFacility;
+	private String id;
+	private String customer;
+	private String sportsFacility;
 	private String text;
 	private int grade;
 	
 	
-	public Comment(Customer customer, SportsFacility sportsFacility, String text, int grade) {
+	public Comment(String customer, String sportsFacility, String text, int grade) {
 		super();
 		this.customer = customer;
 		this.sportsFacility = sportsFacility;
 		this.text = text;
 		this.grade = grade;
 	}
-	public Customer getCustomer() {
+	public String getCustomer() {
 		return customer;
 	}
-	public void setCustomer(Customer customer) {
+	public void setCustomer(String customer) {
 		this.customer = customer;
 	}
-	public SportsFacility getSportsFacility() {
+	public String getSportsFacility() {
 		return sportsFacility;
 	}
-	public void setSportsFacility(SportsFacility sportsFacility) {
+	public void setSportsFacility(String sportsFacility) {
 		this.sportsFacility = sportsFacility;
 	}
 	public String getText() {
