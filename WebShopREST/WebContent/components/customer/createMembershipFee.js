@@ -9,34 +9,38 @@ Vue.component("createMembershipFee", {
 			
 	    }
 	},template: ` 
-	<div style="margin-top:10%">
-    	<form id="createMembership">
-		<table>
-			<tr>
-				<td>Tip paketa clanarine</td>
-				<td><select @change="change()" v-model="package" name="package">
+	<div  style="margin-top:10%; margin-left:35%;">
+		
+    	<form id="createMembership" class="form ">
+    		<div class="form-group row">
+    			<label for="select" class="col-md-4 col-form-label">Paket</label>
+			    <div class="col-sm-2 mb-4">
+			    	<select class="form-select"  @change="change()" v-model="package" name="package" id="select">
 						<option value="Osnovni">Osnovni</option>
 						<option value="Srednji">Srednji</option>
 						<option value="Premium">Premium</option>
-						</select>
-				</td>
-			</tr>
-			<tr>
-				<td>Tip clanarine</td><td>{{type}}</td>
-			</tr>
-			<tr>
-				<td>Vazenje</td><td>{{validityPeriod}}</td>
-			</tr>
-			<tr>
-				<td>Cena</td><td>{{cost}}</td>
-			</tr>
-			<tr>
-				<td>Moguc broj ulazaka u objekte na dnevnom nivou</td><td>{{entranceCountPerDay}}</td>
-			</tr>
-			<tr><td><button v-on:click = "create">Pregled</button></td></tr>
-		</table>
-		<p id="error" hidden="true"></p>
-		<p id="success" hidden="true"></p>
+					</select>
+			    </div>
+    		</div>
+    		<div class="form-group row">
+    			<label for="type" class="col-sm-4 col-form-label">Tip clanarine</label>
+    			<label id="type" class="col-sm-2 col-form-label">{{type}}</label>
+    		</div>
+    		<div class="form-group row">
+    			<label for="valid" class="col-sm-4 col-form-label">Vazenje</label>
+    			<label id="valid" class="col-sm-2 col-form-label">{{validityPeriod}}</label>
+    		</div>
+    		<div class="form-group row">
+    			<label for="cost" class="col-sm-4 col-form-label">Cena</label>
+    			<label id="cost" class="col-sm-2 col-form-label">{{cost}}</label>
+    		</div>
+    		<div class="form-group row">
+    			<label for="entranceCountPerDay" class="col-sm-4 col-form-label">Moguc broj ulazaka na dnevnom nivou</label>
+    			<label id="entranceCountPerDay" class="col-sm-2 col-form-label">{{entranceCountPerDay}}</label>
+    		</div>
+    		</br>
+    		<button class="btn btn-primary" style="margin-left:20%;" v-on:click = "create">Pregled</button>
+		
 	</form>
 	</div>
     	`,
