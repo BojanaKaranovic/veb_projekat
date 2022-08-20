@@ -177,6 +177,14 @@ public class UserService {
 		return manager;
 	}
 	
+	@GET
+	@Path("/loggedInCoach")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Coach getCoach() {
+		Coach coach = (Coach)request.getSession().getAttribute("loggedInUser");
+		return coach;
+	}
+	
 	@PUT
 	@Path("/updateAdmin/{username}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -218,6 +226,21 @@ public class UserService {
 			managerDAO.update(username, manager);
 			request.getSession().setAttribute("loggedInUser", manager);
 			return Response.status(200).entity("managerMainPage.html").build();
+		}
+		return Response.status(400).build();
+	}
+	
+	@PUT
+	@Path("/updateCoach/{username}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response updateCoach(Coach coach, @PathParam("username") String username){
+		CoachDAO coachDAO = (CoachDAO) ctx.getAttribute("coachDAO");
+		Coach c = coachDAO.findCoach(coach.getUsername());
+		if((c != null && c.getUsername().equals(username)) || c == null) {
+			coachDAO.update(username, coach);
+			request.getSession().setAttribute("loggedInUser", coach);
+			return Response.status(200).entity("coachMainPage.html").build();
 		}
 		return Response.status(400).build();
 	}
