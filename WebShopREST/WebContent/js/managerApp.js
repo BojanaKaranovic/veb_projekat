@@ -1,10 +1,10 @@
 const Profile = { template: '<viewProfile></viewProfile>' }
-
+const SportsFacilities = {template: '<sportsFacilities></sportsFacilities>'}
 const router = new VueRouter({
 	mode: 'hash',
 	  routes: [
-		
-		{ path: '/profile', component: Profile},
+		{ path: '/', name: 'home', component: SportsFacilities},
+		{ path: '/profile', component: Profile}
 		
 		
 		]
