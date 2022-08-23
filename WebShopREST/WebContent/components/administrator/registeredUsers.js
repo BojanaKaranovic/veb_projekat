@@ -13,43 +13,49 @@ Vue.component("users", {
 			sortedPoints: false,
 			userTypes: [],
 			customerTypes: [],
-			type: '',
+			customerType: '',
 			userType: ''
 	    }
 	},template: ` 
-    	<div>
+    	<div style="margin-top:5%;">
     		<title>Registrovani korisnici</title>
     		<h4>Pretrazi korisnike:</h4>
     		<table>
-				<tr><td>Ime</td><td><input v-model="firstName" type="text" name="firstName"></td><td><button  v-on:click="searchFirstName(firstName)">Pretrazi</button></td></tr>
-				<tr><td>Prezime</td><td><input v-model="lastName" type="text" name="lastName"></td><td><button  v-on:click="searchLastName(lastName)">Pretrazi</button></td></tr>
-				<tr><td>Username</td><td><input v-model="username" type="text" name="username"></td><td><button  v-on:click="searchUsername(username)">Pretrazi</button></td></tr>
-				<tr><td colspan="3"><button  v-on:click="cancelSearch()">Ponisti</button></td></tr>
+				<tr><td>Ime</td><td><input class="form-control" v-model="firstName" type="text" name="firstName"></td><td><button class="btn btn-success"  v-on:click="searchFirstName(firstName)">Pretrazi</button></td></tr>
+				<tr><td>Prezime</td><td><input class="form-control" v-model="lastName" type="text" name="lastName"></td><td><button class="btn btn-success" v-on:click="searchLastName(lastName)">Pretrazi</button></td></tr>
+				<tr><td>Username</td><td><input class="form-control" v-model="username" type="text" name="username"></td><td><button class="btn btn-success" v-on:click="searchUsername(username)">Pretrazi</button></td></tr>
+				<tr><td colspan="3" ><button class="btn btn-danger" style="margin-left:35%;" v-on:click="cancelSearch()">Ponisti</button></td></tr>
 			</table>
 			
 			<br/>
-			<select name="userTypes" id="userTypes"  v-on:change = "userTypeFilter">
-	  			<option  disabled value="">Izaberi tip kupca</option>
+			<div class="row">
+			<div class="col-3">
+			<select class="form-select col-4 " name="userTypes" id="userTypes"  v-on:change = "userTypeFilter">
+	  			<option  value="">Izaberi tip kupca</option>
 	    		<option v-for = "t in userTypes">{{t}}</option>
 	    		
 	  		</select>
-	  		<select name="customerTypes" id="customerTypes"  v-on:change = "customerTypeFilter">
-  			<option disabled value="">Izaberi ulogu</option>
+	  		</div>
+	  		<div class="col-3">
+	  		<select class="form-select " name="customerTypes" id="customerTypes"  v-on:change = "customerTypeFilter">
+  			<option value="">Izaberi ulogu</option>
     		<option v-for = "u in customerTypes">{{u}}</option>
     		
   		</select>
-  		<br>
-			<table border="1" id="tabelaKorisnika">
-				<thead>
-					<tr >
-						<th v-on:click = "sortFirstName()"><b>Ime</b></th>
-						<th v-on:click = "sortLastName()"><b>Prezime</b></th>
-						<th v-on:click = "sortUsername()"><b>Username</b></th>
-						<th><b>Datum rodjenja</b></th>
-						<th><b>Uloga</b></th>
-						<th><b>Tip</b></th>
-						<th  v-on:click = "sortPoints()"><b>Poeni</b></th>
-						<th><b>Obrisi</b></th>
+  		</div>
+  		</div>
+  		</br>
+			<table class="table table-borderless table-hover " >
+				<thead style="background-color:#426166; color:#FFFFFF;">
+					<tr>
+						<th scope="col" v-on:click = "sortFirstName()">Ime</th>
+						<th scope="col" v-on:click = "sortLastName()">Prezime</th>
+						<th v-on:click = "sortUsername()">Username</th>
+						<th scope="col">Datum rodjenja</th>
+						<th scope="col">Uloga</th>
+						<th scope="col">Tip</th>
+						<th scope="col" v-on:click = "sortPoints()">Poeni</th>
+						<th scope="col">Obrisi</th>
 					</tr>
 				</thead>
 				
@@ -62,7 +68,7 @@ Vue.component("users", {
 						<td>{{k.user.userType}}</td>
 						<td>{{k.type}}</td>
 						<td>{{k.points}}</td>
-						<td v-bind:hidden="k.user.userType == 'CUSTOMER' || k.user.userType == 'ADMINISTRATOR'"><button  v-on:click="obrisiKorisnika(k)">Obrisi</button></td>
+						<td v-bind:hidden="k.user.userType == 'CUSTOMER' || k.user.userType == 'ADMINISTRATOR'"><button  class="btn btn-danger" v-on:click="obrisiKorisnika(k)">Obrisi</button></td>
 						<td v-bind:hidden="k.user.userType !== 'CUSTOMER' && k.user.userType !== 'ADMINISTRATOR'"></td>
 						</tr>
 				</tbody>
@@ -191,27 +197,41 @@ Vue.component("users", {
 		userTypeFilter: function(evt){
 			
 			var t = evt.target.value;
+			if(t == "Izaberi ulogu")
+			{
+				
+				this.userType = '';
+			}
+			else{
 				this.userType = t;	
+			}
 			if(this.userType != ''  )
 				this.registeredFiltered = this.registered.filter(o => o.user.userType == this.userType);
 			else
 				this.registeredFiltered = this.registered;
 				
 			if(this.customerType != '')	
-				this.registeredFiltered = this.registeredFiltered.filter(o => o.customerType == this.customerType);	
+				this.registeredFiltered = this.registeredFiltered.filter(o => o.type == this.customerType);	
 			
 		},
 		customerTypeFilter:function(evt){
 			
 			var t = evt.target.value;
+			if(t == "Izaberi tip kupca")
+			{
+				
+				this.customerType = '';
+			}
+			else{
 				this.customerType = t;	
-			if(this.customerType != ''  )
-				this.registeredFiltered = this.registered.filter(o => o.user.customerType == this.customerType);
+				}
+			if(this.userType != ''  )
+				this.registeredFiltered = this.registered.filter(o => o.user.userType == this.userType);
 			else
 				this.registeredFiltered = this.registered;
 				
-			if(this.userType != '')	
-				this.registeredFiltered = this.registeredFiltered.filter(o => o.userType == this.userType);	
+			if(this.customerType != '')	
+				this.registeredFiltered = this.registeredFiltered.filter(o => o.type == this.customerType);	
 			
 		},
 }

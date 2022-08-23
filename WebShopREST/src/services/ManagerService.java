@@ -65,7 +65,7 @@ public class ManagerService {
 		ManagerDAO managerDAO = (ManagerDAO) ctx.getAttribute("managerDAO");
 		ArrayList<Manager> availableManagers = new ArrayList<Manager>(); 
 		for(Manager m : managerDAO.findAll()) {
-			if(m.getSportsFacility() == null && !m.isDeleted())
+			if(m.getSportsFacility() == "" && !m.isDeleted())
 				availableManagers.add(m);
 		}
 		return availableManagers;
