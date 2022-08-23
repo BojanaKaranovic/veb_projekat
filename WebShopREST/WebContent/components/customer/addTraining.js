@@ -8,16 +8,18 @@ Vue.component("addTraining", {
 			time: ''
 	    }
 	},template: ` 
-	<div>
-		<h3>Izaberite objekat za koji zelite da vidite treninge</h3>
-		<br/>
-		<select name="sportsFacilities" id="sportsFacilities"  v-on:change = "spFilter">
+	<div style="margin-top:5%;">
+		<label>Izaberite objekat za koji zelite da vidite treninge</label>
+		<div class="col-sm-2">
+		<select name="sportsFacilities" id="sportsFacilities" class="form-select"  v-on:change = "spFilter">
 	  			<option>Izaberite objekat</option>
 	    		<option v-for = "s in sportsFacilities">{{s.name}}</option>
 	    		
   		</select>
-  		<h3>Izaberite datum i vreme treninga:</h3>
-		<br/>
+  		</div>
+  		</br>
+  		<label>Izaberite datum i vreme treninga:</label>
+		
 		<table>
 				<tr>
 					<td>Datum treninga:</td><td><input style='width:100%' v-model="date" type="date" name="datum" min='2022-07-12'></td>
@@ -27,10 +29,10 @@ Vue.component("addTraining", {
 				</tr>
 		</table>
 		<br/><br/><br/>
-		<table border="1">
-		<thead>
-			<tr bgcolor="lightgrey">
-				<th><b>Slika</b></th>
+		<table class="table table-borderless table-hover " >
+		<thead style="text-align:center; background-color:#426166; color:#FFFFFF;">
+			<tr>
+				<th scope="col"><b>Slika</b></th>
 				<th><b>Naziv treninga</b></th>
 				<th><b>Opis</b></th>
 				<th><b>Trener</b></th>
@@ -39,7 +41,7 @@ Vue.component("addTraining", {
 				<th><b>Izaberi</b></th>
 			</tr>	
 		</thead>
-		<tbody>
+		<tbody style="text-align:center;">
 			<tr v-for="t in trainingsFiltered">
 				<td><img v-bind:src=" 'images/' + t.image"></td>
 				<td>{{t.name}}</td>
@@ -47,7 +49,7 @@ Vue.component("addTraining", {
 				<td>{{t.coach}} </td>
 				<td>{{t.durationInMinutes}}</td>
 				<td>{{t.sportFacility}}</td>
-				<td><button  v-on:click="addTraining(t)">Izaberi</button></td>
+				<td><button class="btn btn-success"  v-on:click="addTraining(t)">Izaberi</button></td>
 			</tr>
 		</tbody>
 	</table>

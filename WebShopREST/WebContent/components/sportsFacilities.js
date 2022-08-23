@@ -3,30 +3,37 @@ Vue.component("sportsFacilities", {
 	    return {
 	      sportsFacilities: null,
 	      searched:null,
-	      name:null,
-	      city:null,
-	      rating:null,
-	      type:null,
+	      name:'',
+	      city:'',
+	      rating:'',
+	      type:'',
 	      logo:null
 	    }
 	}
 	,
 	    template: ` 
     	<div>
-    		<h3>Prikaz sportskih objekata</h3>
-    		<div>
-    		<input type="text" v-model="this.name">
-			<button v-on:click="searchName(this.name)">Pretrazi po imenu</button>
-			<input type="text" v-model="this.city">
-			<button v-on:click="searchLocation(this.city)">Pretrazi po gradu</button>
-			<input type="text" v-model="this.rating">
-			<button v-on:click="searchRating(this.rating)">Pretrazi po oceni</button>
-			<input type="text" v-model="this.type">
-			<button v-on:click="searchType(this.type)">Pretrazi po tipu</button>
-			</div>
+    	
+    	<nav class="navbar navbar-expand-sm navbar-light bl-light fixed-top" style="background-color:#426166;">
+    	<div class="container-fluid">
+    		<img src="images/logo.png" width="100" alt="MainPage">
+    		<div  id="navbarSupportedContent" style="text-align:right">
+	  			<form class="d-flex">
+        			<input class="form-control me-2" type="search" aria-label="Search" v-model="name" placeholder="Ime">
+        			<input class="form-control me-2" type="search" aria-label="Search" v-model="type" placeholder="Tip">
+        			<input class="form-control me-2" type="search" aria-label="Search" v-model="city" placeholder="Grad">
+        			<input class="form-control me-2" type="search" aria-label="Search" v-model="rating" placeholder="Ocena">
+        			<button class="btn btn-success"  v-on:click="search()" style="margin-right:10px;">Pretrazi</button>
+        			<button class="btn btn-danger" v-on:click="restore()">Ponisti</button>
+        		</form>
+  			</div>
+    		</div>
+    	</nav>
 			</br>
-			<div class="d-grid gap-2 d-md-flex  justify-content-md-end">
-				<button type="button" class="btn btn-primary"><a class="link-light" href ="loginPage.html">Uloguj se</a></button>
+			</br>
+			</br>
+			<div style="text-align:right">
+				<button type="button" class="btn btn-success"><a class="link-light" href ="loginPage.html">Uloguj se</a></button>
 				<button type="button" class="btn btn-primary"><a class="link-light" href ="registrationPage.html">Registruj se</a></button>
 			</div>
 			</br>
@@ -75,6 +82,31 @@ Vue.component("sportsFacilities", {
 		},
 		sportsFacilityInfo: function(id){
 			router.push('/sportsFacilityInfo/'+id);
+		},
+		search: function(){
+			this.searched = this.sportsFacilities;
+			if(this.name !=''){
+				this.searched = this.sportsFacilities.filter(o => o.name.toLowerCase().includes(this.name.toLowerCase()));
+			
+			}
+			if(this.city !=''){
+				this.searched = this.sportsFacilities.filter(o => o.location.address.city.toLowerCase().includes(this.city.toLowerCase()));
+			
+			}
+			if(this.type !=''){
+				this.searched = this.sportsFacilities.filter(o => o.type.toString().toLowerCase().includes(this.type.toString().toLowerCase()));
+			}
+			if(this.rating !=''){
+				this.searched = this.sportsFacilities.filter(o => o.averageRating.toString().includes(this.rating.toString()));
+			}
+			
+		},
+		restore: function(){
+			this.searched = this.sportsFacilities;
+			this.name='';
+			this.type='';
+			this.city='';
+			this.rating='';
 		}
     	
     }

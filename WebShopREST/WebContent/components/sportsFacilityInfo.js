@@ -37,6 +37,26 @@ Vue.component("sportsFacilityInfo", {
 	    			
 	    		</tr>
 	    	</table>
+	    	
+	    	<h3>Pregled treninga u objektu</h3>
+			<table border="1">
+			<thead>
+				<tr bgcolor="lightgrey">
+					<th><b>Slika</b></th>
+					<th><b>Naziv treninga</b></th>
+					<th><b>Opis</b></th>
+					<th><b>Trener</b></th>
+				</tr>	
+			</thead>
+			<tbody>
+				<tr v-for="t in treninzi">
+					<td><img v-bind:src=" 'images/' + t.image"></td>
+					<td>{{t.name}}</td>
+					<td>{{t.description }}</td>
+					<td>{{t.coach}} </td>
+				</tr>
+			</tbody>
+			</table>
     		</div>		  
     	`,
     mounted () {

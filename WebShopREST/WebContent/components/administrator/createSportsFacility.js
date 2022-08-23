@@ -8,7 +8,7 @@ Vue.component("createSportsFacility", {
 	      haveAvailabeManagers: false
 	    }
 	},template: ` 
-    	<form id="formaSportskiObjekat">
+    	<form id="formaSportskiObjekat" style="margin-top:5%;">
 		<table>
 			<tr><td>Naziv</td><td><input v-model="sportsFacility.name" type="text" name="firstname"></td></tr>
 			<tr>
