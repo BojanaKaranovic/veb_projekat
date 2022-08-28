@@ -1,5 +1,6 @@
 package services;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
@@ -18,6 +19,7 @@ import javax.ws.rs.core.Response;
 import beans.Administrator;
 import beans.Coach;
 import beans.Comment;
+import beans.CommentStatus;
 import beans.Customer;
 import beans.Manager;
 import beans.SportsFacility;
@@ -49,38 +51,57 @@ public class CommentService {
 		
 	}
 
-	@POST
+	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-    public void Create(Comment element) throws Exception {
-    	CommentDAO commentDAO = (CommentDAO) ctx.getAttribute("commentDAO");
-    	commentDAO.save(element);
-    }
+	public Collection<Comment> allComments() {
+		CommentDAO dao = (CommentDAO) ctx.getAttribute("commentDAO");
+		return dao.findAll();
+	}
 	
-	/*@GET
-	@Path("/availableManagers")
+	@GET
+	@Path("/waitingForApproval")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<Manager> availableManagers() {
-		ManagerDAO managerDAO = (ManagerDAO) ctx.getAttribute("managerDAO");
-		ArrayList<Manager> availableManagers = new ArrayList<Manager>(); 
-		for(Manager m : managerDAO.findAll()) {
-			if(m.getSportsFacility() == null && !m.isDeleted())
-				availableManagers.add(m);
-		}
-		return availableManagers;
-	}*/
+	public ArrayList<Comment> waitingForApproval() {
+		CommentDAO dao = (CommentDAO) ctx.getAttribute("commentDAO");
+		ArrayList<Comment> comments = new ArrayList<Comment>();
+		for(Comment c : dao.findAll())
+			if(c.getStatus() == CommentStatus.WAITING)
+				comments.add(c);
+		return comments;
+	}
 	
-	/*@POST
-	@Path("/updatefacility/{m}&{s}")
+	@GET
+	@Path("/allowedComments")
 	@Produces(MediaType.APPLICATION_JSON)
-    public void UpdateFacility(@PathParam("m") String m, @PathParam("s") String s) throws Exception {
-    	SportsFacilityDAO sportsFacilityDAO = (SportsFacilityDAO)  ctx.getAttribute("sportsFacilityDAO");
-    	ManagerDAO managerDAO = (ManagerDAO) ctx.getAttribute("managerDAO");
-    	Manager manager = managerDAO.findManager(m);
-    	manager.setSportsFacility(s);
-    	
-    	
-    	managerDAO.update(m,manager);
-        
-    }*/
+	public ArrayList<Comment> allowedComments() {
+		CommentDAO dao = (CommentDAO) ctx.getAttribute("commentDAO");
+		ArrayList<Comment> comments = new ArrayList<Comment>();
+		for(Comment c : dao.findAll())
+			if(c.getStatus() == CommentStatus.ALLOWED)
+				comments.add(c);
+		return comments;
+	}
+	
+	@POST
+	@Path("/allowComment")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Comment allowComment(Comment c) {
+		CommentDAO dao = (CommentDAO) ctx.getAttribute("commentDAO");
+		c.setStatus(CommentStatus.ALLOWED);
+		dao.update(c.getId(),c);
+		return c;
+	}
+	
+	@POST
+	@Path("/declineComment")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Comment declineComment(Comment c) {
+		CommentDAO dao = (CommentDAO) ctx.getAttribute("commentDAO");
+		c.setStatus(CommentStatus.DECLINED);
+		dao.update(c.getId(), c);
+		return c;
+	}
 }
