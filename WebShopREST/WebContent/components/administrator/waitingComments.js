@@ -44,12 +44,12 @@ Vue.component("waitingComments", {
     	methods: {
 		allow: function(comment){
 			axios.post("rest/comments/allowComment",comment)
-			.then(response => {alert("Komentar odobren")})
+			.then(response => {alert("Komentar odobren")},  location.reload() )
 				.catch((e) => { alert("Exception")})
 		},
 		decline: function(comment){
 			axios.post("rest/comments/declineComment",comment)
-			.then(response => {alert("Komentar odbijen")} )
+			.then(response => {alert("Komentar odbijen")}, location.reload() )
 				.catch((e) => { alert("Exception")})
 		}
 }
