@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response;
 
 import beans.Administrator;
 import beans.Coach;
+import beans.Comment;
 import beans.Customer;
 import beans.Manager;
 import beans.MembershipFee;
@@ -30,9 +31,11 @@ import beans.TrainingHistory;
 import beans.User;
 import dao.AdministratorDAO;
 import dao.CoachDAO;
+import dao.CommentDAO;
 import dao.CustomerDAO;
 import dao.ManagerDAO;
 import dao.MembershipFeeDAO;
+import dao.SportsFacilityDAO;
 import dao.TrainingDAO;
 import dao.TrainingHistoryDAO;
 import dao.UserDAO;
@@ -81,6 +84,14 @@ public class UserService {
 		if (ctx.getAttribute("trainingDAO") == null) {
 	    	String contextPath = ctx.getRealPath("");
 			ctx.setAttribute("trainingDAO", new TrainingDAO(contextPath));
+		}
+		if (ctx.getAttribute("commentDAO") == null) {
+	    	String contextPath = ctx.getRealPath("");
+			ctx.setAttribute("commentDAO", new CommentDAO(contextPath));
+		}
+		if (ctx.getAttribute("sportsFacilityDAO") == null) {
+	    	String contextPath = ctx.getRealPath("");
+			ctx.setAttribute("sportsFacilityDAO", new SportsFacilityDAO(contextPath));
 		}
 	}
 	
@@ -397,5 +408,33 @@ public class UserService {
 				
 		}
 		return membershipFee;
+	}
+	
+	@POST
+	@Path("/addComment")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response addComment(Comment com) {
+		CommentDAO commentDAO = (CommentDAO) ctx.getAttribute("commentDAO");
+		SportsFacilityDAO sportFacilityDAO = (SportsFacilityDAO) ctx.getAttribute("sportsFacilityDAO");
+		String sf = (String) ctx.getAttribute("visitedSportFacility");
+		Customer c = (Customer)request.getSession().getAttribute("loggedInUser");
+		com.setSportsFacility(sf);
+		com.setCustomer(c.getUsername());
+		int numOfComments = commentDAO.findAll().size() + 1;
+		int sum = com.getGrade();
+		int num = 1;
+		for(Comment comment : commentDAO.findAll()){
+			if(comment.getSportsFacility().equals(com.getSportsFacility()))
+			{
+				sum += comment.getGrade();
+				num ++;
+			}
+		}
+		SportsFacility sp = sportFacilityDAO.findSportsFacility(com.getSportsFacility());
+		sp.setAverageRating((double)sum/num);
+		sportFacilityDAO.save(sp);
+		com.setId("comment" + Integer.toString(numOfComments));
+		commentDAO.save(com);
+		return Response.status(200).entity("customerMainPage.html").build();
 	}
 }

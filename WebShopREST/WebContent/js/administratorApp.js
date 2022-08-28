@@ -4,6 +4,8 @@ const Profile = { template: '<viewProfile></viewProfile>' }
 const RegisteredUsers = {template: '<users></users>'}
 const SportsFacilities = {template: '<sportsFacilities></sportsFacilities>'}
 const SportsFacilityInfo = { template: '<sportsFacilityInfo></sportsFacilityInfo>' }
+const AllComments = { template: '<allComments></allComments>' }
+const WaitingComments = { template: '<waitingComments></waitingComments>'}
 const router = new VueRouter({
 	mode: 'hash',
 	  routes: [
@@ -12,7 +14,9 @@ const router = new VueRouter({
 		{ path: '/createSportsFacility', component: CreateSportsFacility},
 		{ path: '/profile', component: Profile},
 		{ path: '/users', component: RegisteredUsers},
-		{ path: '/sportsFacilityInfo/:id', component: SportsFacilityInfo}
+		{ path: '/sportsFacilityInfo/:id', component: SportsFacilityInfo},
+		{ path: '/allComments', component: AllComments},
+		{ path: '/waitingComments', component: WaitingComments}
 		]
 });
 
