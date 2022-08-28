@@ -52,7 +52,7 @@ public class CommentService {
 	}
 
 	@GET
-	@Path("/")
+	@Path("/all")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Comment> allComments() {
 		CommentDAO dao = (CommentDAO) ctx.getAttribute("commentDAO");
