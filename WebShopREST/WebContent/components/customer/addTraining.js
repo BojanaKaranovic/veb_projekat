@@ -82,8 +82,11 @@ Vue.component("addTraining", {
 			axios.post('rest/userLogin/addTraining/' + this.date +'/' + this.time, {"name": t.name, "type": t.trainingType, "sportFacility": t.sportFacility,
 			"durationInMinutes": t.durationInMinutes, "coach": t.coach, "description": t.description, "image": t.image, "deleted" : false})
 			.then(response => {
-				if(response.data == 1 || response.data == 2)
-				alert("Created successfully")})
+				if(response.data == 2)
+				{router.push('/createComment')}
+				if(response.data==1){
+					{router.push('/')}
+				}})
             .catch(function(){
                 alert("Članarina nije validna!")
             })

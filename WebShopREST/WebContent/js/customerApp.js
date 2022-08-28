@@ -3,6 +3,7 @@ const MembershipFee = {template: '<createMembershipFee></createMembershipFee>'}
 const SportsFacilities = {template: '<sportsFacilities></sportsFacilities>'}
 const SportsFacilityInfo = { template: '<sportsFacilityInfo></sportsFacilityInfo>' }
 const AddTraining = {template: '<addTraining></addTraining>'}
+const CreateComment = { template: '<createComment></createComment>' }
 const router = new VueRouter({
 	mode: 'hash',
 	  routes: [
@@ -10,8 +11,8 @@ const router = new VueRouter({
 		{ path: '/profile', component: Profile},
 		{ path: '/createMembershipFee', component: MembershipFee},
 		{ path: '/sportsFacilityInfo/:id', component: SportsFacilityInfo},
-		{ path: '/addTraining', component: AddTraining}
-		
+		{ path: '/addTraining', component: AddTraining},
+		{ path: '/createComment', component: CreateComment}
 		]
 });
 
