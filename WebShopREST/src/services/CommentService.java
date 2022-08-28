@@ -104,4 +104,16 @@ public class CommentService {
 		dao.update(c.getId(), c);
 		return c;
 	}
+	
+	@GET
+	@Path("/allowedCommentsForFacility/{name}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Comment> allowedCommentsForFacility(@PathParam("name") String name) {
+		CommentDAO dao = (CommentDAO) ctx.getAttribute("commentDAO");
+		ArrayList<Comment> comments = new ArrayList<Comment>();
+		for(Comment c : dao.findAll())
+			if(c.getStatus() == CommentStatus.ALLOWED && c.getSportsFacility().equals(name))
+				comments.add(c);
+		return comments;
+	}
 }
