@@ -27,12 +27,12 @@ Vue.component("sportsFacilityInfo", {
 		    		<tr>
 		    			<td v-if="sportsFacility">{{sportsFacility.name}}</td>
 		    			<td v-if="sportsFacility">{{sportsFacility.type}}</td>
-		    			<td v-if="sportsFacility.status">Radi</td>
-		    			<td v-if="!sportsFacility.status">Ne radi</td>
+		    			<td v-if="sportsFacility && sportsFacility.status">Radi</td>
+		    			<td v-if="sportsFacility && !sportsFacility.status">Ne radi</td>
 		    			<td v-if="sportsFacility">{{sportsFacility.location.address.street}} {{sportsFacility.location.address.number}}, {{sportsFacility.location.address.city}}, {{sportsFacility.location.address.zipCode}}</td>
 		    			<td v-if="sportsFacility"><img v-bind:src=" 'images/'+sportsFacility.logo " /> </td>
-		    			<td v-if="sportsFacility.averageRating">{{sportsFacility.averageRating}}</td>
-		    			<td v-if="!sportsFacility.averageRating">Nema ocena</td>
+		    			<td v-if="sportsFacility && sportsFacility.averageRating">{{sportsFacility.averageRating}}</td>
+		    			<td v-if="sportsFacility && !sportsFacility.averageRating">Nema ocena</td>
 		    			<td v-if="sportsFacility">{{sportsFacility.workTime}}</td>
 		    			
 		    			
