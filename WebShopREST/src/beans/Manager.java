@@ -12,6 +12,7 @@ public class Manager extends User implements Serializable {
 	private static final long serialVersionUID = 3389978403845631848L;
 	private String sportsFacility;
 	private boolean deleted;
+	
 	public Manager() {
 		super();
 	}

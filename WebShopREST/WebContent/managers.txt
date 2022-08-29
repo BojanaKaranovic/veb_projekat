@@ -44,7 +44,7 @@
     "gender" : "MALE",
     "dateOfBirth" : "1980-02-03",
     "userType" : "MANAGER",
-    "sportsFacility" : "",
+    "sportsFacility" : "Super teretana",
     "deleted" : false
   }
 }

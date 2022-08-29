@@ -437,4 +437,62 @@ public class UserService {
 		commentDAO.save(com);
 		return Response.status(200).entity("customerMainPage.html").build();
 	}
+	
+	@GET
+	@Path("/managerSportsFacility")
+	@Produces(MediaType.APPLICATION_JSON)
+	public SportsFacility managerSportFacility() {
+		SportsFacilityDAO sportFacilityDAO = (SportsFacilityDAO) ctx.getAttribute("sportsFacilityDAO");
+		Manager m = (Manager)request.getSession().getAttribute("loggedInUser");
+		String sportsFacilityName = m.getSportsFacility();
+		SportsFacility sportsFacility = sportFacilityDAO.findSportsFacility(sportsFacilityName);
+		return sportsFacility;
+	}
+	
+	@GET
+	@Path("/customersSportsFacility")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Customer> customersSportFacility() {
+		SportsFacilityDAO sportFacilityDAO = (SportsFacilityDAO) ctx.getAttribute("sportsFacilityDAO");
+		Manager m = (Manager)request.getSession().getAttribute("loggedInUser");
+		String sportsFacilityName = m.getSportsFacility();
+		SportsFacility sportsFacility = sportFacilityDAO.findSportsFacility(sportsFacilityName);
+		
+		ArrayList<Customer> customers = new ArrayList<Customer>();
+		
+		if(sportsFacility != null) {
+			CustomerDAO customerDAO = (CustomerDAO) ctx.getAttribute("customerDAO");
+			for(Customer c : customerDAO.findAll()) {
+				if(c.getVisitedFacility().contains(sportsFacility.getName())) {
+					customers.add(c);
+				}
+			}
+		}
+		return customers;
+	}
+	
+	@GET
+	@Path("/coachesSportsFacility")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Coach> coachesSportFacility() {
+		SportsFacilityDAO sportFacilityDAO = (SportsFacilityDAO) ctx.getAttribute("sportsFacilityDAO");
+		Manager m = (Manager)request.getSession().getAttribute("loggedInUser");
+		String sportsFacilityName = m.getSportsFacility();
+		SportsFacility sportsFacility = sportFacilityDAO.findSportsFacility(sportsFacilityName);
+		
+		ArrayList<Coach> coaches = new ArrayList<Coach>();
+		
+		if(sportsFacility != null) {
+			CoachDAO coachDAO = (CoachDAO) ctx.getAttribute("coachDAO");
+			TrainingDAO trainingDAO  = (TrainingDAO) ctx.getAttribute("trainingDAO");
+			for(Training training : trainingDAO.findAllTrainings()) {
+				if(training.getSportFacility().equals(sportsFacilityName)) {
+					if(!coaches.contains(coachDAO.findCoach(training.getCoach()))){
+						coaches.add(coachDAO.findCoach(training.getCoach()));
+					}
+				}
+			}
+		}
+		return coaches;
+	}
 }
