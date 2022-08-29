@@ -11,7 +11,7 @@ public class Training{
 	private String description;
 	private String image;
 	private boolean deleted;
-	
+	private double price;
 	
 	public Training() {
 	}
@@ -19,7 +19,7 @@ public class Training{
 
 
 	public Training(String name, TrainingType type, String sportsFacility, int durationInMinutes, String coach,
-			String description, String image, boolean deleted) {
+			String description, String image, boolean deleted, double price) {
 		super();
 		this.name = name;
 		this.type = type;
@@ -29,6 +29,7 @@ public class Training{
 		this.description = description;
 		this.image = image;
 		this.deleted = deleted;
+		this.price = price;
 	}
 
 
@@ -99,6 +100,30 @@ public class Training{
 
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
+	}
+
+
+
+	public String getSportsFacility() {
+		return sportsFacility;
+	}
+
+
+
+	public void setSportsFacility(String sportsFacility) {
+		this.sportsFacility = sportsFacility;
+	}
+
+
+
+	public double getPrice() {
+		return price;
+	}
+
+
+
+	public void setPrice(double price) {
+		this.price = price;
 	}
 	
 	

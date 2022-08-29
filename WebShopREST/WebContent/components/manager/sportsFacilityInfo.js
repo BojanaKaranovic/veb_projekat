@@ -11,7 +11,7 @@ Vue.component("sportsFacilityInfo", {
     	<div style="margin-top:5%;">
     		<h3>Informacije o sportskom objektu</h3>
     		
-			<table  class="table table-borderless table-hover " >
+			<table  class="table table-borderless table-hover sortable " >
 			<thead style="background-color:#426166; color:#FFFFFF;">
 	    		<tr >
 	    			<th>Naziv</th>

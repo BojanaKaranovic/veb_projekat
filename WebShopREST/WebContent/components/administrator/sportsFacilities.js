@@ -41,7 +41,7 @@ Vue.component("sportsFacilities", {
 					  </ul>
 				</div>
 			
-			</div>
+			</div> 
 			
     		</div>		  
     	`,

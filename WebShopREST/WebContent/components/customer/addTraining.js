@@ -37,6 +37,7 @@ Vue.component("addTraining", {
 				<th><b>Opis</b></th>
 				<th><b>Trener</b></th>
 				<th><b>Trajanje</b></th>
+				<th><b>Cena</b></th>
 				<th><b>Sportski objekat</b></th>
 				<th><b>Izaberi</b></th>
 			</tr>	
@@ -48,6 +49,7 @@ Vue.component("addTraining", {
 				<td>{{t.description }}</td>
 				<td>{{t.coach}} </td>
 				<td>{{t.durationInMinutes}}</td>
+				<td>{{t.price}}</td>
 				<td>{{t.sportFacility}}</td>
 				<td><button class="btn btn-success"  v-on:click="addTraining(t)">Izaberi</button></td>
 			</tr>

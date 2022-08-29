@@ -7,7 +7,8 @@
     "description" : "Lagan trening",
     "image" : "gym1.png",
     "deleted" : false,
-    "sportFacility" : "Super teretana"
+    "sportFacility" : "Super teretana",
+    "price": 0
   },
   "trening1" : {
     "name" : "trening1",
@@ -17,7 +18,8 @@
     "description" : "Lagan trening",
     "image" : "gym2.png",
     "deleted" : false,
-    "sportFacility" : "Super teretana"
+    "sportFacility" : "Super teretana",
+    "price" : 0
   },
   
   "Trening u bazenu" : {
@@ -28,6 +30,7 @@
     "description" : "Dobar trening",
     "image" : "pool3.png",
     "deleted" : false,
-    "sportFacility" : "Veliki bazen"
+    "sportFacility" : "Veliki bazen",
+    "price" : 0
   }
 }

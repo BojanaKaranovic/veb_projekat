@@ -7,6 +7,7 @@ import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -21,17 +22,21 @@ import beans.Manager;
 import beans.Product;
 import beans.SportsFacility;
 import beans.Training;
+import beans.TrainingHistory;
 import dao.ManagerDAO;
 import dao.ProductDAO;
 import dao.SportsFacilityDAO;
 import dao.TrainingDAO;
+import dao.TrainingHistoryDAO;
 
 @Path("/sportsFacilities")
 public class SportsFacilityService {
 
 	@Context
 	ServletContext ctx;
-
+	@Context 
+	HttpServletRequest request;
+	
 	public SportsFacilityService() {
 	}
 	
@@ -51,6 +56,10 @@ public class SportsFacilityService {
 		if (ctx.getAttribute("trainingDAO") == null) {
 	    	String contextPath = ctx.getRealPath("");
 			ctx.setAttribute("trainingDAO", new TrainingDAO(contextPath));
+		}
+		if (ctx.getAttribute("trainingHistoryDAO") == null) {
+	    	String contextPath = ctx.getRealPath("");
+			ctx.setAttribute("trainingHistoryDAO", new TrainingHistoryDAO(contextPath));
 		}
 	}
 	@GET
@@ -145,5 +154,52 @@ public class SportsFacilityService {
 				trainings.add(t);		
 		}
 		return trainings;
+	}
+	
+	@GET
+	@Path("/getTrainingsForSportsFacility/{sportsFacility}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Training> getTrainings(@PathParam ("sportsFacility") String sportsFacility) {
+		ArrayList<Training> trainings = new ArrayList<Training>();
+		TrainingDAO trainingDAO = (TrainingDAO) ctx.getAttribute("trainingDAO");
+		TrainingHistoryDAO trainingHistoryDAO = (TrainingHistoryDAO) ctx.getAttribute("trainingHistoryDAO");
+		SportsFacilityDAO sportsFacilityDAO = (SportsFacilityDAO) ctx.getAttribute("sportsFacilityDAO");
+		SportsFacility sp= sportsFacilityDAO.findSportsFacility(sportsFacility);
+		if(sp != null) {
+			for(Training training : trainingDAO.findAllTrainings()) {
+				int counter = 1;
+				for(TrainingHistory th : trainingHistoryDAO.findAll()) {
+					if(th.getTraining().equals(training.getName())) {
+						counter++;
+					}
+				}
+				if(training.getSportFacility().equals(sp.getName())) {
+					for(int i = 0; i < counter; i++) {
+						trainings.add(training);
+					}
+				}
+				
+			}
+		}
+		request.getSession().setAttribute("managersTrainings", trainings);
+		return trainings;
+	}
+	
+	@GET
+	@Path("/getDates")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<String> getTrainingDates() {
+		ArrayList<String> dates = new ArrayList<String>();
+		TrainingHistoryDAO thDAO = (TrainingHistoryDAO) ctx.getAttribute("trainingHistoryDAO");
+		ArrayList<Training> trainings = (ArrayList<Training>) request.getSession().getAttribute("managersTrainings");
+		for(Training t : trainings){
+			for(TrainingHistory th : thDAO.findAll()){
+				if(t.getName().equals(th.getTraining()) && !dates.contains(th.getDateTimeOfCheckIn())) {
+					dates.add(th.getDateTimeOfCheckIn());
+					break;
+				}
+			}
+		}
+		return dates;
 	}
 }
