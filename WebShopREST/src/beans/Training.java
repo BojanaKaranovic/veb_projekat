@@ -9,7 +9,7 @@ public class Training{
 	private static final long serialVersionUID = -3688613596190782629L;
 	private String name;
 	private TrainingType type;
-	private String sportFacility;
+	private String sportsFacility;
 	private int durationInMinutes;
 	private String coach;
 	private String description;
@@ -22,12 +22,12 @@ public class Training{
 
 
 
-	public Training(String name, TrainingType type, String sportFacility, int durationInMinutes, String coach,
+	public Training(String name, TrainingType type, String sportsFacility, int durationInMinutes, String coach,
 			String description, String image, boolean deleted) {
 		super();
 		this.name = name;
 		this.type = type;
-		this.sportFacility = sportFacility;
+		this.sportsFacility = sportsFacility;
 		this.durationInMinutes = durationInMinutes;
 		this.coach = coach;
 		this.description = description;
@@ -54,11 +54,11 @@ public class Training{
 	}
 
 	public String getSportFacility() {
-		return sportFacility;
+		return sportsFacility;
 	}
 
 	public void setSportFacility(String sportFacility) {
-		this.sportFacility = sportFacility;
+		this.sportsFacility = sportFacility;
 	}
 
 	public int getDurationInMinutes() {

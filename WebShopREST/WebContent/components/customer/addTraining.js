@@ -36,7 +36,7 @@ Vue.component("addTraining", {
 				<th><b>Naziv treninga</b></th>
 				<th><b>Opis</b></th>
 				<th><b>Trener</b></th>
-				<th><b>Cena</b></th>
+				<th><b>Trajanje</b></th>
 				<th><b>Sportski objekat</b></th>
 				<th><b>Izaberi</b></th>
 			</tr>	
