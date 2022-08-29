@@ -1,24 +1,25 @@
 {
-  "trening1" : {
-    "name" : "trening1",
-    "type" : "GRUPNI",
-    "sportsFacility" : "Super teretana",
-    "durationInMinutes" : "90",
-    "coach" : "sima",
-    "description" : "Lagan trening",
-    "image" : "gym2.png",
-    "deleted" : "false"
-  },
   "trening2" : {
     "name" : "trening2",
     "type" : "PERSONALNI",
-    "sportsFacility" : "Super teretana",
-    "durationInMinutes" : "60",
+    "durationInMinutes" : 60,
     "coach" : "sima",
     "description" : "Lagan trening",
     "image" : "gym1.png",
-    "deleted" : "false"
+    "deleted" : false,
+    "sportFacility" : "Super teretana"
   },
+  "trening1" : {
+    "name" : "trening1",
+    "type" : "GRUPNI",
+    "durationInMinutes" : 90,
+    "coach" : "sima",
+    "description" : "Lagan trening",
+    "image" : "gym2.png",
+    "deleted" : false,
+    "sportFacility" : "Super teretana"
+  },
+  
   "Trening u bazenu" : {
     "name" : "Trening u bazenu",
     "type" : "GRUPNI",
@@ -29,5 +30,4 @@
     "deleted" : false,
     "sportFacility" : "Veliki bazen"
   }
-  
 }

@@ -3,10 +3,6 @@ package beans;
 
 public class Training{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3688613596190782629L;
 	private String name;
 	private TrainingType type;
 	private String sportsFacility;
