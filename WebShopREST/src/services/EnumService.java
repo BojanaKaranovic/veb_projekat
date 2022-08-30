@@ -17,6 +17,7 @@ import beans.Administrator;
 import beans.Coach;
 import beans.Customer;
 import beans.CustomerTypeName;
+import beans.FacilityType;
 import beans.Manager;
 import beans.TrainingType;
 import beans.User;
@@ -56,6 +57,13 @@ public class EnumService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public TrainingType[] getTrainingType() {
 		TrainingType[] values = TrainingType.values();
+		return values;
+	}
+	@GET
+	@Path("/facilityTypes")
+	@Produces(MediaType.APPLICATION_JSON)
+	public FacilityType[] getFacilityType() {
+		FacilityType[] values = FacilityType.values();
 		return values;
 	}
 }

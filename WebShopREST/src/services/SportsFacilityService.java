@@ -18,11 +18,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.Coach;
 import beans.Manager;
 import beans.Product;
 import beans.SportsFacility;
 import beans.Training;
 import beans.TrainingHistory;
+import beans.TrainingType;
+import dao.CoachDAO;
 import dao.ManagerDAO;
 import dao.ProductDAO;
 import dao.SportsFacilityDAO;
@@ -60,6 +63,10 @@ public class SportsFacilityService {
 		if (ctx.getAttribute("trainingHistoryDAO") == null) {
 	    	String contextPath = ctx.getRealPath("");
 			ctx.setAttribute("trainingHistoryDAO", new TrainingHistoryDAO(contextPath));
+		}
+		if (ctx.getAttribute("coachDAO") == null) {
+	    	String contextPath = ctx.getRealPath("");
+			ctx.setAttribute("coachDAO", new CoachDAO(contextPath));
 		}
 	}
 	@GET
@@ -233,5 +240,119 @@ public class SportsFacilityService {
 			}
 		}
 		return trainings;
+	}
+	
+	@GET
+	@Path("/getTrainingsCoach/{coach}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Training> getTrainingsCoach(@PathParam("coach") String username){
+		ArrayList<Training> trainings = new ArrayList<Training>();
+		TrainingDAO trainingDAO = (TrainingDAO) ctx.getAttribute("trainingDAO");
+		TrainingHistoryDAO thDAO = (TrainingHistoryDAO) ctx.getAttribute("trainingHistoryDAO");
+		for(Training t : trainingDAO.findAllTrainings()){
+			if(t.getCoach().equals(username))
+			{
+				for(TrainingHistory th : thDAO.findAll()){
+					if(th.getTraining().equals(t.getName()))
+						trainings.add(t);
+				}
+			}
+		}
+		request.getSession().setAttribute("coachTrainings", trainings);
+		return trainings;
+	}
+	
+	@GET
+	@Path("/getPersonalCoach/{coach}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Training> getPersonalCoach(@PathParam("coach") String username){
+		ArrayList<Training> trainings = new ArrayList<Training>();
+		TrainingDAO trainingDAO = (TrainingDAO) ctx.getAttribute("trainingDAO");
+		TrainingHistoryDAO thDAO = (TrainingHistoryDAO) ctx.getAttribute("trainingHistoryDAO");
+		for(Training t : trainingDAO.findAllTrainings()){
+			if(t.getCoach().equals(username) && t.getType() == TrainingType.PERSONALNI)
+			{
+				for(TrainingHistory th : thDAO.findAll()){
+					if(th.getTraining().equals(t.getName()))
+						trainings.add(t);
+				}
+			}
+		}
+		request.getSession().setAttribute("coachPersonalTrainings", trainings);
+		return trainings;
+	}
+	
+	@GET
+	@Path("/getGroupCoach/{coach}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Training> getGroupCoach(@PathParam("coach") String username){
+		ArrayList<Training> trainings = new ArrayList<Training>();
+		TrainingDAO trainingDAO = (TrainingDAO) ctx.getAttribute("trainingDAO");
+		TrainingHistoryDAO thDAO = (TrainingHistoryDAO) ctx.getAttribute("trainingHistoryDAO");
+		for(Training t : trainingDAO.findAllTrainings()){
+			if(t.getCoach().equals(username) && t.getType() == TrainingType.GRUPNI)
+			{
+				for(TrainingHistory th : thDAO.findAll()){
+					if(th.getTraining().equals(t.getName()))
+						trainings.add(t);
+				}
+			}
+		}
+		request.getSession().setAttribute("coachGroupTrainings", trainings);
+		return trainings;
+	}
+	
+	@GET
+	@Path("/getDatesCoach/{coach}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<String> getTrainingDatesCoach(@PathParam("coach") String username) {
+		ArrayList<String> dates = new ArrayList<String>();
+		TrainingHistoryDAO thDAO = (TrainingHistoryDAO) ctx.getAttribute("trainingHistoryDAO");
+		ArrayList<Training> trainings = (ArrayList<Training>) request.getSession().getAttribute("coachTrainings");
+		for(Training t : trainings){
+			for(TrainingHistory th : thDAO.findAll()){
+				if(t.getName().equals(th.getTraining()) && th.getCoach().equals(username) && !dates.contains(th.getDateTimeOfCheckIn())) {
+					dates.add(th.getDateTimeOfCheckIn());
+					break;
+				}
+			}
+		}
+		return dates;
+	}
+	
+	@GET
+	@Path("/getPersonalDatesCoach/{coach}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<String> getPersonalTrainingDatesCoach(@PathParam("coach") String username) {
+		ArrayList<String> dates = new ArrayList<String>();
+		TrainingHistoryDAO thDAO = (TrainingHistoryDAO) ctx.getAttribute("trainingHistoryDAO");
+		ArrayList<Training> trainings = (ArrayList<Training>) request.getSession().getAttribute("coachPersonalTrainings");
+		for(Training t : trainings){
+			for(TrainingHistory th : thDAO.findAll()){
+				if(t.getName().equals(th.getTraining()) && th.getCoach().equals(username) && !dates.contains(th.getDateTimeOfCheckIn())) {
+					dates.add(th.getDateTimeOfCheckIn());
+					break;
+				}
+			}
+		}
+		return dates;
+	}
+	
+	@GET
+	@Path("/getGroupDatesCoach/{coach}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<String> getGroupTrainingDatesCoach(@PathParam("coach") String username) {
+		ArrayList<String> dates = new ArrayList<String>();
+		TrainingHistoryDAO thDAO = (TrainingHistoryDAO) ctx.getAttribute("trainingHistoryDAO");
+		ArrayList<Training> trainings = (ArrayList<Training>) request.getSession().getAttribute("coachGroupTrainings");
+		for(Training t : trainings){
+			for(TrainingHistory th : thDAO.findAll()){
+				if(t.getName().equals(th.getTraining()) && th.getCoach().equals(username) && !dates.contains(th.getDateTimeOfCheckIn())) {
+					dates.add(th.getDateTimeOfCheckIn());
+					break;
+				}
+			}
+		}
+		return dates;
 	}
 }
