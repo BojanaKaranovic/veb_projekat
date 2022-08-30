@@ -10,8 +10,11 @@ Vue.component("trainings", {
 	      minPrice: 0,
 	      maxPrice: 100000,
 	      start: '',
-	      end: ''
-	      
+	      end: '',
+	      sortedPrice: false,
+	      sortedDate: false,
+	      trainingType: '',
+	      trainingTypes: {}
 	    }
 	}
 	,
@@ -25,7 +28,13 @@ Vue.component("trainings", {
         			<input class="form-control me-1" type="date" aria-label="Search" v-model="start" placeholder="Pocetak">
         			<input class="form-control me-1" type="date" aria-label="Search" v-model="end" placeholder="Kraj">
         			<button class="btn btn-success btn-sm"  v-on:click="search()" >Pretrazi po datumu</button>
-        			
+        			<button class="btn btn-success btn-sm"  v-on:click="sortPrice()" >Sortiraj po ceni</button>
+					<button class="btn btn-success btn-sm"  v-on:click="sortDate()" >Sortiraj po datumu</button>
+					<select   v-on:change = "trainingTypeFilter">
+			  			<option>Izaberi tip </option>
+			    		<option v-for = "t in trainingTypes">{{t}}</option>
+			    		
+  					</select>
         		</form>
 			<div class="row row-cols-2 row-cols-md-4" v-bind:trainings1 = "this.searched1" >
 				<div class="card border-light" style="margin-left:10px" v-for="training in searched1" >
@@ -74,7 +83,7 @@ Vue.component("trainings", {
 	    		}})
 	    		this.searched1 = this.trainings1;
 				})})})
-				
+				axios.get("rest/enum/trainingTypes").then((response) => {this.trainingTypes = response.data})
     },
     methods: {
 		
@@ -104,6 +113,50 @@ Vue.component("trainings", {
 				
 				this.searched1 = this.trainings1.filter(o => o.dates.split(' ')[1] >= this.start && o.dates.split(' ')[1] <= this.end);
 			}
-}
+		},
+		
+		sortPrice: function(){
+			if(this.sortedPrice === false)
+			{
+				this.searched1 = this.searched1.sort((a,b) => (a.trainings.price > b.trainings.price) ? 1 : ((a.trainings.price < b.trainings.price) ? -1 : 0));
+				this.sortedPrice = true
+				this.sortedDate = false
+			}
+			else
+			{
+				this.searched1.reverse()
+				this.sortedPrice = false
+			}
+		},
+		
+		sortDate: function(){
+			if(this.sortedDate === false)
+			{
+				this.searched1 = this.searched1.sort((a,b) => (a.dates > b.dates) ? 1 : ((a.dates < b.dates) ? -1 : 0));
+				this.sortedPrice = false
+				this.sortedDate = true
+			}
+			else
+			{
+				this.searched1.reverse()
+				this.sortedDate = false
+			}
+		},
+		trainingTypeFilter: function(evt){
+			
+			var t = evt.target.value;
+			if(t == "Izaberi tip")
+			{
+				
+				this.trainingType = '';
+				this.searched1 = this.trainings1;
+			}
+			else{
+				this.trainingType = t;	
+				this.searched1 = this.trainings1.filter(o => o.trainings.type == this.trainingType);
+			}
+			
+			
+		},
     }
 });
