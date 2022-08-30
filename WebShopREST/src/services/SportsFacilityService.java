@@ -167,16 +167,16 @@ public class SportsFacilityService {
 		SportsFacility sp= sportsFacilityDAO.findSportsFacility(sportsFacility);
 		if(sp != null) {
 			for(Training training : trainingDAO.findAllTrainings()) {
-				int counter = 1;
+				int counter = 0;
 				for(TrainingHistory th : trainingHistoryDAO.findAll()) {
 					if(th.getTraining().equals(training.getName())) {
 						counter++;
 					}
 				}
-				if(training.getSportFacility().equals(sp.getName())) {
-					for(int i = 0; i < counter; i++) {
+				if(training.getSportsFacility().equals(sportsFacility)) {
+					for(int i = 0; i < counter; i++) 
 						trainings.add(training);
-					}
+					
 				}
 				
 			}
@@ -201,5 +201,37 @@ public class SportsFacilityService {
 			}
 		}
 		return dates;
+	}
+	
+	@GET
+	@Path("/getTrainingsForSportsFacilityWithoutTH/{sportsFacility}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Training> getTrainingsWithoutTH(@PathParam ("sportsFacility") String sportsFacility) {
+		ArrayList<Training> trainings = new ArrayList<Training>();
+		TrainingDAO trainingDAO = (TrainingDAO) ctx.getAttribute("trainingDAO");
+		TrainingHistoryDAO trainingHistoryDAO = (TrainingHistoryDAO) ctx.getAttribute("trainingHistoryDAO");
+		SportsFacilityDAO sportsFacilityDAO = (SportsFacilityDAO) ctx.getAttribute("sportsFacilityDAO");
+		SportsFacility sp= sportsFacilityDAO.findSportsFacility(sportsFacility);
+		if(sp != null) {
+			for(Training training : trainingDAO.findAllTrainings()) {
+				if(training.getSportFacility().equals(sportsFacility)) {
+					boolean without= true;
+					for(TrainingHistory th : trainingHistoryDAO.findAll()) {
+						if(th.getTraining().equals(training.getName())) {
+							without = false;
+							break;
+						}
+					}
+					if(without) {
+						trainings.add(training);
+					}
+					
+				}
+				
+				
+				
+			}
+		}
+		return trainings;
 	}
 }

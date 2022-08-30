@@ -5,24 +5,42 @@ Vue.component("trainings", {
 	      searched: {},
 	      manager:{},
 	      dates: {},
+	      trainings1: [],
+	      searched1: [],
+	      minPrice: 0,
+	      maxPrice: 100000,
+	      start: '',
+	      end: ''
+	      
 	    }
 	}
 	,
 	    template: ` 
     	<div style="margin-top:5%;">
     	
-			<div class="row row-cols-2 row-cols-md-4" v-bind:trainings = "this.searched" >
-				<div class="card border-light" style="margin-left:10px" v-for="training in trainings" >
-					<img style="width:50%"  v-bind:src=" 'images/'+training.image " class="card-img-top" />
+    	<form class="d-flex" >
+        			<input class="form-control me-1" type="number" aria-label="Search" v-model="minPrice" placeholder="Minimalna cena">
+        			<input class="form-control me-1" type="number" aria-label="Search" v-model="maxPrice" placeholder="Maksimalna cena">
+        			<button class="btn btn-success btn-sm"  v-on:click="searchPrice()" >Pretrazi po ceni</button>
+        			<input class="form-control me-1" type="date" aria-label="Search" v-model="start" placeholder="Pocetak">
+        			<input class="form-control me-1" type="date" aria-label="Search" v-model="end" placeholder="Kraj">
+        			<button class="btn btn-success btn-sm"  v-on:click="search()" >Pretrazi po datumu</button>
+        			
+        		</form>
+			<div class="row row-cols-2 row-cols-md-4" v-bind:trainings1 = "this.searched1" >
+				<div class="card border-light" style="margin-left:10px" v-for="training in searched1" >
+					<img style="width:50%"  v-bind:src=" 'images/'+training.trainings.image " class="card-img-top" />
 					<div class="card-body">
 						<h5 class="card-title">{{training.name}}</h5>
 					</div>
 					<ul class="list-group list-group-flush">
-					    <li class="list-group-item">{{training.type}}</li>
-					    <li class="list-group-item">  {{training.sportsFacility}}</li>
-					  	<li class="list-group-item">{{training.durationInMinutes}}</li>
-					  	<li class="list-group-item">{{training.coach}}</li>
-					  	<li class="list-group-item">{{training.description}}</li>
+					    <li class="list-group-item">{{training.trainings.type}}</li>
+					    <li class="list-group-item">  {{training.trainings.sportsFacility}}</li>
+					  	<li class="list-group-item">{{training.trainings.durationInMinutes}}</li>
+					  	<li class="list-group-item">{{training.trainings.coach}}</li>
+					  	<li class="list-group-item">{{training.trainings.description}}</li>
+					  	<li class="list-group-item">{{training.trainings.price}}</li>
+					  	<li class="list-group-item">{{training.dates}}</li>
 					  </ul>
 				</div>
 			
@@ -35,57 +53,57 @@ Vue.component("trainings", {
 		.then(response => {
 			this.manager = response.data
 			axios.get('rest/sportsFacilities/getTrainingsForSportsFacility/' + this.manager.sportsFacility)
-			.then(response => {this.trainings = response.data, this.searched=response.data,
+			.then(response => {this.trainings = response.data, this.searched = response.data,
 			axios.get('rest/sportsFacilities/getDates')
 			.then(response =>{
 				this.dates = response.data;
+				for (let i = 0 ; i < this.dates.length; i++) {
+				      this.trainings1.push({
+				       trainings: this.trainings[i],
+				       dates: this.dates[i]
+	      				})
+	    		}
+	    		axios.get('rest/sportsFacilities/getTrainingsForSportsFacilityWithoutTH/' + this.manager.sportsFacility)
+				.then(response => {
+					
+					for (let i = 0; i < response.data.length; i++) {
+				      this.trainings1.push({
+				       trainings: response.data[i],
+				       dates: "Nema datum"
+	      				})
+	    		}})
+	    		this.searched1 = this.trainings1;
 				})})})
+				
     },
     methods: {
-		searchName: function(name){
-			this.searched = this.sportsFacilities.filter(o => o.name.toLowerCase().includes(name.toLowerCase()));
-			
-		},
-		searchLocation: function(city){
-			this.searched = this.sportsFacilities.filter(o => o.location.address.city.toLowerCase().includes(city.toLowerCase()));
-			
-		},
-		searchRating: function(rating){
-			this.searched = this.sportsFacilities.filter(o => o.averageRating.toString().includes(rating.toString()));
-			
-		},
-		searchType: function(type){
-			this.searched = this.sportsFacilities.filter(o => o.type.toString().toLowerCase().includes(type.toString().toLowerCase()));
-			
-		},
-		sportsFacilityInfo: function(id){
-			router.push('/sportsFacilityInfo/'+id);
-		},
-		search: function(){
-			this.searched = this.sportsFacilities;
-			if(this.name !=''){
-				this.searched = this.sportsFacilities.filter(o => o.name.toLowerCase().includes(this.name.toLowerCase()));
-			
+		
+		searchPrice: function(){
+			this.searched1 = this.trainings1;
+			if(this.minPrice > this.maxPrice){
+				alert("Ne valja cena")
+				this.minPrice = 0;
+				this.maxPrice = 100000;
 			}
-			if(this.city !=''){
-				this.searched = this.sportsFacilities.filter(o => o.location.address.city.toLowerCase().includes(this.city.toLowerCase()));
-			
-			}
-			if(this.type !=''){
-				this.searched = this.sportsFacilities.filter(o => o.type.toString().toLowerCase().includes(this.type.toLowerCase()));
-			}
-			if(this.rating !=''){
-				this.searched = this.sportsFacilities.filter(o => o.averageRating.toString().includes(this.rating.toString()));
+			else {
+				
+				this.searched1 = this.trainings1.filter(o => o.trainings.price >= this.minPrice && o.trainings.price <= this.maxPrice);
+				
 			}
 			
+			
+			
 		},
-		restore: function(){
-			this.searched = this.sportsFacilities;
-			this.name='';
-			this.type='';
-			this.city='';
-			this.rating='';
-		}
-    	
+		
+    	search: function(){
+			this.searched1 = this.trainings1;
+			if(this.start > this.end){
+				alert("Ne valja datum")
+			
+			}else if(this.start !='' && this.end !=''){
+				
+				this.searched1 = this.trainings1.filter(o => o.dates.split(' ')[1] >= this.start && o.dates.split(' ')[1] <= this.end);
+			}
+}
     }
 });

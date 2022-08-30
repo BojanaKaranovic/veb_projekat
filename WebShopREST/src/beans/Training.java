@@ -5,7 +5,7 @@ public class Training{
 
 	private String name;
 	private TrainingType type;
-	private String sportsFacility;
+	private String sportFacility;
 	private int durationInMinutes;
 	private String coach;
 	private String description;
@@ -18,12 +18,12 @@ public class Training{
 
 
 
-	public Training(String name, TrainingType type, String sportsFacility, int durationInMinutes, String coach,
+	public Training(String name, TrainingType type, String sportFacility, int durationInMinutes, String coach,
 			String description, String image, boolean deleted, double price) {
 		super();
 		this.name = name;
 		this.type = type;
-		this.sportsFacility = sportsFacility;
+		this.sportFacility = sportFacility;
 		this.durationInMinutes = durationInMinutes;
 		this.coach = coach;
 		this.description = description;
@@ -51,11 +51,11 @@ public class Training{
 	}
 
 	public String getSportFacility() {
-		return sportsFacility;
+		return sportFacility;
 	}
 
 	public void setSportFacility(String sportFacility) {
-		this.sportsFacility = sportFacility;
+		this.sportFacility = sportFacility;
 	}
 
 	public int getDurationInMinutes() {
@@ -105,13 +105,13 @@ public class Training{
 
 
 	public String getSportsFacility() {
-		return sportsFacility;
+		return sportFacility;
 	}
 
 
 
 	public void setSportsFacility(String sportsFacility) {
-		this.sportsFacility = sportsFacility;
+		this.sportFacility = sportsFacility;
 	}
 
 
