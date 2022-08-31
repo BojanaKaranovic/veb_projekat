@@ -355,4 +355,16 @@ public class SportsFacilityService {
 		}
 		return dates;
 	}
+	
+	@GET
+	@Path("/training/{name}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Training getTraining(@PathParam("name") String name) {
+		TrainingDAO dao = (TrainingDAO) ctx.getAttribute("trainingDAO");
+		Training training = dao.findTraining(name);
+		if(training != null) {
+			ctx.setAttribute("training", training);
+		}
+		return training;
+	}
 }

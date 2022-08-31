@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
 import com.fasterxml.jackson.databind.type.MapType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 
+import beans.SportsFacility;
 import beans.Training;
 
 public class TrainingDAO {
@@ -52,10 +53,14 @@ public class TrainingDAO {
 		return t;
 	}
 	
-	public void updateTraining(Training training, String name) {
-		if(!training.getName().equals(name))
+	
+	public void update(String oldName, Training training) {
+		if(!training.getName().equals(oldName))
 		{
-			trainings.remove(name);
+			trainings.remove(oldName);
+		}
+		else {
+			trainings.remove(training.getName());
 		}
 		trainings.put(training.getName(), training);
 		writeInFile();

@@ -513,8 +513,12 @@ public class UserService {
 		boolean success = false;
 		Manager manager = (Manager)request.getSession().getAttribute("loggedInUser");
 		TrainingDAO trainingDAO = (TrainingDAO) ctx.getAttribute("trainingDAO");
-		if(manager.getSportsFacility() != null) {
+		SportsFacilityDAO sportsFacilityDAO = (SportsFacilityDAO) ctx.getAttribute("sportsFacilityDAO");
+		if(sportsFacilityDAO.findSportsFacility(manager.getSportsFacility()) != null) {
 			training.setSportFacility(manager.getSportsFacility());
+			ArrayList<String>list = sportsFacilityDAO.findSportsFacility(manager.getSportsFacility()).getTrainings();
+			list.add(training.getName());
+			sportsFacilityDAO.findSportsFacility(manager.getSportsFacility()).setTrainings(list); 
 			CoachDAO coachDAO = (CoachDAO) ctx.getAttribute("coachDAO");
 			String[] name = coach.split(" ");
 			for(Coach c : coachDAO.findAll()) 
@@ -527,6 +531,48 @@ public class UserService {
 			Training tr = trainingDAO.findTraining(training.getName());
 			if(tr == null) {
 				tr = trainingDAO.save(training);
+				success = true;
+			}
+		}
+		return success;
+	}
+	
+	@PUT
+	@Path("/updateTraining/{coach}/{name}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean updateTraining(Training training, @PathParam("coach") String coach,  @PathParam("name") String name) {
+		boolean success = false;
+		Manager manager = (Manager)request.getSession().getAttribute("loggedInUser");
+		SportsFacilityDAO sportsFacilityDAO = (SportsFacilityDAO) ctx.getAttribute("sportsFacilityDAO");
+		SportsFacility sportsFacility = sportsFacilityDAO.findSportsFacility(manager.getSportsFacility()) ;
+		TrainingDAO trainingDAO = (TrainingDAO) ctx.getAttribute("trainingDAO");
+		if(sportsFacility != null) {
+			training.setSportFacility(manager.getSportsFacility());
+			CoachDAO coachDAO = (CoachDAO) ctx.getAttribute("coachDAO");
+			String[] nameCoach = coach.split(" ");
+			for(Coach c : coachDAO.findAll()) 
+			{
+				if(c.getFirstName().equals(nameCoach[0]) && c.getLastName().equals(nameCoach[1])) {
+					training.setCoach(c.getUsername());
+					break;
+				}
+			}
+			Training tr = trainingDAO.findTraining(training.getName());
+			
+			if((tr != null && tr.getName().equals(name)) || tr == null)  {
+				trainingDAO.update(name, training);
+				if(training.getName() != name) {
+					ArrayList<String> trainings = sportsFacility.getTrainings();
+					trainings.remove(name);
+					trainings.add(training.getName());
+					
+					sportsFacility.setTrainings(trainings);
+					sportsFacilityDAO.update(sportsFacility.getName(), sportsFacility);
+					
+				}
+				
+				
 				success = true;
 			}
 		}

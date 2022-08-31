@@ -40,7 +40,7 @@ Vue.component("trainings", {
 				<div class="card border-light" style="margin-left:10px" v-for="training in searched1" >
 					<img style="width:50%"  v-bind:src=" 'images/'+training.trainings.image " class="card-img-top" />
 					<div class="card-body">
-						<h5 class="card-title">{{training.name}}</h5>
+						<h5 class="card-title">{{training.trainings.name}}</h5>
 					</div>
 					<ul class="list-group list-group-flush">
 					    <li class="list-group-item">{{training.trainings.type}}</li>
@@ -51,6 +51,7 @@ Vue.component("trainings", {
 					  	<li class="list-group-item">{{training.trainings.price}}</li>
 					  	<li class="list-group-item">{{training.dates}}</li>
 					  </ul>
+					  <button class="btn btn-success btn-sm"  v-on:click="trainingInfo(training.trainings.name)" >Izmeni</button>
 				</div>
 			
 			</div> 
@@ -157,6 +158,9 @@ Vue.component("trainings", {
 			}
 			
 			
+		},
+		trainingInfo: function(id){
+			router.push('/updateTraining/'+id);
 		},
     }
 });
