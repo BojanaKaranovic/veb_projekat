@@ -54,16 +54,14 @@ public class TrainingDAO {
 	}
 	
 	
-	public void update(String oldName, Training training) {
+	public Training update(String oldName, Training training) {
 		if(!training.getName().equals(oldName))
 		{
 			trainings.remove(oldName);
 		}
-		else {
-			trainings.remove(training.getName());
-		}
 		trainings.put(training.getName(), training);
 		writeInFile();
+		return training;
 	}
 
 	@SuppressWarnings("unchecked")

@@ -536,7 +536,7 @@ public class UserService {
 		}
 		return success;
 	}
-	
+
 	@PUT
 	@Path("/updateTraining/{coach}/{name}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -561,8 +561,8 @@ public class UserService {
 			Training tr = trainingDAO.findTraining(training.getName());
 			
 			if((tr != null && tr.getName().equals(name)) || tr == null)  {
-				trainingDAO.update(name, training);
-				if(training.getName() != name) {
+				trainingDAO.update(training.getName(), training);
+				if(!training.getName().equals(name)) {
 					ArrayList<String> trainings = sportsFacility.getTrainings();
 					trainings.remove(name);
 					trainings.add(training.getName());

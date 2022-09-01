@@ -12,7 +12,8 @@ Vue.component("updateTraining", {
 	      	coach: '',
 	      	price: null,
 	      	previous: null,
-	      	training: null
+	      	training: null,
+	      	previousName: ''
 	      	
 	    }
 	},template: ` 
@@ -76,7 +77,7 @@ Vue.component("updateTraining", {
 	        axios.get("rest/userLogin/coaches")
 	        .then((response)=> {this.coaches = response.data,
 	    		    axios.get('rest/sportsFacilities/training/' + this.name)
-	    		    .then((response)=>{this.training = response.data, this.previous = response.data})
+	    		    .then((response)=>{this.training = response.data, this.previous = response.data, this.previousName = response.data.name})
 	    	})
     	}else{
 	alert("Nesto ne radi")}
@@ -97,7 +98,7 @@ Vue.component("updateTraining", {
             if(!this.training.name || !this.training.type || !logoDestination || !this.training.coach){
 				alert("Nepopunjeno obavezno polje")
 				return
-			}axios.put('rest/userLogin/updateTraining/' + this.training.coach +'/'+this.previous.name, this.training)
+			}axios.put('rest/userLogin/updateTraining/' + this.training.coach +'/' + this.previousName, this.training)
 			.then(response => {
 	                if(response.data){
 						alert("Updated successfully")
