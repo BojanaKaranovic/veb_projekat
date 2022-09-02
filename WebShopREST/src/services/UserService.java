@@ -154,6 +154,7 @@ public class UserService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response logout() {
 		request.getSession().removeAttribute("loggedInUser");
+		request.getSession().invalidate();
 		return Response.status(200).entity("index.html").build();
 		
 	}
