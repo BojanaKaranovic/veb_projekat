@@ -36,6 +36,7 @@ Vue.component("addTraining", {
 				<th><b>Naziv treninga</b></th>
 				<th><b>Opis</b></th>
 				<th><b>Trener</b></th>
+				<th><b>Trajanje</b></th>
 				<th><b>Cena</b></th>
 				<th><b>Sportski objekat</b></th>
 				<th><b>Izaberi</b></th>
@@ -48,6 +49,7 @@ Vue.component("addTraining", {
 				<td>{{t.description }}</td>
 				<td>{{t.coach}} </td>
 				<td>{{t.durationInMinutes}}</td>
+				<td>{{t.price}}</td>
 				<td>{{t.sportFacility}}</td>
 				<td><button class="btn btn-success"  v-on:click="addTraining(t)">Izaberi</button></td>
 			</tr>
@@ -84,8 +86,11 @@ Vue.component("addTraining", {
 			axios.post('rest/userLogin/addTraining/' + this.date +'/' + this.time, {"name": t.name, "type": t.trainingType, "sportFacility": t.sportFacility,
 			"durationInMinutes": t.durationInMinutes, "coach": t.coach, "description": t.description, "image": t.image, "deleted" : false})
 			.then(response => {
-				if(response.data == 1 || response.data == 2)
-				alert("Created successfully")})
+				if(response.data == 2)
+				{router.push('/createComment')}
+				if(response.data==1){
+					{router.push('/')}
+				}})
             .catch(function(){
                 alert("Članarina nije validna!")
             })

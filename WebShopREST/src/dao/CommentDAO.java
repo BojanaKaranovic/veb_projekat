@@ -9,77 +9,80 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
 import com.fasterxml.jackson.databind.type.MapType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 
-import beans.SportsFacility;
-import beans.Training;
+import beans.Comment;
+import beans.CustomerTypeName;
+import beans.Gender;
 
-public class TrainingDAO {
-
-	private HashMap<String, Training> trainings = new HashMap<String, Training>();
+public class CommentDAO {
+	
+	private HashMap<String, Comment> comments = new HashMap<String, Comment>();
 	private String path;
 	
-	public TrainingDAO() {
+	public CommentDAO() {
 	}
 	
-	public TrainingDAO(String contextPath) {
+	public CommentDAO(String contextPath) {
 		this.path = contextPath;
-		loadTrainings();
-	}
-
-	public Collection<Training> findAllTrainings() {
-		return trainings.values();
-	}
-
-	public Training findTraining(String name) {
-		return trainings.containsKey(name) ? trainings.get(name) : null;
+		loadComments();
 	}
 	
-	public Training save(Training training) {
-		trainings.put(training.getName(), training);
-		writeInFile();
-		return training;
+	public Collection<Comment> findAll() {
+		return comments.values();
 	}
 	
-	public Training deleteTraining(String name) {
-		Training t = trainings.remove(name);
-		writeInFile();
-		return t;
+	public Comment findComment(String id) {
+		return comments.containsKey(id) ? comments.get(id) : null;
 	}
 	
-	
-	public Training update(String oldName, Training training) {
-		if(!training.getName().equals(oldName))
-		{
-			trainings.remove(oldName);
+	public Comment save(Comment comment) {
+		for (String id : comments.keySet()) {
+			if (id.equals(comment.getId())) {
+				return null;
+			}
 		}
-		trainings.put(training.getName(), training);
+		comments.put(comment.getId(), comment);
 		writeInFile();
-		return training;
+		return comment;
 	}
-
+	
+	public Comment update(String id, Comment comment) {
+		if(!comment.getId().equals(id))
+		{
+			comments.remove(id);
+		}
+		comments.put(comment.getId(), comment);
+		writeInFile();
+		return comment;
+	}
+	
+	public void delete(String id) {
+		this.comments.remove(id);
+	}
+	
 	@SuppressWarnings("unchecked")
-	private void loadTrainings() {
+	private void loadComments() {
 		FileWriter fileWriter = null;
 		BufferedReader in = null;
 		File file = null;
 		try {
-			file = new File(path + "/trainings.txt");
+			file = new File(path + "/comments.txt");
 			in = new BufferedReader(new FileReader(file));
 
 			ObjectMapper objectMapper = new ObjectMapper();
 			objectMapper.setVisibilityChecker(
 					VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
 			TypeFactory factory = TypeFactory.defaultInstance();
-			MapType type = factory.constructMapType(HashMap.class, String.class, Training.class);
+			MapType type = factory.constructMapType(HashMap.class, String.class, Comment.class);
 			objectMapper.getFactory().configure(JsonGenerator.Feature.ESCAPE_NON_ASCII, true);
-			this.trainings = ((HashMap<String, Training>) objectMapper.readValue(file, type));
+			this.comments = ((HashMap<String, Comment>) objectMapper.readValue(file, type));
 		} catch (FileNotFoundException fnfe) {
 			try {
 				file.createNewFile();
@@ -87,7 +90,7 @@ public class TrainingDAO {
 				ObjectMapper objectMapper = new ObjectMapper();
 				objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
 				objectMapper.getFactory().configure(JsonGenerator.Feature.ESCAPE_NON_ASCII, true);
-				String string = objectMapper.writeValueAsString(trainings);
+				String string = objectMapper.writeValueAsString(comments);
 				fileWriter.write(string);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -114,15 +117,16 @@ public class TrainingDAO {
 		}
 	}
 	
+	
 	public void writeInFile() {
-		File f = new File(path + "/trainings.txt");
+		File f = new File(path + "/comments.txt");
 		FileWriter fileWriter = null;
 		try {
 			fileWriter = new FileWriter(f);
 			ObjectMapper objectMapper = new ObjectMapper();
 			objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
 			objectMapper.getFactory().configure(JsonGenerator.Feature.ESCAPE_NON_ASCII, true);
-			String string = objectMapper.writeValueAsString(this.trainings);
+			String string = objectMapper.writeValueAsString(this.comments);
 			fileWriter.write(string);
 			fileWriter.flush();
 		} catch (IOException e) {

@@ -38,7 +38,7 @@ Vue.component("sportsFacilities", {
 					    <li class="list-group-item" v-if="sportFacility.status">Radi</li>
 					    <li class="list-group-item" v-if="!sportFacility.status">Ne radi</li>
 					    <li class="list-group-item">{{sportFacility.location.address.street}} {{sportFacility.location.address.number}}, {{sportFacility.location.address.city}}, {{sportFacility.location.address.zipCode}}</li>
-					  	<li class="list-group-item" v-if="sportFacility.averageRating !== 0"></li>
+					  	<li class="list-group-item" v-if="sportFacility.averageRating !== 0">{{sportFacility.averageRating}}</li>
 					  	<li class="list-group-item" v-if="sportFacility.averageRating === 0">Nema ocenu</li>
 					  	<li class="list-group-item">{{sportFacility.workTime}}</li>
 					  </ul>

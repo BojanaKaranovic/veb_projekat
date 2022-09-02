@@ -1,0 +1,10 @@
+{
+  "comment1" : {
+    "id" : "comment1",
+    "customer" : "boki",
+    "sportsFacility" : "Super teretana",
+    "text" : "aaa",
+    "grade" : 7,
+    "status" : "WAITING"
+  }
+}

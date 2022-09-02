@@ -62,6 +62,12 @@ public SportsFacilityDAO() {
 		return sorted;
 	}
 	
+	public SportsFacility addSportFacility(SportsFacility sportFacility) {
+		sportsFacilities.put(sportFacility.getName(), sportFacility);
+		writeInFile();
+		return sportFacility;
+	}
+	
 	public SportsFacility findSportsFacility(String name) {
 		return sportsFacilities.containsKey(name) ? sportsFacilities.get(name) : null;
 	}

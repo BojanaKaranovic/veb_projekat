@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response;
 
 import beans.Administrator;
 import beans.Coach;
+import beans.Comment;
 import beans.Customer;
 import beans.Manager;
 import beans.MembershipFee;
@@ -30,9 +31,11 @@ import beans.TrainingHistory;
 import beans.User;
 import dao.AdministratorDAO;
 import dao.CoachDAO;
+import dao.CommentDAO;
 import dao.CustomerDAO;
 import dao.ManagerDAO;
 import dao.MembershipFeeDAO;
+import dao.SportsFacilityDAO;
 import dao.TrainingDAO;
 import dao.TrainingHistoryDAO;
 import dao.UserDAO;
@@ -81,6 +84,14 @@ public class UserService {
 		if (ctx.getAttribute("trainingDAO") == null) {
 	    	String contextPath = ctx.getRealPath("");
 			ctx.setAttribute("trainingDAO", new TrainingDAO(contextPath));
+		}
+		if (ctx.getAttribute("commentDAO") == null) {
+	    	String contextPath = ctx.getRealPath("");
+			ctx.setAttribute("commentDAO", new CommentDAO(contextPath));
+		}
+		if (ctx.getAttribute("sportsFacilityDAO") == null) {
+	    	String contextPath = ctx.getRealPath("");
+			ctx.setAttribute("sportsFacilityDAO", new SportsFacilityDAO(contextPath));
 		}
 	}
 	
@@ -398,5 +409,174 @@ public class UserService {
 				
 		}
 		return membershipFee;
+	}
+	
+	@POST
+	@Path("/addComment")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response addComment(Comment com) {
+		CommentDAO commentDAO = (CommentDAO) ctx.getAttribute("commentDAO");
+		SportsFacilityDAO sportFacilityDAO = (SportsFacilityDAO) ctx.getAttribute("sportsFacilityDAO");
+		String sf = (String) ctx.getAttribute("visitedSportFacility");
+		Customer c = (Customer)request.getSession().getAttribute("loggedInUser");
+		com.setSportsFacility(sf);
+		com.setCustomer(c.getUsername());
+		int numOfComments = commentDAO.findAll().size() + 1;
+		int sum = com.getGrade();
+		int num = 1;
+		for(Comment comment : commentDAO.findAll()){
+			if(comment.getSportsFacility().equals(com.getSportsFacility()))
+			{
+				sum += comment.getGrade();
+				num ++;
+			}
+		}
+		SportsFacility sp = sportFacilityDAO.findSportsFacility(com.getSportsFacility());
+		sp.setAverageRating((double)sum/num);
+		sportFacilityDAO.save(sp);
+		com.setId("comment" + Integer.toString(numOfComments));
+		commentDAO.save(com);
+		return Response.status(200).entity("customerMainPage.html").build();
+	}
+	
+	@GET
+	@Path("/managerSportsFacility")
+	@Produces(MediaType.APPLICATION_JSON)
+	public SportsFacility managerSportFacility() {
+		SportsFacilityDAO sportFacilityDAO = (SportsFacilityDAO) ctx.getAttribute("sportsFacilityDAO");
+		Manager m = (Manager)request.getSession().getAttribute("loggedInUser");
+		String sportsFacilityName = m.getSportsFacility();
+		SportsFacility sportsFacility = sportFacilityDAO.findSportsFacility(sportsFacilityName);
+		return sportsFacility;
+	}
+	
+	@GET
+	@Path("/customersSportsFacility")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Customer> customersSportFacility() {
+		SportsFacilityDAO sportFacilityDAO = (SportsFacilityDAO) ctx.getAttribute("sportsFacilityDAO");
+		Manager m = (Manager)request.getSession().getAttribute("loggedInUser");
+		String sportsFacilityName = m.getSportsFacility();
+		SportsFacility sportsFacility = sportFacilityDAO.findSportsFacility(sportsFacilityName);
+		
+		ArrayList<Customer> customers = new ArrayList<Customer>();
+		
+		if(sportsFacility != null) {
+			CustomerDAO customerDAO = (CustomerDAO) ctx.getAttribute("customerDAO");
+			for(Customer c : customerDAO.findAll()) {
+				if(c.getVisitedFacility().contains(sportsFacility.getName())) {
+					customers.add(c);
+				}
+			}
+		}
+		return customers;
+	}
+	
+	@GET
+	@Path("/coachesSportsFacility")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Coach> coachesSportFacility() {
+		SportsFacilityDAO sportFacilityDAO = (SportsFacilityDAO) ctx.getAttribute("sportsFacilityDAO");
+		Manager m = (Manager)request.getSession().getAttribute("loggedInUser");
+		String sportsFacilityName = m.getSportsFacility();
+		SportsFacility sportsFacility = sportFacilityDAO.findSportsFacility(sportsFacilityName);
+		
+		ArrayList<Coach> coaches = new ArrayList<Coach>();
+		
+		if(sportsFacility != null) {
+			CoachDAO coachDAO = (CoachDAO) ctx.getAttribute("coachDAO");
+			TrainingDAO trainingDAO  = (TrainingDAO) ctx.getAttribute("trainingDAO");
+			for(Training training : trainingDAO.findAllTrainings()) {
+				if(training.getSportFacility().equals(sportsFacilityName)) {
+					if(!coaches.contains(coachDAO.findCoach(training.getCoach()))){
+						coaches.add(coachDAO.findCoach(training.getCoach()));
+					}
+				}
+			}
+		}
+		return coaches;
+	}
+	
+	@GET
+	@Path("/coaches")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Coach> getAllCoaches() {
+		CoachDAO coachDAO = (CoachDAO) ctx.getAttribute("coachDAO");
+		return coachDAO.findAll();
+		
+	}
+	
+	@POST
+	@Path("/createTraining/{coach}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean createTraining(Training training, @PathParam("coach") String coach) {
+		boolean success = false;
+		Manager manager = (Manager)request.getSession().getAttribute("loggedInUser");
+		TrainingDAO trainingDAO = (TrainingDAO) ctx.getAttribute("trainingDAO");
+		SportsFacilityDAO sportsFacilityDAO = (SportsFacilityDAO) ctx.getAttribute("sportsFacilityDAO");
+		if(sportsFacilityDAO.findSportsFacility(manager.getSportsFacility()) != null) {
+			training.setSportFacility(manager.getSportsFacility());
+			ArrayList<String>list = sportsFacilityDAO.findSportsFacility(manager.getSportsFacility()).getTrainings();
+			list.add(training.getName());
+			sportsFacilityDAO.findSportsFacility(manager.getSportsFacility()).setTrainings(list); 
+			CoachDAO coachDAO = (CoachDAO) ctx.getAttribute("coachDAO");
+			String[] name = coach.split(" ");
+			for(Coach c : coachDAO.findAll()) 
+			{
+				if(c.getFirstName().equals(name[0]) && c.getLastName().equals(name[1])) {
+					training.setCoach(c.getUsername());
+					break;
+				}
+			}
+			Training tr = trainingDAO.findTraining(training.getName());
+			if(tr == null) {
+				tr = trainingDAO.save(training);
+				success = true;
+			}
+		}
+		return success;
+	}
+
+	@PUT
+	@Path("/updateTraining/{coach}/{name}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean updateTraining(Training training, @PathParam("coach") String coach,  @PathParam("name") String name) {
+		boolean success = false;
+		Manager manager = (Manager)request.getSession().getAttribute("loggedInUser");
+		SportsFacilityDAO sportsFacilityDAO = (SportsFacilityDAO) ctx.getAttribute("sportsFacilityDAO");
+		SportsFacility sportsFacility = sportsFacilityDAO.findSportsFacility(manager.getSportsFacility()) ;
+		TrainingDAO trainingDAO = (TrainingDAO) ctx.getAttribute("trainingDAO");
+		if(sportsFacility != null) {
+			training.setSportFacility(manager.getSportsFacility());
+			CoachDAO coachDAO = (CoachDAO) ctx.getAttribute("coachDAO");
+			String[] nameCoach = coach.split(" ");
+			for(Coach c : coachDAO.findAll()) 
+			{
+				if(c.getFirstName().equals(nameCoach[0]) && c.getLastName().equals(nameCoach[1])) {
+					training.setCoach(c.getUsername());
+					break;
+				}
+			}
+			Training tr = trainingDAO.findTraining(training.getName());
+			
+			if((tr != null && tr.getName().equals(name)) || tr == null)  {
+				trainingDAO.update(training.getName(), training);
+				if(!training.getName().equals(name)) {
+					ArrayList<String> trainings = sportsFacility.getTrainings();
+					trainings.remove(name);
+					trainings.add(training.getName());
+					
+					sportsFacility.setTrainings(trainings);
+					sportsFacilityDAO.update(sportsFacility.getName(), sportsFacility);
+					
+				}
+				
+				
+				success = true;
+			}
+		}
+		return success;
 	}
 }
