@@ -1,5 +1,7 @@
 package services;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -366,5 +368,47 @@ public class SportsFacilityService {
 			ctx.setAttribute("training", training);
 		}
 		return training;
+	}
+	
+	@GET
+	@Path("/getTrainingsCustomer/{customer}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Training> getTrainingsCustomer(@PathParam("customer") String username) throws ParseException{
+		ArrayList<Training> trainings = new ArrayList<Training>();
+		TrainingDAO trainingDAO = (TrainingDAO) ctx.getAttribute("trainingDAO");
+		TrainingHistoryDAO thDAO = (TrainingHistoryDAO) ctx.getAttribute("trainingHistoryDAO");
+		for(TrainingHistory th : thDAO.findAll()){
+			Date date1=new SimpleDateFormat("HH:mm yyyy-MM-dd").parse(th.getDateTimeOfCheckIn()); 
+			Date date2 = new Date();
+			long differenceTime = date2.getTime() - date1.getTime();
+		    long differenceDays = (differenceTime / (1000 * 60 * 60 * 24)) % 365;
+			if(th.getCustomer().equals(username) && differenceDays <= 30)
+			{
+			
+				Training t = trainingDAO.findTraining(th.getTraining());
+				trainings.add(t);
+
+			}
+		}
+		request.getSession().setAttribute("customersTrainings", trainings);
+		return trainings;
+	}
+	
+	@GET
+	@Path("/getDatesCustomer/{customer}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<String> getTrainingDatesCustomer(@PathParam("customer") String username) {
+		ArrayList<String> dates = new ArrayList<String>();
+		TrainingHistoryDAO thDAO = (TrainingHistoryDAO) ctx.getAttribute("trainingHistoryDAO");
+		ArrayList<Training> trainings = (ArrayList<Training>) request.getSession().getAttribute("customersTrainings");
+		for(Training t : trainings){
+			for(TrainingHistory th : thDAO.findAll()){
+				if(t.getName().equals(th.getTraining()) && th.getCustomer().equals(username) && !dates.contains(th.getDateTimeOfCheckIn())) {
+					dates.add(th.getDateTimeOfCheckIn());
+					break;
+				}
+			}
+		}
+		return dates;
 	}
 }
