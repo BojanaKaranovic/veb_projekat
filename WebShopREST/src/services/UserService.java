@@ -26,8 +26,11 @@ import beans.Administrator;
 import beans.Coach;
 import beans.Comment;
 import beans.Customer;
+import beans.CustomerType;
+import beans.CustomerTypeName;
 import beans.Manager;
 import beans.MembershipFee;
+import beans.MembershipType;
 import beans.SportsFacility;
 import beans.Training;
 import beans.TrainingHistory;
@@ -117,10 +120,62 @@ public class UserService {
 					}
 				}
 				if(membership != null) {
-					Date exparation=new SimpleDateFormat("HH:mm yyyy-MM-dd").parse(membership.getValidityOfMembership());
+					//"2022-09-05T17:07:33.148Z" format datuma 
+					String[] date = membership.getValidityOfMembership().split("T");
+					Date exparation=new SimpleDateFormat("yyyy-MM-dd").parse(date[0]);
 					Date now = new Date();
-					if(now.compareTo(exparation)>0) {
+					String d2Str = new SimpleDateFormat("yyyy-MM-dd").format(now);
+				    now = new SimpleDateFormat("yyyy-MM-dd").parse(d2Str);
+					int lost =(int) membership.getCost()/1000*133*4;
+					int used = 0;
+					if(now.compareTo(exparation) > 0) {
+						if(membership.getMembershipType() == MembershipType.MESECNA) {
+							if(Integer.parseInt(membership.getEntranceCountPerDay()) > 20) {
+								loggedCustomer.setCollectedPoints(loggedCustomer.getCollectedPoints() - lost);
+								loggedCustomer.setCollectedPoints(loggedCustomer.getCollectedPoints() < 0 ? 0: loggedCustomer.getCollectedPoints());
+							}else {
+								used = 31 - Integer.parseInt(membership.getEntranceCountPerDay());
+								loggedCustomer.setCollectedPoints(loggedCustomer.getCollectedPoints() + (int) membership.getCost()*used/1000);
+							}
+						}
+						else if(membership.getMembershipType() == MembershipType.POLUGODISNJA) {
+							if(Integer.parseInt(membership.getEntranceCountPerDay()) > 133) {
+								loggedCustomer.setCollectedPoints(loggedCustomer.getCollectedPoints() - lost);
+								loggedCustomer.setCollectedPoints(loggedCustomer.getCollectedPoints() < 0 ? 0: loggedCustomer.getCollectedPoints());
+							}else {
+								used = 200 - Integer.parseInt(membership.getEntranceCountPerDay());
+								loggedCustomer.setCollectedPoints(loggedCustomer.getCollectedPoints() + (int) membership.getCost()*used/1000);
+							}
+						}else {
+							used = 700;
+							loggedCustomer.setCollectedPoints(loggedCustomer.getCollectedPoints() + (int) membership.getCost()*used/1000);
+						}
+						membership.setStatus(false);
+						membershipDAO.update(membership.getUniqueId(), membership);
 						
+						CustomerType customerType = loggedCustomer.getCustomerType();
+						if(loggedCustomer.getCollectedPoints() >= 5000) {
+							customerType.setDiscount(10);
+							customerType.setRequiredPoints(5000);
+							customerType.setTypeName(CustomerTypeName.ZLATNI);
+						}
+						else if(loggedCustomer.getCollectedPoints() < 5000 && loggedCustomer.getCollectedPoints() >= 1000) {
+							customerType.setDiscount(5);
+							customerType.setRequiredPoints(1000);
+							customerType.setTypeName(CustomerTypeName.SREBRNI);
+						}
+						else if(loggedCustomer.getCollectedPoints() < 1000 && loggedCustomer.getCollectedPoints() >= 100) {
+							customerType.setDiscount(1);
+							customerType.setRequiredPoints(1000);
+							customerType.setTypeName(CustomerTypeName.BRONZANI);
+						}
+						else {
+							customerType.setDiscount(0);
+							customerType.setRequiredPoints(0);
+							customerType.setTypeName(CustomerTypeName.OBICNI);
+						}
+						loggedCustomer.setCustomerType(customerType);
+						customerDao.update( loggedCustomer.getUsername(), loggedCustomer);
 					}
 				}
 				request.getSession().setAttribute("loggedInUser", loggedCustomer);

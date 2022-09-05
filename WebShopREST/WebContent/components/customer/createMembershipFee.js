@@ -76,7 +76,7 @@ Vue.component("createMembershipFee", {
 				this.cost = '2000'
 			}
 			else if(this.package == 'Srednji'){
-				this.type = 'MESECNA'
+				this.type = 'POLUGODISNJA'
 				this.validityPeriod = '6 meseci'
 				this.entranceCountPerDay = '200'
 				this.cost = '6000'

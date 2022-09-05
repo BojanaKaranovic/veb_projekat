@@ -1,9 +1,16 @@
 {
   "th1" : {
     "id" : "th1",
-    "dateTimeOfCheckIn" : "09:25 2022-08-25",
-    "training" : "trening1",
-    "customer" : "duki",
+    "dateTimeOfCheckIn" : "19:13 2022-09-06",
+    "training" : "trening2",
+    "customer" : "boki",
+    "coach" : "sima"
+  },
+  "th2" : {
+    "id" : "th2",
+    "dateTimeOfCheckIn" : "19:13 2022-09-06",
+    "training" : "trening2",
+    "customer" : "boki",
     "coach" : "sima"
   }
 }
