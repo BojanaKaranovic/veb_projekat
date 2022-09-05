@@ -1,8 +1,11 @@
 package services;
 
 import java.nio.charset.Charset;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Random;
 
 import javax.annotation.PostConstruct;
@@ -98,7 +101,7 @@ public class UserService {
 	@GET
 	@Path("/login/{username}/{password}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response login(@PathParam("username") String username, @PathParam("password") String password ) {
+	public Response login(@PathParam("username") String username, @PathParam("password") String password ) throws ParseException {
 		CustomerDAO customerDao = (CustomerDAO) ctx.getAttribute("customerDAO");
 		ManagerDAO managerDao = (ManagerDAO) ctx.getAttribute("managerDAO");
 		AdministratorDAO administratorDao = (AdministratorDAO) ctx.getAttribute("administratorDAO");
@@ -106,6 +109,20 @@ public class UserService {
 		Customer loggedCustomer = customerDao.findCustomer(username);
 		if(loggedCustomer != null) {
 			if(loggedCustomer.getPassword().equals(password)) {
+				MembershipFeeDAO membershipDAO = (MembershipFeeDAO) ctx.getAttribute("membershipFeeDAO");
+				MembershipFee membership = null;
+				for(MembershipFee fee : membershipDAO.findAll()) {
+					if(fee.getCustomer().equals(loggedCustomer) && fee.isStatus() == true) {
+						membership = fee;
+					}
+				}
+				if(membership != null) {
+					Date exparation=new SimpleDateFormat("HH:mm yyyy-MM-dd").parse(membership.getValidityOfMembership());
+					Date now = new Date();
+					if(now.compareTo(exparation)>0) {
+						
+					}
+				}
 				request.getSession().setAttribute("loggedInUser", loggedCustomer);
 				return Response.status(200).entity("customerMainPage.html").build();
 			}
@@ -312,19 +329,54 @@ public class UserService {
 		MembershipFeeDAO dao = (MembershipFeeDAO) ctx.getAttribute("membershipFeeDAO");
 		String generatedString ;
 		ArrayList<String> allIds = getAllIds();
-		/*
-		 * https://www.baeldung.com/java-random-string
-		 */
-		do {
-			byte[] array = new byte[10]; // length is bounded by 10
-			new Random().nextBytes(array);
-			generatedString = new String(array, Charset.forName("UTF-8"));
-		}while(allIds.contains(generatedString));
+//		/*
+//		 * https://www.baeldung.com/java-random-string
+//		 */
+//		do {
+//			byte[] array = new byte[10]; // length is bounded by 10
+//			new Random().nextBytes(array);
+//			generatedString = new String(array, Charset.forName("UTF-8"));
+//		}while(allIds.contains(generatedString));
+		String id = "membership" + Integer.toString(dao.findAll().size());
 		membershipFee.setCustomer(c);
-		membershipFee.setUniqueId(generatedString);
-		dao.save(membershipFee);
+		membershipFee.setUniqueId(id);
 		request.getSession().setAttribute("membershipFee", membershipFee);
 		return membershipFee;
+	}
+	
+	@GET
+	@Path("/getMembership")
+	@Produces(MediaType.APPLICATION_JSON)
+	public MembershipFee getMembershipFee() {
+		MembershipFee mf = (MembershipFee)request.getSession().getAttribute("membershipFee");
+		return mf;
+	}
+	 
+	@POST
+	@Path("/payMembershipFee")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response payMembershipFee() {
+		Customer customer = (Customer)request.getSession().getAttribute("loggedInUser");
+		MembershipFee membershipFee = (MembershipFee)request.getSession().getAttribute("membershipFee");
+		CustomerDAO customerDAO = (CustomerDAO)ctx.getAttribute("customerDAO");
+		membershipFee.setStatus(true);
+		double cost = membershipFee.getCost();
+		double discount = customer.getCustomerType().getDiscount();
+		cost = cost - cost * discount;
+		membershipFee.setCost(cost);
+		MembershipFeeDAO membershipFeeDAO = (MembershipFeeDAO) ctx.getAttribute("membershipFeeDAO");
+		for(MembershipFee fee : membershipFeeDAO.findAll()) {
+			if(fee.getCustomer().equals(customer)) {
+				fee.setStatus(false);
+				membershipFeeDAO.update(fee.getUniqueId(), fee);
+			}
+		}
+		membershipFeeDAO.save(membershipFee);
+		customerDAO.update(customer.getUsername(), customer);
+		request.getSession().setAttribute("loggedInUser", customer);
+		
+		return Response.status(200).entity("customerMainPage.html").build();
 	}
 	
 	private ArrayList<String> getAllIds(){
