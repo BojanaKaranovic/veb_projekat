@@ -4,11 +4,12 @@ Vue.component("sportsFacilityInfo", {
 	      sportsFacility: null,
 	      name:'',
 	      comments:{},
+	      trainings: {},
 	    }
 	}
 	,
 	    template: ` 
-    	<div style="margin-top:5%;">
+    	<div>
     		<h3>Informacije o sportskom objektu</h3>
     		
 			<table  class="table table-borderless table-hover sortable" >
@@ -60,6 +61,25 @@ Vue.component("sportsFacilityInfo", {
 					</tr>
 		    	</tbody>
 	    	</table>
+	    	<br>
+	    	<h3>Treninzi u sportskom objektu</h3>
+		    	<div class="row row-cols-2 row-cols-md-4"  >
+					<div class="card border-light" style="margin-left:10px" v-for="training in trainings" >
+						<img style="width:50%"  v-bind:src=" 'images/'+training.image " class="card-img-top" />
+						<div class="card-body">
+							<h5 class="card-title">{{training.name}}</h5>
+						</div>
+						<ul class="list-group list-group-flush">
+						    <li class="list-group-item">{{training.type}}</li>
+						    <li class="list-group-item">  {{training.sportsFacility}}</li>
+						  	<li class="list-group-item">{{training.durationInMinutes}}</li>
+						  	<li class="list-group-item">{{training.coach}}</li>
+						  	<li class="list-group-item">{{training.description}}</li>
+						  	<li class="list-group-item">{{training.price}}</li>
+						  </ul>
+					</div>
+				
+				</div> 
     		</div>		
     	`,
     mounted () {
@@ -69,7 +89,9 @@ Vue.component("sportsFacilityInfo", {
           .get('rest/sportsFacilities/' + this.name)
           .then(response => {this.sportsFacility = response.data
           						axios.get('rest/comments/allowedCommentsForFacility/' + this.sportsFacility.name)
-							  .then(response => {this.comments = response.data})})
+							  .then(response => {this.comments = response.data
+							   axios.get('rest/sportsFacilities/trainingsForSportsFacilityAll/' + this.sportsFacility.name)
+							  .then(response => {this.trainings = response.data})})})
           }
           else{
 	alert("Nesto ne radi")

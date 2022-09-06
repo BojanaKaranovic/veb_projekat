@@ -14,17 +14,14 @@ Vue.component("sportsFacilities", {
 	    template: ` 
     	<div>
     	
-    		<h3>Prikaz sportskih objekata</h3>
-    		<div>
-    		<input type="text" v-model="this.name">
-			<button v-on:click="searchName(this.name)">Pretrazi po imenu</button>
-			<input type="text" v-model="this.city">
-			<button v-on:click="searchLocation(this.city)">Pretrazi po gradu</button>
-			<input type="text" v-model="this.rating">
-			<button v-on:click="searchRating(this.rating)">Pretrazi po oceni</button>
-			<input type="text" v-model="this.type">
-			<button v-on:click="searchType(this.type)">Pretrazi po tipu</button>
-			</div>
+    		<form class="d-flex" style="margin-top:5%;">
+        			<input class="form-control me-2" type="search" aria-label="Search" v-model="name" placeholder="Ime">
+        			<input class="form-control me-2" type="search" aria-label="Search" v-model="type" placeholder="Tip">
+        			<input class="form-control me-2" type="search" aria-label="Search" v-model="city" placeholder="Grad">
+        			<input class="form-control me-2" type="search" aria-label="Search" v-model="rating" placeholder="Ocena">
+        			<button class="btn btn-success"  v-on:click="search()" style="margin-right:10px;">Pretrazi</button>
+        			<button class="btn btn-danger" v-on:click="restore()">Ponisti</button>
+        		</form>
 			
 			</br>
 			<div class="row row-cols-2 row-cols-md-4" v-bind:sportsFacilities = "this.searched" >
