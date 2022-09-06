@@ -8,65 +8,119 @@ Vue.component("createSportsFacility", {
 	      haveAvailabeManagers: false
 	    }
 	},template: ` 
-    	<form id="formaSportskiObjekat" style="margin-top:5%;">
-		<table>
-			<tr><td>Naziv</td><td><input v-model="sportsFacility.name" type="text" name="firstname"></td></tr>
-			<tr>
-				<td>Tip</td>
-				<td><select v-model="sportsFacility.type" name="type">
-						<option value="TERETANA">Teretana</option>
-						<option value="BAZEN">Bazen</option>
-						<option value="SPORTSKI_CENTAR">Sportski centar</option>
-						<option value="PLESNI_STUDIO">Plesni studio</option>
-						</select>
-				</td>
-			</tr>  
-			<tr><td>Ulica</td><td><input v-model="sportsFacility.location.address.street" type="text" name="street"></td></tr>
-			<tr><td>Broj</td><td><input v-model="sportsFacility.location.address.number" type="number" name="number"></td></tr>
-			<tr><td>Grad</td><td><input v-model="sportsFacility.location.address.city" type="text" name="city"></td></tr>
-			<tr><td>Postanski broj</td><td><input v-model="sportsFacility.location.address.zipCode" type="text" name="zipCode"></td></tr>
-		  	<tr>
-				<td>Logo</td><td><input v-model="sportsFacility.logo" type="file" name="logo"></td>
-			</tr>
-			
-			
-			
-			
-			<tr v-show="managers.length !== 0">
-				<td >Menadzeri</td>
-				<td >
-					<select  v-model = "selectedManager">
-						<option v-for="m in managers" >{{m.firstName}} {{m.lastName}}</option>
-					</select>
-				</td>
-			</tr>
-			<tr><td><button v-on:click = "createSportsFacility">Kreiraj sportski objekat</button></td></tr>
-			</table>
-			<form v-show="managers.length === 0">
-			<table>
-			<tr><td colspan="2">Kreirajte novog menadzera</td></tr>
-			<tr><td>Ime</td><td><input v-model="manager.firstName" type="text" name="firstname"></td></tr>
-			<tr><td>Prezime</td><td><input v-model="manager.lastName" type="text" name="lastname"></td></tr>
-			<tr><td>Username</td><td><input v-model="manager.username" type="text" name="username"></td></tr>
-			<tr><td>Password</td><td><input v-model="manager.password" type="password" name="password"></td></tr>
-			<tr><td>Email</td><td><input v-model="manager.email" type="text" name="email"></td></tr>
-			<tr><td>Datum rodjenja</td><td><input v-model="manager.dateOfBirth" type="text" name="dateOfBirth"></td></tr>
-			<tr><td>Pol</td><td>
-			<select v-model="manager.gender">
-  				<option disabled value="">Izaberite</option>
-  				<option value="MALE">Male</option>
-  				<option value="FEMALE">Female</option>
-			</select></td></tr>
-			<tr>
-			<tr><td><button v-on:click = "registerManager">Registruj menadzera</button></td></tr>
-			</tr>
-			</table>
-			</form>
+	 <form id="formaSportskiObjekat" style="margin-top:5%;">
+		<div class="container-fluid">
 		
-		
-		<p id="error" hidden="true"></p>
-		<p id="success" hidden="true"></p>
-	</form>
+	    <div class="row">
+	        <div class="col-lg-4">
+	        <h5>Kreirajte novi sportski objekat</h5>
+	        	<div class="form-outline mb-4">
+        	 		<input v-model="sportsFacility.name" type="text" class="form-control" id="inputName" placeholder="Naziv">
+        	  	</div>
+        	  	<div class="form-outline mb-4">
+	        	 	<div class="row">
+	    	  			<div class="col-3">
+	        	  			<label>Tip</label>
+	        	  		</div>
+	        	  		<div class="col">
+	        	 			<select class="form-select" v-model="sportsFacility.type">
+				  				<option value="TERETANA">Teretana</option>
+								<option value="BAZEN">Bazen</option>
+								<option value="SPORTSKI_CENTAR">Sportski centar</option>
+								<option value="PLESNI_STUDIO">Plesni studio</option>
+							</select>
+						</div>
+					</div>
+	 			</div>
+    	 		
+    	 		<div class="form-outline mb-4">
+        	 		<input v-model="sportsFacility.location.address.street" class="form-control" type="text" name="street" placeholder="Ulica">
+        	  	</div>
+        	  	<div class="form-outline mb-4">
+        	 		<input v-model="sportsFacility.location.address.city" class="form-control" type="text" name="city" placeholder="Grad">
+        	  	</div>
+        	  	<div class="form-outline mb-4">
+        	 		<input v-model="sportsFacility.location.address.number" class="form-control" type="number" name="number" placeholder="Broj">
+        	  	</div>
+        	  	<div class="form-outline mb-4">
+        	 		<input v-model="sportsFacility.location.address.zipCode" class="form-control" type="text" name="city" placeholder="Postanski broj">
+        	  	</div>
+        	  	<div class="form-outline mb-4">
+        	  		<div class="row">
+        	  			<div class="col-3">
+	        	  			<label>Logo</label>
+	        	  		</div>
+	        	  		<div class="col">
+	        	 			<input v-model="sportsFacility.logo" type="file" class="form-control" name="logo">
+        	 			</div>
+        	 		</div>
+        	 	</div>
+				<div v-show="managers.length !== 0" class="form-outline mb-4">
+        	 		<div class="row">
+        	  			<div class="col-3">
+	        	  			<label>Menadzer</label>
+	        	  		</div>
+	        	  		<div class="col">
+	        	 			<select class="form-select" v-model = "selectedManager">
+								<option v-for="m in managers" >{{m.firstName}} {{m.lastName}}</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<br>
+				<button v-on:click = "createSportsFacility" class = "btn btn-success">Kreiraj sportski objekat</button>	
+
+	        </div>
+	        <div class="col-lg-2">
+	        </div>
+	        <div class="col-lg-4">
+	           <form v-show="managers.length === 0">
+						
+						<h5>Kreirajte novog menadzera</h5>
+						<div class="form-outline mb-4">
+		        	 		<input v-model="manager.firstName" type="text" class="form-control"  placeholder="Ime">
+		        	  	</div>
+		        	  	<div class="form-outline mb-4">
+		        	 		<input v-model="manager.lastName" type="text" class="form-control"  placeholder="Prezime">
+		        	  	</div>
+		        	  	<div class="form-outline mb-4">
+		        	 		<input v-model="manager.username" type="text" class="form-control"  placeholder="Korisnicko ime">
+		        	  	</div>
+		        	  	<div class="form-outline mb-4">
+		        	 		<input v-model="manager.password" type="password" class="form-control"  placeholder="Lozinka">
+		        	  	</div>
+		        	  	<div class="form-outline mb-4">
+		        	 		<input v-model="manager.email" type="text" class="form-control"  placeholder="Email">
+		        	  	</div>
+		        	  	<div class="form-outline mb-4">
+		        	 		<input v-model="manager.dateOfBirth" type="text" class="form-control"  placeholder="Datum rodjenja">
+		        	  	</div>
+		        	  	<div class="form-outline mb-4">
+			        	 	<div class="row">
+			    	  			<div class="col-3">
+			        	  			<label>Tip</label>
+			        	  		</div>
+			        	  		<div class="col">
+			        	 			<select class="form-select" v-model="sportsFacility.type">
+					  					<option value="MALE">Male</option>
+			  							<option value="FEMALE">Female</option>
+									</select>
+								</div>
+							</div>
+			 			</div>
+			 			<br>
+			 			<button v-on:click = "registerManager" class="btn btn-success">Registruj menadzera</button>
+					
+						
+					
+					
+					<p id="error" hidden="true"></p>
+					<p id="success" hidden="true"></p>
+				</form>
+	        </div>
+	    </div>
+	</div>
+    	</form>
 	
     	`,
     		mounted () {

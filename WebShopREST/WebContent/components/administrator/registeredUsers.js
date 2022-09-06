@@ -44,7 +44,7 @@ Vue.component("users", {
   		</select>
   		</div>
   		</div>
-  		</br>
+  		<br>
 			<table class="table table-borderless table-hover " >
 				<thead style="background-color:#426166; color:#FFFFFF;">
 					<tr>
@@ -74,7 +74,7 @@ Vue.component("users", {
 						</tr>
 				</tbody>
 			</table>
-			<br />
+			<br>
     	</div>
 	
     	`,
