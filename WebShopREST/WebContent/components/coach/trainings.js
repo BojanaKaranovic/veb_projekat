@@ -78,7 +78,7 @@ Vue.component("trainings", {
 					  	<li class="list-group-item">{{training.trainings.price}}</li>
 					  	<li class="list-group-item">{{training.dates}}</li>
 					  	</ul>
-					   <div v-if="training.trainings.type == 'PERSONALNI'" class="card-footer bg-transparent"><button  class="btn btn-danger"  style="width:100%;" v-on:click="cancel(training.trainings.name)" >Otkazi</button></div>
+					   <div v-if="training.trainings.type == 'PERSONALNI'" class="card-footer bg-transparent"><button  class="btn btn-danger"  style="width:100%;" v-on:click="cancel(training)" >Otkazi</button></div>
 					   <div v-if="training.trainings.type != 'PERSONALNI'" class="card-footer bg-transparent ">&nbsp;</div>
 				
 				</div>
@@ -88,6 +88,7 @@ Vue.component("trainings", {
     		</div>		  
     	`,
     mounted () {
+	//axios.get('rest/sportsFacilities/getPersonalCoach/' + this.coach.username)
 	axios.get('rest/userLogin/loggedInCoach')
 		.then(response => {
 			this.coach = response.data
@@ -245,8 +246,16 @@ Vue.component("trainings", {
 			
 			
 		},
-		cancel : function(name){
-			
+		cancel : function(personalTraining){
+			axios.get('rest/sportsFacilities/cancelPersonalTraining/' + personalTraining.trainings.name + '/' + personalTraining.dates)
+			.then((response) =>{
+				if(response.data == 3){
+					alert("Canceled successfully"), location.reload()}
+			else{
+					alert("Canceled bad")}
+			})
+				.catch((e) => { alert("Exception")})
+
 		}
     }
 });

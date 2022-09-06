@@ -357,7 +357,46 @@ public class SportsFacilityService {
 		}
 		return dates;
 	}
-	
+	@GET
+	@Path("/cancelPersonalTraining/{name}/{date}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public int cancelTraining (@PathParam("name") String name, @PathParam("date") String date) throws ParseException {
+		int success = 0;
+		TrainingHistoryDAO trainingHisoryDAO = (TrainingHistoryDAO) ctx.getAttribute("trainingHistoryDAO");
+		TrainingHistory trainingHistory = null;
+		for(TrainingHistory th : trainingHisoryDAO.findAll()){
+			if(th.getTraining().equals(name) && th.getDateTimeOfCheckIn().equals(date)) {
+				trainingHistory = th;
+				success=1;
+				break;
+			}
+		}
+		if(trainingHistory != null) {
+			success=2;
+			Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(date.split(" ")[1]);
+			Date now = new Date();
+			String d2Str = new SimpleDateFormat("yyyy-MM-dd").format(now);
+		    now = new SimpleDateFormat("yyyy-MM-dd").parse(d2Str);
+			long difference = date1.getTime() - now.getTime();
+			@SuppressWarnings("unchecked")
+			ArrayList<Training> coachPersonalTrainings = (ArrayList<Training>) request.getSession().getAttribute("coachPersonalTrainings");
+		    for(Training t : coachPersonalTrainings){
+				if(t.getName().equals(name) && (difference/(1000 * 60 * 60 * 24)) % 365 > 2) {
+					trainingHisoryDAO.delete(trainingHistory.getId());
+					
+					CoachDAO coachDAO = (CoachDAO) ctx.getAttribute("coachDAO");
+					Coach coach = coachDAO.findCoach(t.getCoach());
+					ArrayList<String> trainings = coach.getTrainingHistory();
+					trainings.remove(trainingHistory.getId());
+					coach.setTrainingHistory(trainings);
+					coachDAO.update(coach.getUsername(), coach);
+					
+					success = 3;
+				}
+			}
+		}
+		return success;
+	}
 	@GET
 	@Path("/training/{name}")
 	@Produces(MediaType.APPLICATION_JSON)
