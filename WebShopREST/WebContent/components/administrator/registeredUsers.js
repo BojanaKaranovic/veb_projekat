@@ -67,7 +67,8 @@ Vue.component("users", {
 						<td>{{k.user.dateOfBirth}}</td>
 						<td>{{k.user.userType}}</td>
 						<td>{{k.type}}</td>
-						<td>{{k.points}}</td>
+						<td v-if="k.user.userType == 'CUSTOMER'">{{k.user.collectedPoints}}</td>
+						<td v-if="k.user.userType != 'CUSTOMER'">/</td>
 						<td v-bind:hidden="k.user.userType == 'CUSTOMER' || k.user.userType == 'ADMINISTRATOR'"><button  class="btn btn-danger" v-on:click="obrisiKorisnika(k)">Obrisi</button></td>
 						<td v-bind:hidden="k.user.userType !== 'CUSTOMER' && k.user.userType !== 'ADMINISTRATOR'"></td>
 						</tr>

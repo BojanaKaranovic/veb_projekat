@@ -35,7 +35,7 @@ Vue.component("createMembershipFee", {
     			<label id="cost" class="col-sm-2 col-form-label">{{cost}}</label>
     		</div>
     		<div class="form-group row">
-    			<label for="entranceCountPerDay" class="col-sm-4 col-form-label">Moguc broj ulazaka na dnevnom nivou</label>
+    			<label for="entranceCountPerDay" class="col-sm-4 col-form-label">Moguc broj ulazaka</label>
     			<label id="entranceCountPerDay" class="col-sm-2 col-form-label">{{entranceCountPerDay}}</label>
     		</div>
     		</br>
@@ -65,20 +65,20 @@ Vue.component("createMembershipFee", {
             axios.post('rest/userLogin/createMembershipFee', 
 	            {"uniqueId": '', "membershipType": this.type, "paymentDate": new Date(), "validityOfMembership" : expirationDateAndTime ,
 	            "cost" : this.cost, "customer" : null, "status": false, "entranceCountPerDay": this.entranceCountPerDay})
-	            .then(response => {alert("Created successfully")})
+	            .then((response) => {router.push('/payMembershipFee')})
 				.catch((e) => { alert("Exception")})
         },
         change: function(){
             if(this.package == 'Osnovni'){
 				this.type = 'MESECNA'
 				this.validityPeriod = '1 mesec'
-				this.entranceCountPerDay = '1'
+				this.entranceCountPerDay = '31'
 				this.cost = '2000'
 			}
 			else if(this.package == 'Srednji'){
-				this.type = 'MESECNA'
+				this.type = 'POLUGODISNJA'
 				this.validityPeriod = '6 meseci'
-				this.entranceCountPerDay = '2'
+				this.entranceCountPerDay = '200'
 				this.cost = '6000'
 			}
 			else{
