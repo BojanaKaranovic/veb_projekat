@@ -22,22 +22,45 @@ Vue.component("trainings", {
 	}
 	,
 	    template: ` 
-    	<div style="margin-top:3.5%;">
+    	<div style="margin-top:4.1%;">
     		<div class="btn-group" role="group" style="width:100%;">
-			  <button type="button" class="btn btn-primary" style="width:30%;" v-on:click="all()">Svi treninzi</button>
-			  <button type="button" class="btn btn-primary" style="width:30%;" v-on:click="personal()">Personalni treninzi</button>
-			  <button type="button" class="btn btn-primary" style="width:30%;" v-on:click="group()">Grupni treninzi</button>
+			  <button type="button" class="btn btn-primary" style="width:30%; background-color:#ff7b25; border: none;" v-on:click="all()">Svi treninzi</button>
+			  <button type="button" class="btn btn-primary" style="width:30%; background-color:#ff7b25; border: none;" v-on:click="personal()">Personalni treninzi</button>
+			  <button type="button" class="btn btn-primary" style="width:30%; background-color:#ff7b25; border: none;" v-on:click="group()">Grupni treninzi</button>
 			</div>
 			
-    	<form class="d-flex" style="margin-top:1%;">
-        			<input class="form-control me-1" type="number" aria-label="Search" v-model="minPrice" placeholder="Minimalna cena">
-        			<input class="form-control me-1" type="number" aria-label="Search" v-model="maxPrice" placeholder="Maksimalna cena">
-        			<button class="btn btn-success btn-sm"  v-on:click="searchPrice()" >Pretrazi po ceni</button>
-        			<input class="form-control me-1" type="date" aria-label="Search" v-model="start" placeholder="Pocetak">
-        			<input class="form-control me-1" type="date" aria-label="Search" v-model="end" placeholder="Kraj">
-        			<button class="btn btn-success btn-sm"  v-on:click="search()" >Pretrazi po datumu</button>
-        			<button class="btn btn-success btn-sm"  v-on:click="sortPrice()" >Sortiraj po ceni</button>
-					<button class="btn btn-success btn-sm"  v-on:click="sortDate()" >Sortiraj po datumu</button>
+    	<form  style="margin-top:1%;">
+    			<div class="row">
+        			<div class="col">
+        				<input class="form-control me-1" type="number" aria-label="Search" v-model="minPrice" placeholder="Minimalna cena">  
+        			</div>
+        			<div class="col">
+        				<input class="form-control me-1" type="number" aria-label="Search" v-model="maxPrice" placeholder="Maksimalna cena">  
+        			</div>
+        			<div class="col-2">
+        				<button class="btn btn-success btn-sm" style="width:150px;" v-on:click="searchPrice()" >Pretrazi po ceni</button>  
+        			</div>
+        			<div class="col-2">
+        				<button class="btn btn-success btn-sm" style="width:150px;"  v-on:click="sortPrice()" >Sortiraj po ceni</button>
+        			</div>
+        		</div>
+        		<br>
+        		<div class="row">
+        			<div class="col">
+        				<input class="form-control me-1" type="date" aria-label="Search" v-model="start" placeholder="Pocetak">
+        			</div>
+        			<div class="col">
+        				<input class="form-control me-1" type="date" aria-label="Search" v-model="end" placeholder="Kraj">
+        			</div>
+        			<div class="col-2">
+        				<button class="btn btn-success btn-sm" style="width:150px;" v-on:click="search()" >Pretrazi po datumu</button>
+        			</div>
+        			<div class="col-2">
+        				<button class="btn btn-success btn-sm" style="width:150px;" v-on:click="sortDate()" >Sortiraj po datumu</button>
+					</div>
+        		</div>
+        		<br>
+        			
 					
         		</form>
 			<div class="row row-cols-2 row-cols-md-4" v-bind:trainings1 = "this.searched1" >
@@ -54,7 +77,10 @@ Vue.component("trainings", {
 					  	<li class="list-group-item">{{training.trainings.description}}</li>
 					  	<li class="list-group-item">{{training.trainings.price}}</li>
 					  	<li class="list-group-item">{{training.dates}}</li>
-					  </ul>
+					  	</ul>
+					   <div v-if="training.trainings.type == 'PERSONALNI'" class="card-footer bg-transparent"><button  class="btn btn-danger"  style="width:100%;" v-on:click="cancel(training.trainings.name)" >Otkazi</button></div>
+					   <div v-if="training.trainings.type != 'PERSONALNI'" class="card-footer bg-transparent ">&nbsp;</div>
+				
 				</div>
 			
 			</div> 
@@ -219,5 +245,8 @@ Vue.component("trainings", {
 			
 			
 		},
+		cancel : function(name){
+			
+		}
     }
 });
