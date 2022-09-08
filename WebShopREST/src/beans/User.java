@@ -1,10 +1,6 @@
 package beans;
 
-import java.io.Serializable;
-//import java.time.String;
-import java.util.Date;
-
-public class User implements Serializable {
+public class User {
 	
 	private String firstName;
 	private String lastName;
@@ -162,6 +158,5 @@ public class User implements Serializable {
 				+ ", password=" + password + "]";
 	}
 
-	private static final long serialVersionUID = 6640936480584723344L;
 
 }

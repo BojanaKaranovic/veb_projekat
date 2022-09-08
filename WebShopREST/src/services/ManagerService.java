@@ -75,7 +75,6 @@ public class ManagerService {
 	@Path("/updatefacility/{m}&{s}")
 	@Produces(MediaType.APPLICATION_JSON)
     public void UpdateFacility(@PathParam("m") String m, @PathParam("s") String s) throws Exception {
-    	SportsFacilityDAO sportsFacilityDAO = (SportsFacilityDAO)  ctx.getAttribute("sportsFacilityDAO");
     	ManagerDAO managerDAO = (ManagerDAO) ctx.getAttribute("managerDAO");
     	Manager manager = managerDAO.findManager(m);
     	manager.setSportsFacility(s);

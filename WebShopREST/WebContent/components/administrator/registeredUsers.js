@@ -69,7 +69,7 @@ Vue.component("users", {
 						<td>{{k.type}}</td>
 						<td v-if="k.user.userType == 'CUSTOMER'">{{k.user.collectedPoints}}</td>
 						<td v-if="k.user.userType != 'CUSTOMER'">/</td>
-						<td v-bind:hidden="k.user.userType == 'CUSTOMER' || k.user.userType == 'ADMINISTRATOR'"><button  class="btn btn-danger" v-on:click="obrisiKorisnika(k)">Obrisi</button></td>
+						<td v-bind:hidden="k.user.userType == 'CUSTOMER' || k.user.userType == 'ADMINISTRATOR'"><button  class="btn btn-danger" v-on:click="deleteIt(k)">Obrisi</button></td>
 						<td v-bind:hidden="k.user.userType !== 'CUSTOMER' && k.user.userType !== 'ADMINISTRATOR'"></td>
 						</tr>
 				</tbody>
@@ -235,5 +235,31 @@ Vue.component("users", {
 				this.registeredFiltered = this.registeredFiltered.filter(o => o.type == this.customerType);	
 			
 		},
+		deleteIt : function(user){
+			if(user.user.userType == 'MANAGER'){
+				axios.delete("rest/userLogin/deleteManager/" + user.user.username)
+				.then (response => {
+					if(response.data){
+						this.registeredFiltered = this.registeredFiltered.filter(r => r.user.username !== user.user.username);
+						this.registered = this.registered.filter(r => r.user.username !== user.user.username);
+					}
+					else{
+						alert("Menadzer je zaduzen za sportski objekat./nNEMOGUCE OBRISATI!")
+					}
+				})
+			}
+			if(user.user.userType == 'COACH')
+			{
+				axios.delete("rest/userLogin/deleteCoach/" + user.user.username)
+				.then (response => {
+					if(response.data){
+						this.registeredFiltered = this.registeredFiltered.filter(r => r.user.username !== user.user.username);
+						this.registered = this.registered.filter(r => r.user.username !== user.user.username);
+					}
+					else{alert("Ups")}
+				})
+				
+			}
+		}
 }
 });

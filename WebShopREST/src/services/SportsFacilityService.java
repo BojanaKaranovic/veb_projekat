@@ -22,14 +22,12 @@ import javax.ws.rs.core.MediaType;
 
 import beans.Coach;
 import beans.Manager;
-import beans.Product;
 import beans.SportsFacility;
 import beans.Training;
 import beans.TrainingHistory;
 import beans.TrainingType;
 import dao.CoachDAO;
 import dao.ManagerDAO;
-import dao.ProductDAO;
 import dao.SportsFacilityDAO;
 import dao.TrainingDAO;
 import dao.TrainingHistoryDAO;
@@ -144,11 +142,36 @@ public class SportsFacilityService {
 	}
 	
 	@DELETE
-	@Path("/{name}")
+	@Path("/deleteSportsFacility/{name}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void getSportsFacilities(@PathParam("name") String name) {
-		SportsFacilityDAO dao = (SportsFacilityDAO) ctx.getAttribute("sportsFacilityDAO");
-		dao.delete(name);
+	public boolean getSportsFacilities(@PathParam("name") String name) {
+		boolean success = false;
+		SportsFacilityDAO sportsFacilityDAO = (SportsFacilityDAO) ctx.getAttribute("sportsFacilityDAO");
+		ManagerDAO managerDAO = (ManagerDAO) ctx.getAttribute("managerDAO");
+		TrainingDAO trainingDAO = (TrainingDAO) ctx.getAttribute("trainingDAO");
+		SportsFacility sportsFacility = sportsFacilityDAO.findSportsFacility(name);
+		for(Manager manager : managerDAO.findAll())
+		{
+			if(manager.getSportsFacility().equals(name))
+			{
+				manager.setSportsFacility("");
+				managerDAO.update(manager.getUsername(), manager);
+				break;
+			}
+		}
+		for(Training training: trainingDAO.findAllTrainings())
+		{	
+			if(training.getSportFacility().equals(name))
+			{
+				training.setDeleted(true);
+				trainingDAO.update(training.getName(), training);
+			}
+				
+		}
+		sportsFacility.setDeleted(true);
+		sportsFacilityDAO.update(name, sportsFacility);
+		success = true;
+		return success;
 	}
 	
 	@GET

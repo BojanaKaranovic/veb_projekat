@@ -1,19 +1,13 @@
 package beans;
 
-import java.io.Serializable;
-//import java.time.String;
 import java.util.ArrayList;
-import java.util.Date;
 
-public class Customer extends User implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6010286421963152947L;
+public class Customer extends User {
+
 	private ArrayList<String> visitedFacility;
 	private int collectedPoints;
 	private CustomerType customerType;
-	
+	private boolean deleted;
 	
 	public Customer() {
 		super();
@@ -25,7 +19,7 @@ public class Customer extends User implements Serializable {
 		this.visitedFacility = visitedFacility;
 		this.collectedPoints = collectedPoints;
 		this.customerType = customerType;
-		// TODO Auto-generated constructor stub
+		this.deleted = false;
 	}
 	public ArrayList<String> getVisitedFacility() {
 		return visitedFacility;
@@ -44,6 +38,14 @@ public class Customer extends User implements Serializable {
 	}
 	public void setCustomerType(CustomerType customerType) {
 		this.customerType = customerType;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 	
 	

@@ -11,6 +11,7 @@ Vue.component("sportsFacilityInfo", {
 	    template: ` 
     	<div style="margin-top:5%;">
     		<h3>Informacije o sportskom objektu</h3>
+    		<div><button v-on:click="deleteIt(sportsFacility)" class="btn btn-danger" style="width:10%;">Obrisi</button></div>
     		
 			<table  class="table table-borderless table-hover " >
 			<thead style="background-color:#426166; color:#FFFFFF;">
@@ -96,7 +97,19 @@ Vue.component("sportsFacilityInfo", {
           else{
 	alert("Nesto ne radi")
 }
-    }
+    },
+    methods:{
+	deleteIt: function(sportsFacility){
+			axios.delete('rest/sportsFacilities/deleteSportsFacility/' + sportsFacility.name)
+			.then(response => {
+				if(response.data){
+					alert("Ok")
+					location.href = "administratorMainPage.html"				}
+				else{alert("Ups")}
+				
+			});
+		}
+}
     	
     
 });
