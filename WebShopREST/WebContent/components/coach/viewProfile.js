@@ -29,7 +29,7 @@ Vue.component("viewProfile", {
 								 <div class="form-group row">
 								    <label for="staticUsername" class="col-sm-4 col-form-label">Korisnicko ime</label>
 								    <div class="col-sm-6">
-								      <input type="text" class="form-control" id="staticUsername" v-if="coach" v-model="coach.username">
+								      <input type="text" class="form-control" id="staticUsername" v-if="coach" v-model="coach.username" readonly>
 								    </div>
 								 </div>
 								 <div class="form-group row">

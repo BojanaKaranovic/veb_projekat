@@ -28,7 +28,6 @@ import beans.CustomerType;
 import beans.CustomerTypeName;
 import beans.Gender;
 import beans.MembershipFee;
-import beans.Product;
 import beans.SportsFacility;
 import beans.UserType;
 

@@ -7,24 +7,65 @@ Vue.component("viewProfile", {
 		}
 	}, template:
 	`<div style="margin-top:5%">
-	<form id="managerProfil">
-	<table>
-		<tr><td>Ime</td><td><input  v-if="manager" v-model="manager.firstName" type="text" name="firstname"></td></tr>
-		<tr><td>Prezime</td><td><input  v-if="manager" v-model="manager.lastName" type="text" name="lastname"></td></tr>
-		<tr><td>Username</td><td><input  v-if="manager" v-model="manager.username" type="text" name="username"></td></tr>
-		<tr><td>Password</td><td><input  v-if="manager" v-model="manager.password" type="password" name="password"></td></tr>
-		<tr><td>Email</td><td><input  v-if="manager" v-model="manager.email" type="text" name="email"></td></tr>
-		<tr><td>Datum rodjenja</td><td><input  v-if="manager" v-model="manager.dateOfBirth" type="text" name="dateOfBirth"></td></tr>
-		<tr><td>Pol</td><td>
-		<select  v-if="manager" v-model="manager.gender">
-			<option disabled value="">Izaberite</option>
-			<option value="MALE">Male</option>
-			<option value="FEMALE">Female</option>
-		</select></td></tr>
-		
-		<tr><td colspan="2"><button v-on:click = "update">Sacuvaj izmene</button><button v-on:click="restore" >Ponisti izmene</button></td></tr>
-	</table>
-	</form>
+	<div class="container py-5" style="margin-top:5%; align:center;" >
+			<div class="row d-flex justify-content-center align-items-center ">
+				<div class="col-lg-8 col-xl-6" style="align:center">
+					<div class="card rounded-3 " style="align:center">
+						<div class="card-body p-3 p-md-5" style="align:center">
+							<form >
+								<div class="form-group row">
+								    <label for="staticFirstName" class="col-sm-4 col-form-label">Ime</label>
+								    <div class="col-sm-6">
+								      <input type="text" class="form-control" id="staticFirstName" v-if="manager" v-model="manager.firstName">
+								    </div>
+								 </div>
+								 <div class="form-group row">
+								    <label for="staticLastName" class="col-sm-4 col-form-label">Prezime</label>
+								    <div class="col-sm-6">
+								      <input type="text" class="form-control" id="staticLastName" v-if="manager" v-model="manager.lastName">
+								    </div>
+								 </div>
+								 <div class="form-group row">
+								    <label for="staticUsername" class="col-sm-4 col-form-label">Korisnicko ime</label>
+								    <div class="col-sm-6">
+								      <input type="text" class="form-control" id="staticUsername" v-if="manager" v-model="manager.username" readonly>
+								    </div>
+								 </div>
+								 <div class="form-group row">
+								    <label for="staticPassword" class="col-sm-4 col-form-label">Lozinka</label>
+								    <div class="col-sm-6">
+								      <input type="text" class="form-control" id="staticPassword" v-if="manager" v-model="manager.password">
+								    </div>
+								 </div>
+								 <div class="form-group row">
+								    <label for="staticDateOfBirth" class="col-sm-4 col-form-label">Datum rodjenja</label>
+								    <div class="col-sm-6">
+								      <input type="text" class="form-control" id="staticDateOfBirth" v-if="manager" v-model="manager.dateOfBirth">
+								    </div>
+								 </div>
+								 <div class="form-group row">
+								    <label  class="col-sm-4 col-form-label">Pol</label>
+								    <div class="col-sm-6">
+								      <select class="form-select" v-if="manager" v-model="manager.gender">
+							  				<option value="MALE">Male</option>
+							  				<option value="FEMALE">Female</option>
+									  </select> 
+									 </div>
+								 </div>
+								 
+							</br>
+								 <div class="text-center">
+								<button v-on:click="restore" class="btn btn-danger" >Ponisti izmene</button>
+								<button v-on:click = "update" class="btn btn-success">Sacuvaj izmene</button>
+							</div>
+							</form>
+							
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 	`,
 		mounted (){

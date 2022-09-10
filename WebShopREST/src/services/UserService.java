@@ -423,7 +423,7 @@ public class UserService {
 		membershipFee.setCost(cost);
 		MembershipFeeDAO membershipFeeDAO = (MembershipFeeDAO) ctx.getAttribute("membershipFeeDAO");
 		for(MembershipFee fee : membershipFeeDAO.findAll()) {
-			if(fee.getCustomer().equals(customer)) {
+			if(fee.getCustomer().getUsername().equals(customer.getUsername())) {
 				fee.setStatus(false);
 				membershipFeeDAO.update(fee.getUniqueId(), fee);
 			}
@@ -651,7 +651,7 @@ public class UserService {
 		}
 		return success;
 	}
-
+	
 	@PUT
 	@Path("/updateTraining/{coach}/{name}")
 	@Consumes(MediaType.APPLICATION_JSON)
