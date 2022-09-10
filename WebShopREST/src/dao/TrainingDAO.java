@@ -62,6 +62,7 @@ public class TrainingDAO {
 		trainings.put(training.getName(), training);
 		writeInFile();
 		return training;
+		
 	}
 
 	@SuppressWarnings("unchecked")

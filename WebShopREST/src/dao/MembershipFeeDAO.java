@@ -69,16 +69,11 @@ public class MembershipFeeDAO {
 	}
 	
 	public MembershipFee update(String uniqueId, MembershipFee membershipFee) {
-		MembershipFee membershipFeeToUpdate = this.find(uniqueId);
-		if(membershipFeeToUpdate == null) {
-			return this.save(membershipFee);
-		}
-		else {
-			membershipFees.remove(uniqueId);
+	
 			membershipFees.put(membershipFee.getUniqueId(), membershipFee);
 			writeInFile();
 			return membershipFee;
-		}
+		
 	}
 	
 	public void delete(String name) {
