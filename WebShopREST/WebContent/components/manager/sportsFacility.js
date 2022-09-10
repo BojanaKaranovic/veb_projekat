@@ -42,7 +42,7 @@ Vue.component("managerSportsFacility", {
 		    	</tbody>
 	    	</table>
 	    	<br/>
-	    	<h3>Posetioci sportskog objekta</h3>
+	    	<h3>Treneri sportskog objekta</h3>
     		
 		<table class="table table-borderless table-hover " >
 				<thead style="background-color:#426166; color:#FFFFFF;">
@@ -55,7 +55,7 @@ Vue.component("managerSportsFacility", {
 				</thead>
 				
 				<tbody>
-					<tr v-for="c in customers">
+					<tr v-for="c in coaches">
 						<td>{{c.firstName}}</td>
 						<td>{{c.lastName}}</td>
 						<td>{{c.username}}</td>
@@ -65,7 +65,7 @@ Vue.component("managerSportsFacility", {
 				</tbody>
 			</table>
 	    	<br/>
-	    	<h3>Treneri sportskog objekta</h3>
+	    	<h3>Posetioci sportskog objekta</h3>
 	    	<table class="table table-borderless table-hover " >
 				<thead style="background-color:#426166; color:#FFFFFF;">
 					<tr>
@@ -79,13 +79,13 @@ Vue.component("managerSportsFacility", {
 				</thead>
 				
 				<tbody>
-					<tr v-for="c in coaches">
+					<tr v-for="c in customers">
 						<td>{{c.firstName}}</td>
 						<td>{{c.lastName}}</td>
 						<td>{{c.username}}</td>
 						<td>{{c.dateOfBirth}}</td>
-						<td>{{c.customerType}}</td>
-						<td>{{c.colectedPoints}}</td>
+						<td>{{c.customerType.typeName}}</td>
+						<td>{{c.collectedPoints}}</td>
 						
 						</tr>
 				</tbody>

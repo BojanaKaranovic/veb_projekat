@@ -244,7 +244,7 @@ Vue.component("users", {
 						this.registered = this.registered.filter(r => r.user.username !== user.user.username);
 					}
 					else{
-						alert("Menadzer je zaduzen za sportski objekat./nNEMOGUCE OBRISATI!")
+						alert("Menadzer je zaduzen za sportski objekat. NEMOGUCE OBRISATI!")
 					}
 				})
 			}

@@ -190,7 +190,7 @@ Vue.component("sportsFacilities", {
 				this.searched = this.sportsFacilities;
 			}
 			if(this.typeFilter !=''){
-				this.searched = this.sportsFacilities.filter(o => o.type == this.typeFilter);
+				this.searched = this.searched.filter(o => o.type == this.typeFilter);
 			}
 		},
 		filterType: function(evt){

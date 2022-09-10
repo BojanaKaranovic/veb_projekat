@@ -702,7 +702,7 @@ public class UserService {
 		ManagerDAO managerDAO = (ManagerDAO) ctx.getAttribute("managerDAO");
 		Manager manager = managerDAO.findManager(username);
 		if(manager.getSportsFacility() != null && manager.getSportsFacility() != "")
-			return success;;
+			return success;
 		manager.setDeleted(true);
 		managerDAO.update(manager.getUsername(), manager);
 		success = true;
