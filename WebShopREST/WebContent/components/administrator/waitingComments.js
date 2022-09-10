@@ -7,17 +7,18 @@ Vue.component("waitingComments", {
     	<div style="margin-top:5%;">
     		<title>Komentari</title>
     		<h4>Komentari na cekanju</h4>
-    		<table >
-			    <thead>
+    		<br>
+    		<table class="table table-borderless table-hover " >
+			    <thead  style="background-color:#426166; color:#FFFFFF;">
 				    <tr>
-				    <th>Kupac</th>
-				    <th>Sportski objekat</th>
-				    <th>Sadrzaj</th>
-				    <th>Ocena</th>
-				    <th>Status</th>
-				    <th>Odobri</th>
-				    <th>Odbij</th>
-			    </tr>
+					    <th scope="col">Kupac</th>
+					    <th scope="col">Sportski objekat</th>
+					    <th scope="col">Sadrzaj</th>
+					    <th scope="col">Ocena</th>
+					    <th scope="col">Status</th>
+					    <th scope="col">Odobri</th>
+					    <th scope="col">Odbij</th>
+				    </tr>
 			    </thead>
 			    <tbody>
 			    	<tr v-for="c in comments"">
@@ -26,12 +27,12 @@ Vue.component("waitingComments", {
 						<td>{{c.text}}</td>
 						<td>{{c.grade}}</td>
 						<td>{{c.status}}</td>
-						<td><button v-on:click="allow(c)">Odobri</button></td>
-						<td><button v-on:click="decline(c)">Odbij</button></td>
+						<td><button class="btn btn-success" v-on:click="allow(c)">Odobri</button></td>
+						<td><button class="btn btn-danger" v-on:click="decline(c)">Odbij</button></td>
 					</tr>
 				</tbody>
 			</table>
-			<br/>
+			<br>
 			
     	</div>
 	

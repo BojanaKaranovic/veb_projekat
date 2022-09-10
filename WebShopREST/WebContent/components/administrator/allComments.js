@@ -5,17 +5,17 @@ Vue.component("allComments", {
 	    }
 	},template: ` 
     	<div style="margin-top:5%;">
-    		<title>Komentari</title>
+    		
     		<h4>Komentari</h4>
-    		<table >
-			    <thead>
+    		<table  class="table table-borderless table-hover ">
+			    <thead style="background-color:#426166; color:#FFFFFF;">
 				    <tr>
-				    <th>Kupac</th>
-				    <th>Sportski objekat</th>
-				    <th>Sadrzaj</th>
-				    <th>Ocena</th>
-				    <th>Status</th>
-			    </tr>
+					    <th scope="col">Kupac</th>
+					    <th scope="col">Sportski objekat</th>
+					    <th scope="col">Sadrzaj</th>
+					    <th scope="col">Ocena</th>
+					    <th scope="col">Status</th>
+			    	</tr>
 			    </thead>
 			    <tbody>
 			    	<tr v-for="c in comments"">
@@ -23,7 +23,9 @@ Vue.component("allComments", {
 						<td>{{c.sportsFacility}}</td>
 						<td>{{c.text}}</td>
 						<td>{{c.grade}}</td>
-						<td>{{c.status}}</td>
+						<td v-if="c.status == 'ALLOWED'" style="color:Green;">{{c.status}}</td>
+						<td v-if="c.status == 'WAITING'" style="color:Orange;">{{c.status}}</td>
+						<td v-if="c.status == 'DECLINED'" style="color:Red;">{{c.status}}</td>
 					</tr>
 				</tbody>
 			</table>

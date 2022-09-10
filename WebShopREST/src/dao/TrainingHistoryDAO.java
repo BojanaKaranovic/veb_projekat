@@ -48,7 +48,6 @@ public class TrainingHistoryDAO {
 	
 	public TrainingHistory delete(String id) {
 		TrainingHistory t = trainingHistories.remove(id);
-		writeInFile();
 		return t;
 	}
 	

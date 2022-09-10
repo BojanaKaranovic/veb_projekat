@@ -21,7 +21,7 @@ public class Coach extends User implements Serializable {
 			String dateOfBirth, UserType userType, ArrayList<String> trainingHistory) {
 		super(firstName, lastName, email, username, password, gender, dateOfBirth, userType);
 		this.trainingHistory = trainingHistory;
-		// TODO Auto-generated constructor stub
+		this.deleted = false;
 	}
 
 	public ArrayList<String> getTrainingHistory() {

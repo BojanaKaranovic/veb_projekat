@@ -3,10 +3,6 @@ package beans;
 
 public class MembershipFee{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8161356488262447249L;
 	private String uniqueId;
 	private MembershipType membershipType;
 	private String paymentDate;

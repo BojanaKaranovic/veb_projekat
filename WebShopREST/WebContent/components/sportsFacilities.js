@@ -7,8 +7,14 @@ Vue.component("sportsFacilities", {
 	      city:'',
 	      rating:'',
 	      type:'',
-	      logo:null
-	    }
+	      logo:null,
+	      sortedName:false,
+	      sortedLocation: false,
+	      sortedRating: false,
+	      typeFilter:'',
+	      ststusFilter:'',
+	      facilityTypes: {}
+  	    }
 	}
 	,
 	    template: ` 
@@ -32,9 +38,30 @@ Vue.component("sportsFacilities", {
 			</br>
 			</br>
 			</br>
-			<div style="text-align:right">
-				<button type="button" class="btn btn-success"><a class="link-light" href ="loginPage.html">Uloguj se</a></button>
-				<button type="button" class="btn btn-primary"><a class="link-light" href ="registrationPage.html">Registruj se</a></button>
+			<div class="row" >
+					<div class ="col-4">
+					<button type="button" class="btn btn-success" v-on:click="sortName">Sortiraj naziv</button>
+					<button type="button" class="btn btn-success" v-on:click="sortLocation">Sortiraj lokaciju</button>
+					<button type="button" class="btn btn-success" v-on:click="sortRaiting">Sortiraj ocenu</button>
+					</div>
+					<div class="col-3">
+						<select class="form-select " name="facilityTypes"   v-on:change = "filterType">
+				  			<option value="">Izaberi tip</option>
+				    		<option v-for = "t in facilityTypes">{{t}}</option>
+				  		</select>
+					</div>
+					<div class="col-3">
+				  		<select class="form-select " name="customerTypes" id="customerTypes"  v-on:change = "filterStatus">
+				  			<option value="">Izaberi status</option>
+				    		<option value="true">Radi</option>
+				    		<option value="false">Ne radi</option>
+				  		</select>
+			  		</div>
+				
+				<div class="col-2">
+					<button type="button" class="btn btn-success"><a class="link-light" href ="loginPage.html">Uloguj se</a></button>
+					<button type="button" class="btn btn-primary"><a class="link-light" href ="registrationPage.html">Registruj se</a></button>
+				</div>
 			</div>
 			</br>
 			<div class="row row-cols-2 row-cols-md-4" v-bind:sportsFacilities = "this.searched" >
@@ -62,6 +89,7 @@ Vue.component("sportsFacilities", {
         axios
           .get('rest/sportsFacilities/')
           .then(response => (this.sportsFacilities = response.data, this.searched = response.data))
+          axios.get('rest/enum/facilityTypes').then((response) => {this.facilityTypes = response.data})
     },
     methods: {
 		searchName: function(name){
@@ -107,6 +135,81 @@ Vue.component("sportsFacilities", {
 			this.type='';
 			this.city='';
 			this.rating='';
+		}, 
+		
+		sortName: function(){
+			if(this.sortedName == false){
+				this.searched = this.searched.sort((a,b) => (a.name > b.name) ? 1 : ((a.name < b.name) ? -1 : 0));
+				this.sortedName = true;
+				this.sortedLocation = false;
+				this.sortedRaititng = false;
+			}
+			else{
+				this.searched.reverse();
+				this.sortedName = false;
+			}
+		},
+		
+		sortLocation: function(){
+			if(this.sortedLocation == false){
+				this.searched = this.searched.sort((a,b) => (a.location.address.city > b.location.address.city) ? 1 : ((a.location.address.city < b.location.address.city) ? -1 : 0));
+				this.sortedName = false;
+				this.sortedLocation = true;
+				this.sortedRaititng = false;
+			}
+			else{
+				this.searched.reverse();
+				this.sortedLocation = false;
+			}
+		},
+		
+		sortRaiting: function(){
+			if(this.sortedRaiting == false){
+				this.searched = this.searched.sort((a,b) => (a.averageRating > b.averageRating) ? 1 : ((a.averageRating < b.averageRating) ? -1 : 0));
+				this.sortedName = false;
+				this.sortedLocation = false;
+				this.sortedRaititng = true;
+			}
+			else{
+				this.searched.reverse();
+				this.sortedRaiting = false;
+			}
+		},
+		filterStatus: function(evt){
+			var s = evt.target.value;
+			if(s == "Izaberi status"){
+				this.statusFilter = '';
+			}
+			else{
+				this.statusFilter = s;
+			}
+			if(this.statusFilter!=''){
+				this.searched = this.sportsFacilities.filter(o => o.status.toString() == this.statusFilter);
+			}
+			else{
+				this.searched = this.sportsFacilities;
+			}
+			if(this.typeFilter !=''){
+				this.searched = this.sportsFacilities.filter(o => o.type == this.typeFilter);
+			}
+		},
+		filterType: function(evt){
+			var t = evt.target.value;
+			if(t == "Izaberi tip"){
+				this.typeFilter = '';
+			}
+			else{
+				this.typeFilter = t;
+			}
+			if(this.statusFilter!=''){
+				this.searched = this.sportsFacilities.filter(o => o.status.toString() == this.statusFilter);
+			}
+			else{
+				this.searched = this.sportsFacilities;
+			}
+			if(this.typeFilter !=''){
+				this.searched = this.sportsFacilities.filter(o => o.type == this.typeFilter);
+			}
 		}
     	
     }

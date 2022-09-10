@@ -1,15 +1,8 @@
 package beans;
 
-import java.io.Serializable;
-//import java.time.String;
-import java.util.Date;
 
-public class Manager extends User implements Serializable {
+public class Manager extends User{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3389978403845631848L;
 	private String sportsFacility;
 	private boolean deleted;
 	

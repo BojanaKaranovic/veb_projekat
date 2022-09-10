@@ -12,6 +12,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -183,14 +184,14 @@ public class UserService {
 			}
 		}
 		Manager loggedManager = managerDao.findManager(username);
-		if(loggedManager != null) {
+		if(loggedManager != null && !loggedManager.isDeleted()) {
 			if(loggedManager.getPassword().equals(password)) {
 				request.getSession().setAttribute("loggedInUser", loggedManager);
 				return Response.status(200).entity("managerMainPage.html").build();
 			}
 		}
 		Coach loggedCoach = coachDao.findCoach(username);
-		if(loggedCoach != null) {
+		if(loggedCoach != null && !loggedCoach.isDeleted()) {
 			if(loggedCoach.getPassword().equals(password)) {
 				request.getSession().setAttribute("loggedInUser", loggedCoach);
 				return Response.status(200).entity("coachMainPage.html").build();
@@ -609,7 +610,13 @@ public class UserService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Coach> getAllCoaches() {
 		CoachDAO coachDAO = (CoachDAO) ctx.getAttribute("coachDAO");
-		return coachDAO.findAll();
+		ArrayList<Coach> coaches = new ArrayList<Coach>();
+		for(Coach coach : coachDAO.findAll()) {
+			if(!coach.isDeleted()) {
+				coaches.add(coach);
+			}
+		}
+		return coaches;
 		
 	}
 	
@@ -684,6 +691,44 @@ public class UserService {
 				success = true;
 			}
 		}
+		return success;
+	}
+	
+	@DELETE
+	@Path("/deleteManager/{username}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean deleteManager(@PathParam("username") String username) {
+		boolean success = false;
+		ManagerDAO managerDAO = (ManagerDAO) ctx.getAttribute("managerDAO");
+		Manager manager = managerDAO.findManager(username);
+		if(manager.getSportsFacility() != null && manager.getSportsFacility() != "")
+			return success;;
+		manager.setDeleted(true);
+		managerDAO.update(manager.getUsername(), manager);
+		success = true;
+		return success;
+	}
+	
+	@DELETE
+	@Path("/deleteCoach/{username}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean deleteCoach(@PathParam("username") String username) {
+		boolean success = false;
+		CoachDAO coachDAO = (CoachDAO) ctx.getAttribute("coachDAO");
+		TrainingDAO trainingDAO = (TrainingDAO) ctx.getAttribute("trainingDAO");
+		
+		Coach coach = coachDAO.findCoach(username);
+		for(Training training : trainingDAO.findAllTrainings()){
+			if(training.getCoach().equals(username))
+			{
+				training.setCoach(null);
+				trainingDAO.update(training.getName(), training);
+			}
+				
+		}
+		success = true;
+		coach.setDeleted(true);
+		coachDAO.update(coach.getUsername(), coach);
 		return success;
 	}
 }

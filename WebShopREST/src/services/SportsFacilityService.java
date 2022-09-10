@@ -22,14 +22,12 @@ import javax.ws.rs.core.MediaType;
 
 import beans.Coach;
 import beans.Manager;
-import beans.Product;
 import beans.SportsFacility;
 import beans.Training;
 import beans.TrainingHistory;
 import beans.TrainingType;
 import dao.CoachDAO;
 import dao.ManagerDAO;
-import dao.ProductDAO;
 import dao.SportsFacilityDAO;
 import dao.TrainingDAO;
 import dao.TrainingHistoryDAO;
@@ -144,11 +142,36 @@ public class SportsFacilityService {
 	}
 	
 	@DELETE
-	@Path("/{name}")
+	@Path("/deleteSportsFacility/{name}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void getSportsFacilities(@PathParam("name") String name) {
-		SportsFacilityDAO dao = (SportsFacilityDAO) ctx.getAttribute("sportsFacilityDAO");
-		dao.delete(name);
+	public boolean getSportsFacilities(@PathParam("name") String name) {
+		boolean success = false;
+		SportsFacilityDAO sportsFacilityDAO = (SportsFacilityDAO) ctx.getAttribute("sportsFacilityDAO");
+		ManagerDAO managerDAO = (ManagerDAO) ctx.getAttribute("managerDAO");
+		TrainingDAO trainingDAO = (TrainingDAO) ctx.getAttribute("trainingDAO");
+		SportsFacility sportsFacility = sportsFacilityDAO.findSportsFacility(name);
+		for(Manager manager : managerDAO.findAll())
+		{
+			if(manager.getSportsFacility().equals(name))
+			{
+				manager.setSportsFacility("");
+				managerDAO.update(manager.getUsername(), manager);
+				break;
+			}
+		}
+		for(Training training: trainingDAO.findAllTrainings())
+		{	
+			if(training.getSportFacility().equals(name))
+			{
+				training.setDeleted(true);
+				trainingDAO.update(training.getName(), training);
+			}
+				
+		}
+		sportsFacility.setDeleted(true);
+		sportsFacilityDAO.update(name, sportsFacility);
+		success = true;
+		return success;
 	}
 	
 	@GET
@@ -164,7 +187,26 @@ public class SportsFacilityService {
 		}
 		return trainings;
 	}
-	
+	@GET
+	@Path("/trainingsForSportsFacilityAll/{name}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Training> trainingsForSportFacility(@PathParam("name") String name){
+		SportsFacility sportsFacility;
+		SportsFacilityDAO sportsFacilityDAO = (SportsFacilityDAO) ctx.getAttribute("sportsFacilityDAO");
+		sportsFacility = sportsFacilityDAO.findSportsFacility(name);
+		ArrayList <Training> trainings = new ArrayList<Training>();
+		if(sportsFacility != null) {
+			TrainingDAO trainingDAO = (TrainingDAO) ctx.getAttribute("trainingDAO");
+			for(Training t : trainingDAO.findAllTrainings()) {
+				if(t.getSportFacility().equals(sportsFacility.getName())) {
+					trainings.add(t);
+				}
+			}
+
+		}
+
+		return trainings;
+	}
 	@GET
 	@Path("/getTrainingsForSportsFacility/{sportsFacility}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -357,7 +399,46 @@ public class SportsFacilityService {
 		}
 		return dates;
 	}
-	
+	@GET
+	@Path("/cancelPersonalTraining/{name}/{date}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public int cancelTraining (@PathParam("name") String name, @PathParam("date") String date) throws ParseException {
+		int success = 0;
+		TrainingHistoryDAO trainingHisoryDAO = (TrainingHistoryDAO) ctx.getAttribute("trainingHistoryDAO");
+		TrainingHistory trainingHistory = null;
+		for(TrainingHistory th : trainingHisoryDAO.findAll()){
+			if(th.getTraining().equals(name) && th.getDateTimeOfCheckIn().equals(date)) {
+				trainingHistory = th;
+				success=1;
+				break;
+			}
+		}
+		if(trainingHistory != null) {
+			success=2;
+			Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(date.split(" ")[1]);
+			Date now = new Date();
+			String d2Str = new SimpleDateFormat("yyyy-MM-dd").format(now);
+		    now = new SimpleDateFormat("yyyy-MM-dd").parse(d2Str);
+			long difference = date1.getTime() - now.getTime();
+			@SuppressWarnings("unchecked")
+			ArrayList<Training> coachPersonalTrainings = (ArrayList<Training>) request.getSession().getAttribute("coachPersonalTrainings");
+		    for(Training t : coachPersonalTrainings){
+				if(t.getName().equals(name) && (difference/(1000 * 60 * 60 * 24)) % 365 > 2) {
+					trainingHisoryDAO.delete(trainingHistory.getId());
+					
+					CoachDAO coachDAO = (CoachDAO) ctx.getAttribute("coachDAO");
+					Coach coach = coachDAO.findCoach(t.getCoach());
+					ArrayList<String> trainings = coach.getTrainingHistory();
+					trainings.remove(trainingHistory.getId());
+					coach.setTrainingHistory(trainings);
+					coachDAO.update(coach.getUsername(), coach);
+					
+					success = 3;
+				}
+			}
+		}
+		return success;
+	}
 	@GET
 	@Path("/training/{name}")
 	@Produces(MediaType.APPLICATION_JSON)

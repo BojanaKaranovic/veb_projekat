@@ -39,7 +39,7 @@ Vue.component("sportsFacilities", {
 					  	<li class="list-group-item" v-if="sportFacility.averageRating === 0">Nema ocenu</li>
 					  	<li class="list-group-item">{{sportFacility.workTime}}</li>
 					  </ul>
-				</div>
+					  </div>
 			
 			</div> 
 			
@@ -94,7 +94,9 @@ Vue.component("sportsFacilities", {
 			this.type='';
 			this.city='';
 			this.rating='';
-		}
+		}, 
+		
+		
     	
     }
 });
